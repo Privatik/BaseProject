@@ -1,4 +1,4 @@
-package io.my.baseproject.ui.theme
+package io.my.ui
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
