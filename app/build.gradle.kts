@@ -56,6 +56,7 @@ dependencies {
 
     implementation(rootProject.extra.get("lifecycleRuntimeKtx") as String)
     implementation(rootProject.extra.get("activityCompose") as String)
+    implementation(rootProject.extra.get("accompanistInsets") as String)
 
     (rootProject.extra.get("compose") as List<*>).forEach { compose ->
         implementation(compose as String)

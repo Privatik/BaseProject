@@ -2,13 +2,15 @@ package io.my.ui
 
 import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
-import androidx.compose.material.Typography
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Cyan
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import io.my.ui.palettes.DefaultPalette
 
@@ -29,13 +31,21 @@ fun ProjectTheme(
             LocalAppShape provides AppShapes,
         ) {
             val sysUiController = rememberSystemUiController()
-            LaunchedEffect(palette.isDark){
+            LaunchedEffect(palette.isDark) {
                 sysUiController.setSystemBarsColor(
                     color = Color.Transparent,
                     darkIcons = palette.isDark
                 )
+                sysUiController.setNavigationBarColor(
+                    color = Color.Transparent,
+                    darkIcons = palette.isDark
+                )
+                sysUiController.navigationBarDarkContentEnabled = false
             }
-            content()
+            ProvideWindowInsets(
+                consumeWindowInsets = false,
+                content = content
+            )
         }
     }
 }

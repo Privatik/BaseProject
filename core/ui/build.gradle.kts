@@ -46,6 +46,7 @@ android {
 dependencies {
 
     implementation(rootProject.extra.get("accompanistSystemUiController") as String)
+    implementation(rootProject.extra.get("accompanistInsets") as String)
 
     (rootProject.extra.get("compose") as List<*>).forEach { compose ->
         implementation(compose as String)
