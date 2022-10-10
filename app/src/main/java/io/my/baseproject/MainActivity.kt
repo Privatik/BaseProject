@@ -23,20 +23,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = ProjectTheme.colors.backgroundPrimary
                 ) {
-                    val colors = ProjectTheme.colors
-                    Log.d("ReCompose","MainActivity")
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Log.d("ReCompose","MainActivity Box")
+
+                        val colors = ProjectTheme.colors
                         Button(
                             colors = ButtonDefaults.buttonColors(
                                 contentColor = ProjectTheme.colors.backgroundPrimary
                             ),
                             onClick = {
                                 val isDark = colors.isDark
-                                Log.d("ReCompose","MainActivity is theme is $isDark")
                                 if (isDark){
                                     colors.updateColors(colorTheme = ColorForTheme.Light)
                                 } else {

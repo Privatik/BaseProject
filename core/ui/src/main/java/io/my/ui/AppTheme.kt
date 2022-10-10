@@ -4,37 +4,39 @@ import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Shapes
+import androidx.compose.material.Typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Cyan
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import io.my.ui.palettes.DarkColorPalette
-import io.my.ui.palettes.LightColorPalette
+import io.my.ui.palettes.DefaultPalette
 
 @Composable
 fun ProjectTheme(
     colorTheme: ColorForTheme = if (isSystemInDarkTheme()) ColorForTheme.Dark else ColorForTheme.Light,
     content: @Composable () -> Unit
 ) {
-    Log.d("ReCompose","ProjectTheme")
-
-    val sysUiController = rememberSystemUiController()
-    SideEffect {
-        sysUiController.setSystemBarsColor(
-            color = Color.Transparent,
-            darkIcons = !colorTheme.palette.isDark,
-        )
-    }
+    val palette = DefaultPalette
+    palette.updateColors(colorTheme)
 
     MaterialTheme(
-        colors = defaultColor,
-        typography = Typography,
-        shapes = Shapes,
+        colors = defaultColor
     ) {
         CompositionLocalProvider(
-            LocalAppColors provides colorTheme.palette,
-            content = content
-        )
+            LocalAppColors provides palette,
+            LocalAppTypography provides AppTypography,
+            LocalAppShape provides AppShapes,
+        ) {
+            val sysUiController = rememberSystemUiController()
+            LaunchedEffect(palette.isDark){
+                sysUiController.setSystemBarsColor(
+                    color = Color.Transparent,
+                    darkIcons = palette.isDark
+                )
+            }
+            content()
+        }
     }
 }
 
@@ -51,9 +53,18 @@ object ProjectTheme {
         @ReadOnlyComposable
         get() = LocalAppColors.current
 
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalAppTypography.current
+
+    val shape: Shapes
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalAppShape.current
+
 }
 
-private val DefaultColor = Cyan
 private val defaultColor = Colors(
     primary = DefaultColor,
     primaryVariant = DefaultColor,
