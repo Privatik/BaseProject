@@ -1,18 +1,15 @@
 package io.my.data.remote.network
 
-import android.util.Log
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.util.*
 
-public class JWTToken() {
-    public var tokenManager: TokenManager? = null
-    public var urlEncodedPathWithOutToken: Set<String> = setOf()
-    public var urlEncodedPathWithRefreshToken: Set<String> = setOf()
+internal class JWTToken() {
+    var tokenManagerMap: Map<String, TokenManager> = emptyMap()
 
-    public companion object Feature : HttpClientFeature<JWTToken, JWTToken> {
+    companion object Feature : HttpClientFeature<JWTToken, JWTToken> {
         override val key: AttributeKey<JWTToken> = AttributeKey("JWTToken")
 
         override fun prepare(block: JWTToken.() -> Unit): JWTToken =
@@ -20,17 +17,17 @@ public class JWTToken() {
 
         override fun install(feature: JWTToken, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.Before) {
-                if (feature.tokenManager == null) return@intercept
+                val tokenManager = feature.tokenManagerMap[context.url.host]
 
                 val endPath = context.url.encodedPath
                 when {
-                    feature.urlEncodedPathWithOutToken.contains(endPath) -> {}
-                    feature.urlEncodedPathWithRefreshToken.contains(endPath) -> {
-                        context.updateJWTToken(feature.tokenManager?.getRefreshToken() ?: "")
+                    tokenManager?.isDontAddToken(endPath) == true -> {}
+                    tokenManager?.isAddRefreshToken(endPath) == true -> {
+                        context.updateJWTToken(tokenManager.getRefreshToken() ?: "")
                     }
                     else -> {
-                        val accessToken = feature.tokenManager?.getAccessToken() ?: kotlin.run {
-                            feature.tokenManager?.getNewIfNeedToken(scope, "Bearer ${null}") ?: ""
+                        val accessToken = tokenManager?.getAccessToken() ?: kotlin.run {
+                            tokenManager?.getNewIfNeedToken("Bearer ${null}") ?: ""
                         }
                         context.updateJWTToken(accessToken)
                     }
@@ -38,12 +35,13 @@ public class JWTToken() {
             }
 
             scope.feature(HttpSend)!!.intercept { call, builder ->
-                feature.tokenManager?.let { manager ->
+                val tokenManager = feature.tokenManagerMap[call.request.url.host]
+
+                tokenManager?.let { manager ->
                     if (call.response.status.value == 401) {
-                        val accessToken = manager.getNewIfNeedToken(
-                            scope,
-                            builder.headers[HttpHeaders.Authorization]
-                        ) ?: return@intercept call
+                        val accessToken = manager
+                            .getNewIfNeedToken(builder.headers[HttpHeaders.Authorization])
+                                ?: return@intercept call
 
                         builder.updateJWTToken(accessToken)
                         return@intercept execute(builder)
@@ -60,7 +58,13 @@ public class JWTToken() {
     }
 
     interface TokenManager{
-        suspend fun getNewIfNeedToken(client: HttpClient, oldToken: String?): String?
+        fun isDontAddToken(endPath: String): Boolean
+        fun isAddRefreshToken(endPath: String): Boolean
+
+        suspend fun getNewIfNeedToken(
+            oldToken: String?
+        ): String?
+
         suspend fun updateTokens(accessToken: String?, refreshToken: String?)
         suspend fun getAccessToken(): String?
         suspend fun getRefreshToken(): String?

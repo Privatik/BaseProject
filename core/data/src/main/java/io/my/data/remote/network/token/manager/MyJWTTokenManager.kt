@@ -1,25 +1,73 @@
 package io.my.data.remote.network.token.manager
 
-import io.ktor.client.*
 import io.my.data.remote.network.JWTToken
+import io.my.data.remote.network.token.provider.TokenProvider
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.channels.actor
 
-class MyJWTTokenManager(
-    coroutineScope: CoroutineScope
+internal class MyJWTTokenManager(
+    coroutineScope: CoroutineScope,
+    private val accessTokenProvider: TokenProvider,
+    private val refreshTokenProvider: TokenProvider,
+    private val refreshTokenEndPath: String,
+    private val withoutTokenEndPathSet: Set<String>,
+    private val doRequestOnNewTokens: (refreshToken: String?) -> Pair<String, String>
 ): JWTToken.TokenManager {
-    override suspend fun getNewIfNeedToken(client: HttpClient, oldToken: String?): String? {
-        TODO("Not yet implemented")
+    private val channel: SendChannel<Action> = actionActor(coroutineScope)
+
+    override fun isDontAddToken(endPath: String): Boolean = withoutTokenEndPathSet.contains(endPath)
+    override fun isAddRefreshToken(endPath: String): Boolean = refreshTokenEndPath == endPath
+
+    override suspend fun getNewIfNeedToken(
+        oldToken: String?
+    ): String? {
+        val deferred = CompletableDeferred<String?>()
+        val action = Action.UpdateToken(
+            oldToken,
+            deferred
+        )
+        channel.send(action)
+        return deferred.await()
     }
 
     override suspend fun updateTokens(accessToken: String?, refreshToken: String?) {
-        TODO("Not yet implemented")
+        accessTokenProvider.updateToken(accessToken)
+        refreshTokenProvider.updateToken(refreshToken)
     }
 
-    override suspend fun getAccessToken(): String? {
-        TODO("Not yet implemented")
+    override suspend fun getAccessToken(): String? = accessTokenProvider.getToken()
+    override suspend fun getRefreshToken(): String? = refreshTokenProvider.getToken()
+
+    private sealed interface Action{
+        data class UpdateToken(
+            val oldToken: String?,
+            val deferred: CompletableDeferred<String?>
+        ): Action
     }
 
-    override suspend fun getRefreshToken(): String? {
-        TODO("Not yet implemented")
+    @OptIn(ObsoleteCoroutinesApi::class)
+    private fun actionActor(coroutineScope: CoroutineScope) = coroutineScope.actor<Action>{
+        for (action in channel) {
+            when(action) {
+                is Action.UpdateToken -> {
+                    if ("Bearer ${accessTokenProvider.getToken()}" == action.oldToken){
+                        accessTokenProvider.updateToken(null)
+
+                        val (accessToken, refreshToken) = doRequestOnNewTokens(
+                            refreshTokenProvider.getToken()
+                        )
+
+                        updateTokens(accessToken, refreshToken)
+
+                        action.deferred.complete(accessToken)
+                    } else {
+                        action.deferred.complete(accessTokenProvider.getToken())
+                    }
+                }
+            }
+        }
     }
 }

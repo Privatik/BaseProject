@@ -7,39 +7,37 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 
-class AccessTokenProvider(
-    private val coroutineScope: CoroutineScope
+internal class AccessTokenProvider(
+    coroutineScope: CoroutineScope
 ): TokenProvider{
 
-    private val channel: SendChannel<Action> = actionActor()
+    private val channel: SendChannel<Action> = actionActor(coroutineScope)
 
     override suspend fun updateToken(token: String?) {
         channel.send(Action.TokenSet(token))
     }
 
-    override suspend fun getToken(): String?  {
+    override suspend fun getToken(): String? {
         val deferred = CompletableDeferred<String?>()
         channel.send(Action.TokenGet(deferred))
         return deferred.await()
     }
 
-    private sealed class Action(){
-        data class TokenGet(val deferred: CompletableDeferred<String?>): Action()
-        data class TokenSet(val body: String?): Action()
+    private sealed interface Action{
+        data class TokenGet(val deferred: CompletableDeferred<String?>): Action
+        data class TokenSet(val body: String?): Action
     }
 
     @OptIn(ObsoleteCoroutinesApi::class)
-    private fun actionActor() = coroutineScope.actor<Action>{
+    private fun actionActor(coroutineScope: CoroutineScope) = coroutineScope.actor<Action>{
         var token: String? = null
 
         for (action in channel) {
             when(action) {
                 is Action.TokenGet -> {
-                    Log.d("Token","access Get")
                     action.deferred.complete(token)
                 }
                 is Action.TokenSet -> {
-                    Log.d("Token","access Set")
                     token = action.body
                 }
             }

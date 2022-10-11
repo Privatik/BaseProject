@@ -12,28 +12,23 @@ import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.my.data.remote.network.JWTToken
+import io.my.data.remote.network.token.manager.MyJWTTokenManager
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
 
 internal fun getKtorClient(
-    jwtTokenManager: JWTToken.TokenManager,
-    urlEncodedWithOutToken: Set<String>,
-    urlEncodedWithRefreshToken: Set<String>,
+    jwtTokenManagerMap: Map<String, JWTToken.TokenManager>,
+    json: Json
 ): HttpClient{
     return HttpClient(CIO) {
         expectSuccess = true
 
         install(JsonFeature) {
-            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
-                prettyPrint = true
-                isLenient = true
-                ignoreUnknownKeys = true
-            })
+            serializer = KotlinxSerializer(json)
         }
 
         install(JWTToken){
-            tokenManager = jwtTokenManager
-            urlEncodedPathWithOutToken = urlEncodedWithOutToken
-            urlEncodedPathWithRefreshToken = urlEncodedWithRefreshToken
+            tokenManagerMap = jwtTokenManagerMap
         }
 
         install(Logging) {
