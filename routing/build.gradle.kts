@@ -1,29 +1,21 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
 }
 
-apply(from =  rootProject.file("dependencies.gradle.kts"))
-
 android {
-    compileSdk = 33
+    compileSdk = 32
 
     defaultConfig {
-        applicationId = "io.my.baseproject"
         minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 32
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -38,25 +30,20 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = rootProject.extra.get("composeCompileVersion") as String
-    }
-    packagingOptions {
-        resources {
-            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-        }
     }
 }
 
 dependencies {
-    implementation(project(":core:ui"))
-    implementation(project(":auth:ui"))
-    implementation(project(":routing"))
 
-    implementation(rootProject.extra.get("presenterAndroid") as String)
     implementation(rootProject.extra.get("jetpackNavigation") as String)
 
+    implementation(rootProject.extra.get("presenterCommon") as String)
+    implementation(rootProject.extra.get("presenterAndroid") as String)
 }

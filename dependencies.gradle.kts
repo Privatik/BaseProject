@@ -14,6 +14,7 @@ val protobufJavaliteVersion by extra { "3.18.0" }
 val preferenceKtxVersion by extra { "1.2.0" }
 val daggerVersion by extra { "2.41" }
 val privatikLibraryVersion by extra { "1.0.0-beta" }
+val jetpackNavigationComposeVersion by extra { "2.5.2" }
 
 //dependencies
 
@@ -72,16 +73,15 @@ val dataStore by extra { "androidx.datastore:datastore:$datastoreVersion" }
 val protobufJavalite by extra { "com.google.protobuf:protobuf-javalite:$protobufJavaliteVersion" }
 val preferenceKtx by extra { "androidx.preference:preference-ktx:$preferenceKtxVersion" }
 
+//Navigation
+val jetpackNavigation by extra { "androidx.navigation:navigation-compose:$jetpackNavigationComposeVersion" }
+
 //Dagger
 val dagger by extra {"com.google.dagger:dagger:$daggerVersion" }
 val daggerCompiler by extra {"com.google.dagger:dagger-compiler:$daggerVersion" }
 
 //Privatik library
 val machine by extra { "io.github.privatik:machine:$privatikLibraryVersion" }
-val presenter by extra {
-    listOf(
-        "io.github.privatik:presenter-android:$privatikLibraryVersion",
-        "io.github.privatik:presenter-common:$privatikLibraryVersion"
-    )
-}
+val presenterCommon by extra { "io.github.privatik:presenter-common:$privatikLibraryVersion" }
+val presenterAndroid by extra { "io.github.privatik:presenter-android:$privatikLibraryVersion" }
 
