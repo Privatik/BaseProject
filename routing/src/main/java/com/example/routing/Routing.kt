@@ -2,6 +2,7 @@ package com.example.routing
 
 import android.util.Log
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 
 interface Routing {
 
@@ -15,19 +16,18 @@ enum class Path{
 }
 
 internal class RoutingImpl(
-   private val navController: NavController,
-   private val screens: Map<Path, ScreenInfo>,
-   private val argument: Argument<String>
+    private val controller: NavHostController,
+    private val screens: Map<Path, ScreenInfo>,
+    private val argument: Argument<String>
 ): Routing {
 
     override fun navigate(route: Route) {
         when (route) {
-            Route.Back -> navController.popBackStack()
+            Route.Back -> controller.popBackStack()
             is Route.OpenNextScreen -> {
                 val info = screens.getValue(Path.SECOND_SCREEN)
-                Log.d("Compose","save ${info.route} = ${route.message}")
                 argument.set(info.route, route.message)
-                navController.navigate(info.route)
+                controller.navigate(info.route)
             }
         }
 

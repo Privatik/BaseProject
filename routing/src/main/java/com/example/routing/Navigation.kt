@@ -52,7 +52,6 @@ fun Routing(
     ){
         screens.values.forEach { screen ->
             composable(screen.route){
-                Log.d("Compose","Init ${screen.route} tag = ${controller.currentBackStackEntry?.id}, prevTag = ${controller.previousBackStackEntry?.id}")
                 val arg = rememberArgument(
                     key = screen.route,
                     value = argument.get(screen.route) ?: Unit

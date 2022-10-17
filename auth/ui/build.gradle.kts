@@ -42,6 +42,8 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(project(":auth:domain"))
+    implementation(project(":core"))
     implementation(project(":routing"))
 
     implementation(rootProject.extra.get("coreKtx") as String)

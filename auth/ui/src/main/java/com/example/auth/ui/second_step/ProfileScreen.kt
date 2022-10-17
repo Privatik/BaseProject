@@ -1,9 +1,12 @@
 package com.example.auth.ui.second_step
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -11,42 +14,51 @@ import com.example.routing.Route
 import com.example.routing.Routing
 import com.example.routing.Screen
 import com.example.routing.ScreenInfo
+import io.my.ui.ProjectTheme
 
-class SecondStepScreen private constructor(
-    routing: Routing,
-    private val message: String
+class ProfileScreen private constructor(
+    routing: Routing
 ): Screen(routing) {
 
     @Composable
     override fun Content() {
+
+    }
+
+    @Composable
+    private fun Content(
+        wrap: State<ProfileState>
+    ){
+        val state by wrap
+
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(ProjectTheme.colors.backgroundPrimary),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(message)
+            Text(state.validText)
             Spacer(modifier = Modifier.height(20.dp))
             Button(
-                onClick = {
-                    routing.navigate(Route.Back)
-                }
+                onClick = {  }
             ){
-                Text("Back")
+                Text("Check valid", color = ProjectTheme.colors.backgroundPrimary)
             }
         }
     }
 
-    class SecondStepFactory: Screen.Factory{
+    class ProfileFactory: Screen.Factory{
         override fun <A : Any> create(routing: Routing, arg: A): Screen {
-            return SecondStepScreen(routing, arg as String)
+            return ProfileScreen(routing)
         }
     }
 
 }
 
-object SecondStepScreenInfo: ScreenInfo{
-    override val route: String = "second-step"
+object ProfileScreenInfo: ScreenInfo{
+    override val route: String = "profile"
     override val factory: () -> Screen.Factory = {
-        SecondStepScreen.SecondStepFactory()
+        ProfileScreen.ProfileFactory()
     }
 }

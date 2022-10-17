@@ -13,8 +13,9 @@ val datastoreVersion by extra { "1.0.0" }
 val protobufJavaliteVersion by extra { "3.18.0" }
 val preferenceKtxVersion by extra { "1.2.0" }
 val daggerVersion by extra { "2.41" }
-val privatikLibraryVersion by extra { "1.0.0-beta" }
+val privatikLibraryVersion by extra { "1.0.1-beta" }
 val jetpackNavigationComposeVersion by extra { "2.5.2" }
+val kotlinxCoroutinesCoreJvmVersion by extra { "1.6.4" }
 
 //dependencies
 
@@ -50,6 +51,8 @@ val sqlDelight by extra {
 val coreKtx by extra { "androidx.core:core-ktx:${coreKtxVersion}" }
 val lifecycleRuntimeKtx by extra { "androidx.lifecycle:lifecycle-runtime-ktx:${lifecycleRuntimeKtxVersion}" }
 val activityCompose by extra { "androidx.activity:activity-compose:${activityComposeVersion}" }
+
+val kotlinxCoroutinesCoreJvm by extra { "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$kotlinxCoroutinesCoreJvmVersion" }
 
 //accompanist
 val accompanistInsets by extra { "com.google.accompanist:accompanist-insets:$accompanistVersion" }

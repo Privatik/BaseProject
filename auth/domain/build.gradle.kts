@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "io.my.core"
-    compileSdk = 33
+    namespace = "io.my.auth.domain"
+    compileSdk = 32
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 32
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -34,12 +34,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
 
-    implementation(rootProject.extra.get("coreKtx") as String)
-    implementation(rootProject.extra.get("lifecycleRuntimeKtx") as String)
-
-    api(rootProject.extra.get("machine") as String)
-
-    implementation(rootProject.extra.get("presenterCommon") as String)
-    implementation(rootProject.extra.get("presenterAndroid") as String)
+    implementation(rootProject.extra.get("kotlinxCoroutinesCoreJvm") as String)
 }
