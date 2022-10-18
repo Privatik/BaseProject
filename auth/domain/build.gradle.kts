@@ -35,6 +35,4 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
-
-    implementation(rootProject.extra.get("kotlinxCoroutinesCoreJvm") as String)
 }

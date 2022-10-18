@@ -5,16 +5,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.routing.Routing
 import com.example.routing.Screen
 import com.example.routing.ScreenInfo
+import com.io.navigation.presenter
 import io.my.ui.ProjectTheme
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class AuthScreen private constructor(
     routing: Routing,
@@ -22,7 +23,22 @@ class AuthScreen private constructor(
 
     @Composable
     override fun Content() {
+        val presenter: AuthPresenter = presenter()
+        LaunchedEffect(Unit){
+            presenter.singleEffect
+                .onEach { effect ->
+                    when(effect){
+                        is AuthEffect.Message -> {}
+                        is AuthEffect.Navigate -> routing.navigate(effect.route)
+                    }
+                }
+                .launchIn(this)
+        }
 
+        Content(
+            wrap = presenter.state.collectAsState(),
+            intent = presenter.intent
+        )
     }
 
     @Composable

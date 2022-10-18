@@ -1,17 +1,23 @@
 package com.example.auth.ui.auth
 
 import com.example.machine.ReducerDSL
+import com.example.routing.Route
+import com.example.routing.Routing
+import io.my.auth.domain.AuthInteractor
 import io.my.core.IntentFlog
 import io.my.core.Presenter
 import io.my.core.asFlow
+import io.my.core.domain.StateModel
 
-class AuthPresenter: Presenter<AuthState, AuthIntent, AuthIntent>(
+class AuthPresenter(
+    private val interactor: AuthInteractor
+): Presenter<AuthState, AuthIntent, AuthEffect>(
     initialState = AuthState()
 ) {
 
     override fun buildIntent() = AuthIntent()
 
-    override fun ReducerDSL<AuthState, AuthIntent>.reducer() {
+    override fun ReducerDSL<AuthState, AuthEffect>.reducer() {
         onEach(
             intent.changeLogin.asFlow(),
             updateState = { oldState, payload ->
@@ -28,8 +34,23 @@ class AuthPresenter: Presenter<AuthState, AuthIntent, AuthIntent>(
 
         onEach(
             intent.doLogin.asFlow(),
-            action = { _, _, _ ->
-                //to do
+            action = { _, newState , _ ->
+                interactor.sinIn(newState.login, newState.password)
+            }
+        )
+
+        onEach(
+            interactor.singInFlow,
+            effect = { _, _, payload ->
+                when (payload){
+                    is StateModel.Content<*> -> {
+                        AuthEffect.Navigate(Route.OpenNextScreen)
+                    }
+                    is StateModel.Error -> {
+                        AuthEffect.Message(payload.throwable.toString())
+                    }
+                    else -> null
+                }
             }
         )
     }

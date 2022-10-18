@@ -1,4 +1,4 @@
-package io.my.data.remote.storage
+package io.my.data.local
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
@@ -8,6 +8,10 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import io.my.data.remote.security.CryptoManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+
+object GlobalKeysForDataStore{
+    val refreshToken = stringPreferencesKey("refresh-token")
+}
 
 interface DataStoreManager{
     val data: Flow<Preferences>
@@ -30,7 +34,7 @@ interface DataStoreManager{
 internal class DataStoreManagerImpl(
     private val dataStore: DataStore<Preferences>,
     private val cryptoManager: CryptoManager
-): DataStoreManager{
+): DataStoreManager {
     override val data: Flow<Preferences> = dataStore.data
 
     override fun <T: Any> secureData(

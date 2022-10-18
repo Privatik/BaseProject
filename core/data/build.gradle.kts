@@ -36,20 +36,20 @@ android {
 
 dependencies {
 
-    implementation(rootProject.extra.get("dataStore") as String)
-    implementation(rootProject.extra.get("dataStorePreferences") as String)
+    api(rootProject.extra.get("dataStore") as String)
+    api(rootProject.extra.get("dataStorePreferences") as String)
 
 
-    implementation(rootProject.extra.get("kotlinxSerializationJson") as String)
+    api(rootProject.extra.get("kotlinxSerializationJson") as String)
 
 
-    implementation(rootProject.extra.get("ktorClientLoggingJvm") as String)
-    implementation(rootProject.extra.get("ktorClientCore") as String)
-    implementation(rootProject.extra.get("ktorClientSerialization") as String)
-    implementation(rootProject.extra.get("ktorClientCio") as String)
+    api(rootProject.extra.get("ktorClientLoggingJvm") as String)
+    api(rootProject.extra.get("ktorClientCore") as String)
+    api(rootProject.extra.get("ktorClientSerialization") as String)
+    api(rootProject.extra.get("ktorClientCio") as String)
 
 
     (rootProject.extra.get("sqlDelight") as List<*>).forEach { compose ->
-        implementation(compose as String)
+        api(compose as String)
     }
 }

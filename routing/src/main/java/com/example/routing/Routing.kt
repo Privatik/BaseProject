@@ -26,7 +26,6 @@ internal class RoutingImpl(
             Route.Back -> controller.popBackStack()
             is Route.OpenNextScreen -> {
                 val info = screens.getValue(Path.SECOND_SCREEN)
-                argument.set(info.route, route.message)
                 controller.navigate(info.route)
             }
         }

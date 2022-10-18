@@ -1,15 +1,18 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("kotlinx-serialization")
+    id("com.google.protobuf") version "0.8.17"
 }
 
 android {
     namespace = "io.my.auth.data"
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 32
+        targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
