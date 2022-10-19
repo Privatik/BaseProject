@@ -4,13 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.core.os.bundleOf
+import javax.inject.Inject
 
 internal interface Argument<T> {
     fun set(key: T, arg: Any)
     fun get(key: T): Any?
 }
 
-internal class GoogleArgumentImpl: Argument<String> {
+internal class GoogleArgumentImpl @Inject constructor(): Argument<String> {
     private val map = hashMapOf<String, Any>()
 
     override fun set(key: String, arg: Any) {

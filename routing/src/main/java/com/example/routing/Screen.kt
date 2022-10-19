@@ -1,18 +1,14 @@
 package com.example.routing
 
-import android.os.Bundle
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
 
-abstract class Screen(protected val routing: Routing){
+abstract class Screen(protected val routingAction: RoutingAction){
 
     @Composable
     abstract fun Content()
 
     interface Factory{
          fun <A: Any> create(
-            routing: Routing,
             arg: A
         ): Screen
     }

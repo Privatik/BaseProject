@@ -1,4 +1,4 @@
-package io.my.data.remote.network.token.provider
+package io.my.data.remote.token.provider
 
 import androidx.datastore.preferences.core.Preferences
 import io.my.data.local.DataStoreManager

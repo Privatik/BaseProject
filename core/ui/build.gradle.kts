@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -51,4 +52,7 @@ dependencies {
     (rootProject.extra.get("compose") as List<*>).forEach { compose ->
         api(compose as String)
     }
+
+    implementation(rootProject.extra.get("dagger") as String)
+    kapt(rootProject.extra.get("daggerCompiler") as String)
 }

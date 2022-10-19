@@ -1,4 +1,4 @@
-package io.my.data.remote.network.token.provider
+package io.my.data.remote.token.provider
 
 import android.util.Log
 import kotlinx.coroutines.CompletableDeferred
@@ -9,7 +9,7 @@ import kotlinx.coroutines.channels.actor
 
 internal class AccessTokenProvider(
     coroutineScope: CoroutineScope
-): TokenProvider{
+): TokenProvider {
 
     private val channel: SendChannel<Action> = actionActor(coroutineScope)
 

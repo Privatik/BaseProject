@@ -2,9 +2,7 @@ package com.example.auth.ui.auth
 
 import com.example.machine.ReducerDSL
 import com.example.routing.Route
-import com.example.routing.Routing
 import io.my.auth.domain.AuthInteractor
-import io.my.core.IntentFlog
 import io.my.core.Presenter
 import io.my.core.asFlow
 import io.my.core.domain.StateModel
@@ -43,8 +41,8 @@ class AuthPresenter(
             interactor.singInFlow,
             effect = { _, _, payload ->
                 when (payload){
-                    is StateModel.Content<*> -> {
-                        AuthEffect.Navigate(Route.OpenNextScreen)
+                    is StateModel.Content<String> -> {
+                        AuthEffect.Navigate(Route.OpenNextScreen(payload.data))
                     }
                     is StateModel.Error -> {
                         AuthEffect.Message(payload.throwable.toString())

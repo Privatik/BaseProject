@@ -17,36 +17,39 @@ interface AuthInteractor{
 
     suspend fun checkValid()
 
-    val singInFlow: Flow<StateModel>
-    val isValidFlow: Flow<StateModel>
+    val singInFlow: Flow<StateModel<String>>
+    val isValidFlow: Flow<StateModel<Boolean>>
 }
 
 internal class AuthInteractorImpl(
     private val repository: AuthRepository
 ): BaseInteractor<State>(State()), AuthInteractor{
 
-    override val singInFlow: Flow<StateModel> = state.map { it.singIn }.distinctUntilChanged()
-    override val isValidFlow: Flow<StateModel> = state.map { it.isValid }.distinctUntilChanged()
+    override val singInFlow: Flow<StateModel<String>> =
+        merge(
+            state.map { it.singIn },
+            repository.singInFlow.map { result -> result.map { it.email }.asStateModel() }
+        ).distinctUntilChanged()
+
+    override val isValidFlow: Flow<StateModel<Boolean>> =
+        merge(
+            state.map { it.isValid },
+            repository.validFlow.map { result -> result.asStateModel() }
+        ).distinctUntilChanged()
 
     override suspend fun sinIn(login: String, password: String) = withContext(Dispatchers.IO) {
         updateState { state -> state.copy(singIn = StateModel.Loading) }
-
-        val newSing = repository.singIn(login, password).asStateModel()
-
-        updateState { state -> state.copy(singIn = newSing) }
+        repository.singIn(login, password)
     }
 
     override suspend fun checkValid() {
         updateState { state -> state.copy(isValid = StateModel.Loading) }
-
-        val newValid = repository.checkValid().asStateModel()
-
-        updateState { state -> state.copy(isValid = newValid) }
+        repository.checkValid()
     }
 
 }
 
 internal data class State(
-    val singIn: StateModel = StateModel.None,
-    val isValid: StateModel = StateModel.None
+    val singIn: StateModel<String> = StateModel.None,
+    val isValid: StateModel<Boolean> = StateModel.None
 )

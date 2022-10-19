@@ -5,6 +5,7 @@ import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.my.core.domain.trowable.Fail
 import java.lang.Exception
 
 suspend inline fun <reified T> HttpClient.requestAsResult(
@@ -19,12 +20,16 @@ suspend inline fun <reified T> HttpClient.requestAsResult(
             block()
         }
         Result.success(response)
-    } catch (e: ResponseException){
+    }  catch (e: ResponseException){
         Log.e("Ktor","$e")
-        Result.failure(e)
+        when (e.response.status.value){
+            401 -> Result.failure(Fail.AuthFail)
+            403 -> Result.failure(Fail.ForbiddenFail)
+            else -> Result.failure(Fail.GlobalFail(e))
+        }
     } catch (e: Exception){
         Log.e("Ktor","$e")
-        Result.failure(e)
+        Result.failure(Fail.GlobalFail(e))
     }
 }
 

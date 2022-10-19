@@ -2,7 +2,6 @@ package com.example.auth.ui.auth
 
 import androidx.compose.runtime.Immutable
 import com.example.routing.Route
-import com.example.routing.Routing
 import io.my.core.IntentFlog
 import io.my.core.createIntent
 import io.my.core.createIntentWithoutParams

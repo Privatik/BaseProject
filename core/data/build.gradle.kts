@@ -1,7 +1,16 @@
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlinx-serialization")
+    id("kotlin-kapt")
+}
+
+val prop = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "local.properties")))
 }
 
 android {
@@ -14,6 +23,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "KeyForRefreshToken", prop.getProperty("KEY_FOR_REFRESH_TOKEN", ""))
     }
 
     buildTypes {
@@ -35,6 +46,7 @@ android {
 }
 
 dependencies {
+    api(project(":core:domain"))
 
     api(rootProject.extra.get("dataStore") as String)
     api(rootProject.extra.get("dataStorePreferences") as String)
@@ -48,8 +60,10 @@ dependencies {
     api(rootProject.extra.get("ktorClientSerialization") as String)
     api(rootProject.extra.get("ktorClientCio") as String)
 
-
     (rootProject.extra.get("sqlDelight") as List<*>).forEach { compose ->
         api(compose as String)
     }
+
+    implementation(rootProject.extra.get("dagger") as String)
+    kapt(rootProject.extra.get("daggerCompiler") as String)
 }

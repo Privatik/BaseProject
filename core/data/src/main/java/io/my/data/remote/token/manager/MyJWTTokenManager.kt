@@ -1,7 +1,7 @@
-package io.my.data.remote.network.token.manager
+package io.my.data.remote.token.manager
 
 import io.my.data.remote.network.JWTToken
-import io.my.data.remote.network.token.provider.TokenProvider
+import io.my.data.remote.token.provider.TokenProvider
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -12,14 +12,9 @@ internal class MyJWTTokenManager(
     coroutineScope: CoroutineScope,
     private val accessTokenProvider: TokenProvider,
     private val refreshTokenProvider: TokenProvider,
-    private val refreshTokenEndPath: String,
-    private val withoutTokenEndPathSet: Set<String>,
     private val doRequestOnNewTokens: (refreshToken: String?) -> Pair<String, String>
 ): JWTToken.TokenManager {
     private val channel: SendChannel<Action> = actionActor(coroutineScope)
-
-    override fun isDontAddToken(endPath: String): Boolean = withoutTokenEndPathSet.contains(endPath)
-    override fun isAddRefreshToken(endPath: String): Boolean = refreshTokenEndPath == endPath
 
     override suspend fun getNewIfNeedToken(
         oldToken: String?

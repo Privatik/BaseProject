@@ -1,14 +1,15 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 32
+        targetSdk = 33
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -46,4 +47,7 @@ dependencies {
 
     implementation(rootProject.extra.get("presenterCommon") as String)
     implementation(rootProject.extra.get("presenterAndroid") as String)
+
+    implementation(rootProject.extra.get("dagger") as String)
+    kapt(rootProject.extra.get("daggerCompiler") as String)
 }

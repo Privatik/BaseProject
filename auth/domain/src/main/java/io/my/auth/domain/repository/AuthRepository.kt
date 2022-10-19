@@ -4,6 +4,9 @@ import io.my.auth.domain.dto.AuthModelDTO
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    suspend fun singIn(login: String, password: String): Result<AuthModelDTO>
-    suspend fun checkValid(): Result<Boolean>
+    val validFlow: Flow<Result<Boolean>>
+    val singInFlow: Flow<Result<AuthModelDTO>>
+
+    suspend fun singIn(login: String, password: String)
+    suspend fun checkValid()
 }

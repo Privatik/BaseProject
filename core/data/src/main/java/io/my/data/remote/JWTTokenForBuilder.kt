@@ -5,6 +5,8 @@ import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.util.*
+import io.my.data.remote.JWTAuthorization
+import io.my.data.remote.jwtAuthorizationAttribute
 
 internal class JWTToken() {
     var tokenManagerMap: Map<String, TokenManager> = emptyMap()
@@ -17,17 +19,16 @@ internal class JWTToken() {
 
         override fun install(feature: JWTToken, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.Before) {
-                val tokenManager = feature.tokenManagerMap[context.url.host]
+                val tokenManager = feature.tokenManagerMap[context.url.host] ?: return@intercept
 
-                val endPath = context.url.encodedPath
-                when {
-                    tokenManager?.isDontAddToken(endPath) == true -> {}
-                    tokenManager?.isAddRefreshToken(endPath) == true -> {
+                when (context.attributes[jwtAuthorizationAttribute]){
+                    JWTAuthorization.NONE -> { }
+                    JWTAuthorization.REFRESH -> {
                         context.updateJWTToken(tokenManager.getRefreshToken() ?: "")
                     }
                     else -> {
-                        val accessToken = tokenManager?.getAccessToken() ?: kotlin.run {
-                            tokenManager?.getNewIfNeedToken("Bearer ${null}") ?: ""
+                        val accessToken = tokenManager.getAccessToken() ?: kotlin.run {
+                            tokenManager.getNewIfNeedToken("Bearer ${null}") ?: ""
                         }
                         context.updateJWTToken(accessToken)
                     }
@@ -58,9 +59,6 @@ internal class JWTToken() {
     }
 
     interface TokenManager{
-        fun isDontAddToken(endPath: String): Boolean
-        fun isAddRefreshToken(endPath: String): Boolean
-
         suspend fun getNewIfNeedToken(
             oldToken: String?
         ): String?

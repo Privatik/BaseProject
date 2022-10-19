@@ -1,11 +1,11 @@
-package com.example.auth.ui.auth
+package com.example.auth.ui.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,37 +18,31 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-class AuthScreen private constructor(
+class ProfileScreen private constructor(
     routingAction: RoutingAction,
+    private val email: String
 ): Screen(routingAction) {
 
     @Composable
     override fun Content() {
-        val presenter: AuthPresenter = presenter()
+        val presenter: ProfilePresenter = presenter()
         LaunchedEffect(Unit){
             presenter.singleEffect
                 .onEach { effect ->
                     when(effect){
-                        is AuthEffect.Message -> {}
-                        is AuthEffect.Navigate -> routingAction.navigate(effect.route)
+                        is ProfileEffect.Message -> { }
+                        is ProfileEffect.Navigate -> routingAction.navigate(effect.route)
                     }
                 }
                 .launchIn(this)
         }
-
-        Content(
-            wrap = presenter.state.collectAsState(),
-            intent = presenter.intent
-        )
+        Content(intent = presenter.intent)
     }
 
     @Composable
     private fun Content(
-        wrap: State<AuthState>,
-        intent: AuthIntent
-    ) {
-        val state by wrap
-
+        intent: ProfileIntent
+    ){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -56,36 +50,32 @@ class AuthScreen private constructor(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextField(value = state.login, onValueChange = { intent.changeLogin(it) })
-            Spacer(modifier = Modifier.height(10.dp))
-            TextField(value = state.password, onValueChange = { intent.changePassword(it) })
-            Spacer(modifier = Modifier.height(10.dp))
+            Text(email)
+            Spacer(modifier = Modifier.height(20.dp))
             Button(
-                onClick = { intent.doLogin() }
-            ) {
-                Text(
-                    text = "Sing in",
-                    color = ProjectTheme.colors.backgroundSecondary
-                )
+                onClick = { intent.checkValid() }
+            ){
+                Text("Check valid", color = ProjectTheme.colors.backgroundPrimary)
             }
         }
     }
 
-    class AuthScreenFactory @Inject constructor(
+    class ProfileFactory (
         private val routingAction: RoutingAction
     ): Screen.Factory{
 
         override fun <A : Any> create(arg: A): Screen {
-            return AuthScreen(routingAction)
+            return ProfileScreen(routingAction, arg as String)
         }
     }
+
 }
 
-class AuthScreenInfo @Inject constructor(
+class ProfileScreenInfo @Inject constructor(
     private val routingAction: RoutingAction
 ): ScreenInfo{
-    override val route: String = "auth"
+    override val route: String = "profile"
     override val factory: () -> Screen.Factory = {
-        AuthScreen.AuthScreenFactory(routingAction)
+        ProfileScreen.ProfileFactory(routingAction)
     }
 }

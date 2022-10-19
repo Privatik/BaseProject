@@ -12,7 +12,7 @@ import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
 import io.my.data.remote.network.JWTToken
-import io.my.data.remote.network.token.manager.MyJWTTokenManager
+import io.my.data.remote.token.manager.MyJWTTokenManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
 

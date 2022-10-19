@@ -1,4 +1,4 @@
-package io.my.data.remote.security
+package io.my.data.security
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

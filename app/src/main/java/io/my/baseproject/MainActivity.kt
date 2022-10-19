@@ -3,7 +3,7 @@ package io.my.baseproject
 import android.os.Bundle
 import androidx.core.view.WindowCompat
 import com.example.auth.ui.auth.AuthScreenInfo
-import com.example.auth.ui.second_step.ProfileScreenInfo
+import com.example.auth.ui.profile.ProfileScreenInfo
 import com.example.routing.Path
 import com.example.routing.Routing
 import com.example.routing.ScreenInfo

@@ -1,4 +1,4 @@
-package io.my.data.remote.network.token.provider
+package io.my.data.remote.token.provider
 
 interface TokenProvider {
     suspend fun updateToken(token: String?)

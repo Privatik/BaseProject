@@ -39,25 +39,23 @@ fun PresenterComponentActivity.setContentPerJetpack(
 
 @Composable
 fun Routing(
-    controller: NavHostController,
-    startScreenRoute: String,
-    screens: Map<Path, ScreenInfo>
+    startPath: Path,
+    navHostController: NavHostController,
+    routeController: RouteController
 ){
-    val argument = GoogleArgumentImpl()
-    val routing = RoutingImpl(controller, screens, argument)
 
     NavHost(
-        navController = controller,
-        startDestination = startScreenRoute
+        navController = navHostController,
+        startDestination = screens[startPath]!!.route
     ){
         screens.values.forEach { screen ->
             composable(screen.route){
                 val arg = rememberArgument(
                     key = screen.route,
-                    value = argument.get(screen.route) ?: Unit
+                    value = getArgument(screen.route)
                 )
 
-                screen.factory().create(routing, arg).Content()
+                screen.factory().create(arg).Content()
             }
         }
     }
