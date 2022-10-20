@@ -12,7 +12,7 @@ val ktorClientVersion by extra { "1.6.5" }
 val datastoreVersion by extra { "1.0.0" }
 val protobufJavaliteVersion by extra { "3.18.0" }
 val preferenceKtxVersion by extra { "1.2.0" }
-val daggerVersion by extra { "2.41" }
+val daggerVersion by extra { "2.44" }
 val privatikLibraryVersion by extra { "1.0.1-beta" }
 val jetpackNavigationComposeVersion by extra { "2.5.2" }
 val kotlinxCoroutinesCoreJvmVersion by extra { "1.6.4" }

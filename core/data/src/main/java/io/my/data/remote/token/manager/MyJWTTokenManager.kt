@@ -12,7 +12,7 @@ internal class MyJWTTokenManager(
     coroutineScope: CoroutineScope,
     private val accessTokenProvider: TokenProvider,
     private val refreshTokenProvider: TokenProvider,
-    private val doRequestOnNewTokens: (refreshToken: String?) -> Pair<String, String>
+    private val doRequestOnNewTokens: suspend (refreshToken: String?) -> Pair<String?, String?>
 ): JWTToken.TokenManager {
     private val channel: SendChannel<Action> = actionActor(coroutineScope)
 

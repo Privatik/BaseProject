@@ -2,8 +2,9 @@ package io.my.data.remote
 
 import io.ktor.client.*
 import io.my.data.remote.model.TokenResponse
+import javax.inject.Inject
 
-internal class RefreshApi(
+internal class RefreshApi @Inject constructor(
     private val client: HttpClient,
     private val baseApiProperty: BaseApiProperty
 ) {

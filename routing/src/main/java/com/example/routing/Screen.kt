@@ -17,5 +17,5 @@ abstract class Screen(protected val routingAction: RoutingAction){
 
 interface ScreenInfo{
     val route: String
-    val factory: () -> Screen.Factory
+    val factory: (routingAction: RoutingAction) -> Screen.Factory
 }

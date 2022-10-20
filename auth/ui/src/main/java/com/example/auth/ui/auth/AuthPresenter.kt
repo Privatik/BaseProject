@@ -1,7 +1,7 @@
 package com.example.auth.ui.auth
 
 import com.example.machine.ReducerDSL
-import com.example.routing.Route
+import com.example.routing.route.Route
 import io.my.auth.domain.AuthInteractor
 import io.my.core.Presenter
 import io.my.core.asFlow

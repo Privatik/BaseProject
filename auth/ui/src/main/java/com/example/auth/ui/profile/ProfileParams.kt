@@ -1,9 +1,7 @@
 package com.example.auth.ui.profile
 
-import androidx.compose.runtime.Immutable
-import com.example.routing.Route
+import com.example.routing.route.Route
 import io.my.core.IntentFlog
-import io.my.core.createIntent
 import io.my.core.createIntentWithoutParams
 
 class ProfileIntent: IntentFlog {

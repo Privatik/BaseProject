@@ -71,11 +71,9 @@ class ProfileScreen private constructor(
 
 }
 
-class ProfileScreenInfo @Inject constructor(
-    private val routingAction: RoutingAction
-): ScreenInfo{
+object ProfileScreenInfo: ScreenInfo{
     override val route: String = "profile"
-    override val factory: () -> Screen.Factory = {
+    override val factory: (RoutingAction) -> Screen.Factory = { routingAction ->
         ProfileScreen.ProfileFactory(routingAction)
     }
 }

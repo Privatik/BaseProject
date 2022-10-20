@@ -1,13 +1,16 @@
 package io.my.data.local
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import io.my.data.security.CryptoManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 object GlobalKeysForDataStore{
     val baseApi = stringPreferencesKey("base-api")
@@ -31,6 +34,10 @@ interface DataStoreManager{
         editStorage: suspend (MutablePreferences, String) -> Unit
     ): Preferences
 }
+
+internal val Context.preferencesDataStore: DataStore<Preferences> by preferencesDataStore(
+    name = "GlobalPreferences"
+)
 
 internal class DataStoreManagerImpl(
     private val dataStore: DataStore<Preferences>,

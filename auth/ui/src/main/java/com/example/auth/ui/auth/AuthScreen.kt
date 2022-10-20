@@ -81,11 +81,9 @@ class AuthScreen private constructor(
     }
 }
 
-class AuthScreenInfo @Inject constructor(
-    private val routingAction: RoutingAction
-): ScreenInfo{
+object AuthScreenInfo: ScreenInfo{
     override val route: String = "auth"
-    override val factory: () -> Screen.Factory = {
+    override val factory: (RoutingAction) -> Screen.Factory = { routingAction ->
         AuthScreen.AuthScreenFactory(routingAction)
     }
 }

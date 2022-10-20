@@ -21,8 +21,7 @@ internal class GoogleArgumentImpl @Inject constructor(): Argument<String> {
     }
 
     override fun get(key: String): Any? {
-        val value = map.remove(key)
-        return value
+        return map.remove(key)
     }
 
 }
@@ -30,7 +29,10 @@ internal class GoogleArgumentImpl @Inject constructor(): Argument<String> {
 private fun argumentSaver(key: String): Saver<Any, *> =
     Saver(
         save = { if (it != Unit) bundleOf(key to it) else null },
-        restore = { bundle -> bundle.get(key) ?: Unit }
+        restore = { bundle ->
+            @Suppress("DEPRECATION")
+            bundle.get(key) ?: Unit
+        }
     )
 
 @Composable
