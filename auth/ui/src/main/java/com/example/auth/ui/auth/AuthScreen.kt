@@ -1,5 +1,6 @@
 package com.example.auth.ui.auth
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -11,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.routing.RoutingAction
 import com.example.routing.Screen
-import com.example.routing.ScreenInfo
 import com.io.navigation.presenter
 import io.my.ui.ProjectTheme
 import kotlinx.coroutines.flow.launchIn
@@ -71,19 +71,11 @@ class AuthScreen private constructor(
         }
     }
 
-    class AuthScreenFactory @Inject constructor(
-        private val routingAction: RoutingAction
-    ): Screen.Factory{
+    class AuthScreenFactory @Inject constructor(): Factory{
+        override val route: String = "auth"
 
-        override fun <A : Any> create(arg: A): Screen {
+        override fun <A : Any> create(routingAction: RoutingAction, arg: A): Screen {
             return AuthScreen(routingAction)
         }
-    }
-}
-
-object AuthScreenInfo: ScreenInfo{
-    override val route: String = "auth"
-    override val factory: (RoutingAction) -> Screen.Factory = { routingAction ->
-        AuthScreen.AuthScreenFactory(routingAction)
     }
 }

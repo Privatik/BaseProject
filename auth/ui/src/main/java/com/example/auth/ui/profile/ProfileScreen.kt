@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.routing.RoutingAction
 import com.example.routing.Screen
-import com.example.routing.ScreenInfo
 import com.io.navigation.presenter
 import io.my.ui.ProjectTheme
 import kotlinx.coroutines.flow.launchIn
@@ -60,20 +59,11 @@ class ProfileScreen private constructor(
         }
     }
 
-    class ProfileFactory (
-        private val routingAction: RoutingAction
-    ): Screen.Factory{
+    class ProfileFactory @Inject constructor(): Factory{
+        override val route: String = "profile"
 
-        override fun <A : Any> create(arg: A): Screen {
+        override fun <A : Any> create(routingAction: RoutingAction, arg: A): Screen {
             return ProfileScreen(routingAction, arg as String)
         }
-    }
-
-}
-
-object ProfileScreenInfo: ScreenInfo{
-    override val route: String = "profile"
-    override val factory: (RoutingAction) -> Screen.Factory = { routingAction ->
-        ProfileScreen.ProfileFactory(routingAction)
     }
 }

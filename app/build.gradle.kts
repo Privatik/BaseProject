@@ -52,7 +52,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:ui"))
     implementation(project(":auth:ui"))
     implementation(project(":routing"))
 

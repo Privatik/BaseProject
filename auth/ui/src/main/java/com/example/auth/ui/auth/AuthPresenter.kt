@@ -2,14 +2,10 @@ package com.example.auth.ui.auth
 
 import com.example.machine.ReducerDSL
 import com.example.routing.route.Route
-import io.my.auth.domain.AuthInteractor
 import io.my.core.Presenter
 import io.my.core.asFlow
-import io.my.core.domain.StateModel
 
-class AuthPresenter(
-    private val interactor: AuthInteractor
-): Presenter<AuthState, AuthIntent, AuthEffect>(
+class AuthPresenter(): Presenter<AuthState, AuthIntent, AuthEffect>(
     initialState = AuthState()
 ) {
 
@@ -32,24 +28,24 @@ class AuthPresenter(
 
         onEach(
             intent.doLogin.asFlow(),
-            action = { _, newState , _ ->
-                interactor.sinIn(newState.login, newState.password)
+            effect = { _, newState , _ ->
+                AuthEffect.Navigate(Route.OpenNextScreen(newState.login))
             }
         )
-
-        onEach(
-            interactor.singInFlow,
-            effect = { _, _, payload ->
-                when (payload){
-                    is StateModel.Content<String> -> {
-                        AuthEffect.Navigate(Route.OpenNextScreen(payload.data))
-                    }
-                    is StateModel.Error -> {
-                        AuthEffect.Message(payload.throwable.toString())
-                    }
-                    else -> null
-                }
-            }
-        )
+//
+//        onEach(
+//            interactor.singInFlow,
+//            effect = { _, _, payload ->
+//                when (payload){
+//                    is StateModel.Content<String> -> {
+//                        AuthEffect.Navigate(Route.OpenNextScreen(payload.data))
+//                    }
+//                    is StateModel.Error -> {
+//                        AuthEffect.Message(payload.throwable.toString())
+//                    }
+//                    else -> null
+//                }
+//            }
+//        )
     }
 }

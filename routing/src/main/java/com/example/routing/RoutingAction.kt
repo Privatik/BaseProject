@@ -1,7 +1,8 @@
 package com.example.routing
 
+import android.util.Log
 import com.example.routing.route.Route
-import com.example.routing.route.RouteManager
+import com.example.routing.route.RouteController
 
 interface RoutingAction {
 
@@ -15,10 +16,11 @@ enum class Path{
 }
 
 internal class RoutingActionImpl(
-    private val manager: RouteManager
+    private val manager: RouteController
 ): RoutingAction {
 
     override fun navigate(route: Route) {
+        Log.d("Navigate","Open by $route")
         when (route) {
             Route.Back -> manager.pop()
             is Route.OpenNextScreen -> {

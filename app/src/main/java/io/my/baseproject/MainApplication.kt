@@ -1,8 +1,9 @@
 package io.my.baseproject
 
 import android.app.Application
-import com.example.routing.di.DaggerRoutingComponent
-import com.example.routing.route.RouteManager
+import android.content.Context
+import com.example.routing.Path
+import com.example.routing.Screen
 import io.my.baseproject.di.AppComponent
 import io.my.baseproject.di.DaggerAppComponent
 
@@ -10,14 +11,23 @@ class MainApplication: Application() {
 
     private var _component: AppComponent? = null
 
-    fun createComponent(routeManager: RouteManager){
-        _component = DaggerAppComponent.builder()
-            .routeDependencies(
-                DaggerRoutingComponent.builder()
-                    .instanceRoute(routeManager)
-                    .build()
-            )
+    override fun onCreate() {
+        super.onCreate()
+
+        _component = DaggerAppComponent
+            .builder()
             .build()
     }
 
+    fun getScreens(): Map<Path, Screen.Factory> = _component!!.screens()
+
 }
+
+fun Context.getScreens(): Map<Path, Screen.Factory>{
+    return if (this is MainApplication){
+        getScreens()
+    } else {
+        (applicationContext as MainApplication).getScreens()
+    }
+}
+

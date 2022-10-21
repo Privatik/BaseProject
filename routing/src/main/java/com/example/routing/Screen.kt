@@ -8,14 +8,12 @@ abstract class Screen(protected val routingAction: RoutingAction){
     abstract fun Content()
 
     interface Factory{
+        val route: String
+
          fun <A: Any> create(
+             routingAction: RoutingAction,
             arg: A
         ): Screen
     }
 
-}
-
-interface ScreenInfo{
-    val route: String
-    val factory: (routingAction: RoutingAction) -> Screen.Factory
 }

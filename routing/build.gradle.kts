@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:ui"))
 
     implementation(rootProject.extra.get("jetpackNavigation") as String)
 

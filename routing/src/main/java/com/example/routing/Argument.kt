@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.core.os.bundleOf
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 
 internal interface Argument<T> {
@@ -12,7 +13,7 @@ internal interface Argument<T> {
 }
 
 internal class GoogleArgumentImpl @Inject constructor(): Argument<String> {
-    private val map = hashMapOf<String, Any>()
+    private val map = ConcurrentHashMap<String, Any>()
 
     override fun set(key: String, arg: Any) {
         if (arg != Unit){
