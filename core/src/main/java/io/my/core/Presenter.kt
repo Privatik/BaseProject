@@ -9,18 +9,16 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 
-abstract class Presenter<S: Any, I: IntentFlog, E: Any>(
+abstract class Presenter<S: Any, I: IntentFlag, E: Any>(
     initialState: S,
     initialAction: suspend () -> Unit = {}
 ): AndroidPresenter() {
 
     private val presenterScope: CoroutineScope = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 
-    abstract fun buildIntent(): I
+    protected abstract fun buildIntent(coroutineScope: CoroutineScope): I
 
-    val intent: I by lazy(LazyThreadSafetyMode.NONE) {
-        buildIntent()
-    }
+    val intent: I by lazy(LazyThreadSafetyMode.NONE) { buildIntent(presenterScope) }
 
     private val _state = MutableStateFlow<S>(initialState)
     val state: StateFlow<S> by lazy(LazyThreadSafetyMode.NONE) {

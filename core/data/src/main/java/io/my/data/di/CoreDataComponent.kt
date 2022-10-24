@@ -7,6 +7,7 @@ import io.ktor.client.*
 import io.my.data.local.DataStoreManager
 import io.my.data.remote.TokenManagerProxy
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Singleton
 
 interface CoreDataDependencies{
     fun tokenProxy(): TokenManagerProxy
@@ -17,8 +18,14 @@ interface CoreDataDependencies{
 }
 
 @Component(
-    modules = [RemoteModule::class, LocalModule::class, TokenModule::class]
+    modules = [
+        SerializeModule::class,
+        RemoteModule::class,
+        LocalModule::class,
+        TokenModule::class
+    ]
 )
+@Singleton
 interface CoreDataComponent: CoreDataDependencies {
 
     @Component.Builder
@@ -28,7 +35,7 @@ interface CoreDataComponent: CoreDataDependencies {
         fun route(context: Context): Builder
 
         @BindsInstance
-        fun coroutineScope(scope: CoroutineScope): Builder
+        fun globalCoroutineScope(scope: CoroutineScope): Builder
 
         fun build(): CoreDataComponent
     }

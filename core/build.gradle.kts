@@ -42,4 +42,5 @@ dependencies {
 
     implementation(rootProject.extra.get("presenterCommon") as String)
     implementation(rootProject.extra.get("presenterAndroid") as String)
+    implementation(rootProject.extra.get("dagger") as String)
 }

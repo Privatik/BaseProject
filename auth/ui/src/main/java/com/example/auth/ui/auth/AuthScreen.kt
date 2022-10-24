@@ -10,9 +10,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.auth.ui.AuthPresenterScope
 import com.example.routing.RoutingAction
 import com.example.routing.Screen
 import com.io.navigation.presenter
+import com.io.navigation.sharedPresenter
 import io.my.ui.ProjectTheme
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +26,8 @@ class AuthScreen private constructor(
 
     @Composable
     override fun Content() {
-        val presenter: AuthPresenter = presenter()
+        val scope: AuthPresenterScope = sharedPresenter()
+        val presenter: AuthPresenter = presenter(scope.factory)
         LaunchedEffect(Unit){
             presenter.singleEffect
                 .onEach { effect ->

@@ -9,9 +9,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.auth.ui.AuthPresenterScope
 import com.example.routing.RoutingAction
 import com.example.routing.Screen
 import com.io.navigation.presenter
+import com.io.navigation.sharedPresenter
 import io.my.ui.ProjectTheme
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,8 +26,11 @@ class ProfileScreen private constructor(
 
     @Composable
     override fun Content() {
-        val presenter: ProfilePresenter = presenter()
+        val scope: AuthPresenterScope = sharedPresenter()
+        val presenter: ProfilePresenter = presenter(scope.factory)
         LaunchedEffect(Unit){
+            presenter.state.launchIn(this)
+
             presenter.singleEffect
                 .onEach { effect ->
                     when(effect){

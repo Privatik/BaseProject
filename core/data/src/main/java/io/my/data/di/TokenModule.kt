@@ -14,6 +14,7 @@ import io.my.data.remote.token.provider.RefreshTokenProvider
 import io.my.data.remote.token.provider.TokenProvider
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Qualifier
+import javax.inject.Singleton
 
 @Retention(AnnotationRetention.BINARY)
 @Qualifier
@@ -24,12 +25,11 @@ annotation class RefreshToken
 annotation class AccessToken
 
 
-@Module(
-    includes = [LocalModule::class]
-)
+@Module()
 internal class TokenModule {
 
     @Provides
+    @Singleton
     fun provideManager(
         coroutineScope: CoroutineScope,
         @RefreshToken refreshTokenProvider: TokenProvider,
@@ -49,6 +49,7 @@ internal class TokenModule {
 
     @RefreshToken
     @Provides
+    @Singleton
     fun provideRefreshTokenProvider(
         coroutineScope: CoroutineScope,
         dataStoreManager: DataStoreManager
@@ -63,9 +64,9 @@ internal class TokenModule {
 
     @AccessToken
     @Provides
+    @Singleton
     fun provideAccessTokenProvider(
-        coroutineScope: CoroutineScope,
-        dataStoreManager: DataStoreManager
+        coroutineScope: CoroutineScope
     ): TokenProvider{
         return AccessTokenProvider(
             coroutineScope = coroutineScope

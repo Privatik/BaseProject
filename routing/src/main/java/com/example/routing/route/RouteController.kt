@@ -10,14 +10,14 @@ internal class RouteController(
     private val argument: Argument<String>
 ){
 
-    internal fun navigate(path: Path, value: Any? = null){
+    fun navigate(path: Path, value: Any? = null){
         val info = routeMaker.getInfo(path)!!
         if (value != null) { argument.set(info.route, value) }
 
         controller.navigate(info.route)
     }
 
-    internal fun pop(
+    fun pop(
         path: Path? = null,
         inclusive: Boolean = true,
         saveState: Boolean = false

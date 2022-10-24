@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.routing.di.DaggerRoutingComponent
+import com.example.routing.di.RouteDependencies
 import com.example.routing.route.RouteMaker
 import com.io.navigation.PresenterComponentActivity
 import com.io.navigation.PresenterCompositionLocalProvider
@@ -24,7 +25,7 @@ fun PresenterComponentActivity.setContentPerJetpack(
                 .build()
         }
 
-        val routeScope = remember {
+        val routeScope = remember<RouteDependencies> {
             DaggerRoutingComponent
                 .builder()
                 .navController(controller)

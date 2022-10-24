@@ -10,7 +10,7 @@ import javax.inject.Singleton
     modules = [ArgumentModule::class, RouteActionModule::class]
 )
 @Singleton
-internal interface RoutingComponent: RouteInsideDependencies, RouteDependencies {
+internal interface RoutingComponent: RouteDependencies {
 
     @Component.Builder
     interface Builder {

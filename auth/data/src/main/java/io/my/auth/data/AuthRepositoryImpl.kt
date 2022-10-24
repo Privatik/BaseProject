@@ -5,8 +5,9 @@ import io.my.auth.domain.dto.AuthModelDTO
 import io.my.auth.domain.repository.AuthRepository
 import io.my.data.remote.TokenManagerProxy
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class AuthRepositoryImpl(
+class AuthRepositoryImpl @Inject constructor(
     private val api: LoginAndCheckValidApi,
     private val tokenManager: TokenManagerProxy
 ): AuthRepository {

@@ -7,6 +7,7 @@ import io.my.core.domain.asStateModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 interface AuthInteractor{
 
@@ -21,7 +22,7 @@ interface AuthInteractor{
     val isValidFlow: Flow<StateModel<Boolean>>
 }
 
-internal class AuthInteractorImpl(
+internal class AuthInteractorImpl @Inject constructor(
     private val repository: AuthRepository
 ): BaseInteractor<State>(State()), AuthInteractor{
 

@@ -5,17 +5,13 @@ import dagger.Provides
 import io.ktor.client.*
 import io.my.data.local.DataStoreManager
 import io.my.data.remote.BaseApiProperty
-import io.my.data.remote.TokenManagerProxy
-import io.my.data.remote.TokenManagerProxyImpl
 import io.my.data.remote.getKtorClient
 import io.my.data.remote.network.JWTToken
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
-@Module(
-    includes = [LocalModule::class, TokenModule::class]
-)
-internal class RemoteModule {
+@Module()
+class RemoteModule {
 
     @Provides
     @Singleton
@@ -24,13 +20,9 @@ internal class RemoteModule {
     }
 
     @Provides
-    fun provideToken(token: JWTToken.TokenManager): TokenManagerProxy{
-        return TokenManagerProxyImpl(token)
-    }
-
-    @Provides
     @Singleton
-    fun provideClient(tokens: Map<String,JWTToken.TokenManager>, json: Json): HttpClient{
+    fun provideClient(token: JWTToken.TokenManager, json: Json): HttpClient{
+        val tokens = mapOf("https://127.0.0.1/" to token)
         return getKtorClient(tokens, json)
     }
 }

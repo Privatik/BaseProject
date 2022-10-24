@@ -1,11 +1,12 @@
 package com.example.auth.ui.profile
 
 import com.example.routing.route.Route
-import io.my.core.IntentFlog
+import io.my.core.IntentFlag
 import io.my.core.createIntentWithoutParams
+import kotlinx.coroutines.CoroutineScope
 
-class ProfileIntent: IntentFlog {
-    val checkValid = createIntentWithoutParams("check-valid")
+class ProfileIntent(coroutineScope: CoroutineScope) : IntentFlag(coroutineScope) {
+    val checkValid = createIntentWithoutParams("check-valid", coroutineScope)
 }
 
 sealed interface ProfileEffect{

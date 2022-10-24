@@ -5,6 +5,7 @@ import io.ktor.client.statement.*
 import io.ktor.util.*
 import io.my.auth.data.remote.model.LoginModelRemote
 import io.my.data.remote.*
+import javax.inject.Inject
 
 interface LoginAndCheckValidApi{
 
@@ -16,7 +17,7 @@ interface LoginAndCheckValidApi{
     suspend fun valid(): Result<HttpResponse>
 }
 
-internal class LoginAndCheckValidApiImpl(
+internal class LoginAndCheckValidApiImpl @Inject constructor(
     private val client: HttpClient,
     private val baseApiProperty: BaseApiProperty
 ): LoginAndCheckValidApi{

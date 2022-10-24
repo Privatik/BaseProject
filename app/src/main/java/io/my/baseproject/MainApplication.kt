@@ -6,6 +6,7 @@ import com.example.routing.Path
 import com.example.routing.Screen
 import io.my.baseproject.di.AppComponent
 import io.my.baseproject.di.DaggerAppComponent
+import kotlinx.coroutines.GlobalScope
 
 class MainApplication: Application() {
 
