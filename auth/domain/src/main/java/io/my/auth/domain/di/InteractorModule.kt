@@ -5,9 +5,7 @@ import dagger.Module
 import io.my.auth.domain.AuthInteractor
 import io.my.auth.domain.AuthInteractorImpl
 
-@Module(
-    includes = [GetDataFromDependenciesModule::class]
-)
+@Module
 internal interface InteractorModule {
 
     @Binds

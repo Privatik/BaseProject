@@ -8,7 +8,7 @@ import io.my.core.domain.StateModel
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-class AuthPresenter @Inject constructor(
+internal class AuthPresenter @Inject constructor(
     private val interactor: AuthInteractor
 ): Presenter<AuthState, AuthIntent, AuthEffect>(
     initialState = AuthState()

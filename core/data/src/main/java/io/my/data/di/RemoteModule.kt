@@ -7,11 +7,12 @@ import io.my.data.local.DataStoreManager
 import io.my.data.remote.BaseApiProperty
 import io.my.data.remote.getKtorClient
 import io.my.data.remote.network.JWTToken
+import io.my.data.remote.token.manager.PublicTokenManager
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module()
-class RemoteModule {
+internal class RemoteModule {
 
     @Provides
     @Singleton

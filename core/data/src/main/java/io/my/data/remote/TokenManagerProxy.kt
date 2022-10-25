@@ -1,6 +1,7 @@
 package io.my.data.remote
 
 import io.my.data.remote.network.JWTToken
+import javax.inject.Inject
 
 interface TokenManagerProxy{
     suspend fun updateTokens(accessToken: String?, refreshToken: String?)
@@ -8,7 +9,7 @@ interface TokenManagerProxy{
     suspend fun getRefreshToken(): String?
 }
 
-internal class TokenManagerProxyImpl(
+internal class TokenManagerProxyImpl @Inject constructor(
     private val tokenManager: JWTToken.TokenManager
 ): TokenManagerProxy {
     override suspend fun updateTokens(accessToken: String?, refreshToken: String?) = tokenManager.updateTokens(accessToken, refreshToken)

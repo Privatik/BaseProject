@@ -15,6 +15,8 @@ import com.example.routing.RoutingAction
 import com.example.routing.Screen
 import com.io.navigation.presenter
 import com.io.navigation.sharedPresenter
+import io.my.core.DependenciesPresenterFactory
+import io.my.core.GlobalDependencies
 import io.my.ui.ProjectTheme
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,11 +24,12 @@ import javax.inject.Inject
 
 class AuthScreen private constructor(
     routingAction: RoutingAction,
-): Screen(routingAction) {
+    scopeFactory: DependenciesPresenterFactory
+): Screen(routingAction, scopeFactory) {
 
     @Composable
     override fun Content() {
-        val scope: AuthPresenterScope = sharedPresenter()
+        val scope: AuthPresenterScope = sharedPresenter(scopeFactory)
         val presenter: AuthPresenter = presenter(scope.factory)
         LaunchedEffect(Unit){
             presenter.singleEffect
@@ -77,8 +80,15 @@ class AuthScreen private constructor(
     class AuthScreenFactory @Inject constructor(): Factory{
         override val route: String = "auth"
 
-        override fun <A : Any> create(routingAction: RoutingAction, arg: A): Screen {
-            return AuthScreen(routingAction)
+        override fun <A : Any> create(
+            routingAction: RoutingAction,
+            dependencies: GlobalDependencies,
+            arg: A
+        ): Screen {
+            return AuthScreen(
+                routingAction,
+                DependenciesPresenterFactory { AuthPresenterScope(dependencies) }
+            )
         }
     }
 }

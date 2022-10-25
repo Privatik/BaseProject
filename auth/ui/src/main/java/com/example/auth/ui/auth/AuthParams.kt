@@ -9,18 +9,18 @@ import kotlinx.coroutines.CoroutineScope
 
 
 @Immutable
-data class AuthState(
+internal data class AuthState(
     val login: String = "",
     val password: String = ""
 )
 
-class AuthIntent(coroutineScope: CoroutineScope) : IntentFlag(coroutineScope){
+internal class AuthIntent(coroutineScope: CoroutineScope) : IntentFlag(coroutineScope){
     val changeLogin = createIntent<String>("change-logic", coroutineScope)
     val changePassword = createIntent<String>("change-password", coroutineScope)
     val doLogin = createIntentWithoutParams("do-login", coroutineScope)
 }
 
-sealed interface AuthEffect{
+internal sealed interface AuthEffect{
     data class Navigate(val route: Route): AuthEffect
     data class Message(val message: String): AuthEffect
 }

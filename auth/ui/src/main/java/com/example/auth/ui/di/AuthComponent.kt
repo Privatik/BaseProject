@@ -9,7 +9,11 @@ import io.my.auth.domain.di.AuthDomainDependencies
 import io.my.core.DefaultPresenterFactory
 
 @Component(
-    modules = [PresenterFactoryModule::class, PresenterModule::class]
+    modules = [
+        PresenterFactoryModule::class,
+        PresenterModule::class,
+        GetDependenciesModule::class
+    ]
 )
 @AuthScope
 interface AuthComponent {

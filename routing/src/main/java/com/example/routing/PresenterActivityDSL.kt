@@ -10,11 +10,13 @@ import com.example.routing.di.RouteDependencies
 import com.example.routing.route.RouteMaker
 import com.io.navigation.PresenterComponentActivity
 import com.io.navigation.PresenterCompositionLocalProvider
+import io.my.core.GlobalDependencies
 import io.my.ui.ProjectTheme
 
 fun PresenterComponentActivity.setContentPerJetpack(
     startPath: Path,
-    builder: RouteMaker.Builder.() -> Unit
+    builder: RouteMaker.Builder.() -> Unit,
+    globalDependencies: GlobalDependencies
 ){
     setContent {
         val controller = rememberNavController()
@@ -57,7 +59,7 @@ fun PresenterComponentActivity.setContentPerJetpack(
                                 value = arguments.get(screen.route) ?: Unit
                             )
 
-                            screen.create(routeScope.action(), arg).Content()
+                            screen.create(routeScope.action(), globalDependencies, arg).Content()
                         }
                     }
                 }

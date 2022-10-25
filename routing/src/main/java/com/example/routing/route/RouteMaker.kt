@@ -13,7 +13,7 @@ class RouteMaker private constructor(
     class Builder() {
         private val map = hashMapOf<Path, Screen.Factory>()
 
-        fun addAll(map: Map<Path, Screen.Factory>){
+        fun screens(map: Map<Path, Screen.Factory>){
             this.map.putAll(map)
         }
 

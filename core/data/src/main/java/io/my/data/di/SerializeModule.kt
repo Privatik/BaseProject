@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
-class SerializeModule {
+internal class SerializeModule {
 
     @Provides
     @Singleton

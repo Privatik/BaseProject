@@ -14,6 +14,8 @@ import com.example.routing.RoutingAction
 import com.example.routing.Screen
 import com.io.navigation.presenter
 import com.io.navigation.sharedPresenter
+import io.my.core.DependenciesPresenterFactory
+import io.my.core.GlobalDependencies
 import io.my.ui.ProjectTheme
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,8 +23,9 @@ import javax.inject.Inject
 
 class ProfileScreen private constructor(
     routingAction: RoutingAction,
-    private val email: String
-): Screen(routingAction) {
+    private val email: String,
+    scopeFactory: DependenciesPresenterFactory
+): Screen(routingAction, scopeFactory) {
 
     @Composable
     override fun Content() {
@@ -67,8 +70,16 @@ class ProfileScreen private constructor(
     class ProfileFactory @Inject constructor(): Factory{
         override val route: String = "profile"
 
-        override fun <A : Any> create(routingAction: RoutingAction, arg: A): Screen {
-            return ProfileScreen(routingAction, arg as String)
+        override fun <A : Any> create(
+            routingAction: RoutingAction,
+            dependencies: GlobalDependencies,
+            arg: A
+        ): Screen {
+            return ProfileScreen(
+                routingAction = routingAction,
+                email = arg as String,
+                scopeFactory = DependenciesPresenterFactory { AuthPresenterScope(dependencies) }
+            )
         }
     }
 }

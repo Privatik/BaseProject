@@ -1,8 +1,13 @@
 package com.example.routing
 
 import androidx.compose.runtime.Composable
+import io.my.core.DependenciesPresenterFactory
+import io.my.core.GlobalDependencies
 
-abstract class Screen(protected val routingAction: RoutingAction){
+abstract class Screen(
+    protected val routingAction: RoutingAction,
+    protected val scopeFactory: DependenciesPresenterFactory
+){
 
     @Composable
     abstract fun Content()
@@ -12,6 +17,7 @@ abstract class Screen(protected val routingAction: RoutingAction){
 
          fun <A: Any> create(
              routingAction: RoutingAction,
+             dependencies: GlobalDependencies,
             arg: A
         ): Screen
     }

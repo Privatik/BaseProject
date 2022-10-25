@@ -1,5 +1,6 @@
 package io.my.data.remote.token.manager
 
+import io.ktor.client.*
 import io.my.data.remote.network.JWTToken
 import io.my.data.remote.token.provider.TokenProvider
 import kotlinx.coroutines.CompletableDeferred
@@ -8,19 +9,23 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 
+interface PublicTokenManager
+
 internal class MyJWTTokenManager(
     coroutineScope: CoroutineScope,
     private val accessTokenProvider: TokenProvider,
     private val refreshTokenProvider: TokenProvider,
-    private val doRequestOnNewTokens: suspend (refreshToken: String?) -> Pair<String?, String?>
-): JWTToken.TokenManager {
+    private val doRequestOnNewTokens: suspend (client: HttpClient) -> Pair<String?, String?>
+): JWTToken.TokenManager, PublicTokenManager {
     private val channel: SendChannel<Action> = actionActor(coroutineScope)
 
     override suspend fun getNewIfNeedToken(
+        client: HttpClient,
         oldToken: String?
     ): String? {
         val deferred = CompletableDeferred<String?>()
         val action = Action.UpdateToken(
+            client,
             oldToken,
             deferred
         )
@@ -38,6 +43,7 @@ internal class MyJWTTokenManager(
 
     private sealed interface Action{
         data class UpdateToken(
+            val client: HttpClient,
             val oldToken: String?,
             val deferred: CompletableDeferred<String?>
         ): Action
@@ -51,9 +57,7 @@ internal class MyJWTTokenManager(
                     if ("Bearer ${accessTokenProvider.getToken()}" == action.oldToken){
                         accessTokenProvider.updateToken(null)
 
-                        val (accessToken, refreshToken) = doRequestOnNewTokens(
-                            refreshTokenProvider.getToken()
-                        )
+                        val (accessToken, refreshToken) = doRequestOnNewTokens(action.client)
 
                         updateTokens(accessToken, refreshToken)
 

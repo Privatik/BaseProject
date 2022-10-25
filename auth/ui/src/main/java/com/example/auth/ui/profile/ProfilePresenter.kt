@@ -8,7 +8,7 @@ import io.my.core.domain.StateModel
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
-class ProfilePresenter @Inject constructor(
+internal class ProfilePresenter @Inject constructor(
     private val interactor: AuthInteractor
 ): Presenter<Any, ProfileIntent, ProfileEffect>(Any()) {
 

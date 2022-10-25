@@ -5,11 +5,10 @@ import io.my.data.remote.model.TokenResponse
 import javax.inject.Inject
 
 internal class RefreshApi @Inject constructor(
-    private val client: HttpClient,
     private val baseApiProperty: BaseApiProperty
 ) {
 
-    suspend fun refresh(): Result<TokenResponse> = client.postAsResult(
+    suspend fun refresh(client: HttpClient): Result<TokenResponse> = client.postAsResult(
         urlString = "$baseApiProperty$refreshEndPath"
     ){
         attributes.put(jwtAuthorizationAttribute,  JWTAuthorization.REFRESH)

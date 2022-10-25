@@ -8,7 +8,11 @@ import io.my.auth.domain.di.AuthDomainComponent
 import io.my.data.di.CoreDataDependencies
 
 @Component(
-    modules = [RepositoryModule::class]
+    modules = [
+        ApiModule::class,
+        RepositoryModule::class,
+        GetDependenciesModule::class
+    ]
 )
 interface AuthDataComponent: AuthDataDependencies {
 
@@ -17,7 +21,7 @@ interface AuthDataComponent: AuthDataDependencies {
 
         fun core(dependencies: CoreDataDependencies)
 
-        fun build(): AuthDomainComponent
+        fun build(): AuthDataComponent
     }
 
 

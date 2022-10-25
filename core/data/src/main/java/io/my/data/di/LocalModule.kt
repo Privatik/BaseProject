@@ -13,7 +13,7 @@ import io.my.data.security.CryptoManager
 import javax.inject.Singleton
 
 @Module
-class LocalModule {
+internal class LocalModule {
 
     @Provides
     @Singleton

@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation(project(":auth:ui"))
     implementation(project(":routing"))
+    implementation(project(":core"))
     implementation(project(":core:data"))
 
     implementation(rootProject.extra.get("presenterAndroid") as String)

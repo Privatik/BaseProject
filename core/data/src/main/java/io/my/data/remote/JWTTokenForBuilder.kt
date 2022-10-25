@@ -28,7 +28,7 @@ internal class JWTToken() {
                     }
                     else -> {
                         val accessToken = tokenManager.getAccessToken() ?: kotlin.run {
-                            tokenManager.getNewIfNeedToken("Bearer ${null}") ?: ""
+                            tokenManager.getNewIfNeedToken(scope, "Bearer ${null}") ?: ""
                         }
                         context.updateJWTToken(accessToken)
                     }
@@ -41,7 +41,7 @@ internal class JWTToken() {
                 tokenManager?.let { manager ->
                     if (call.response.status.value == 401) {
                         val accessToken = manager
-                            .getNewIfNeedToken(builder.headers[HttpHeaders.Authorization])
+                            .getNewIfNeedToken(scope, builder.headers[HttpHeaders.Authorization])
                                 ?: return@intercept call
 
                         builder.updateJWTToken(accessToken)
@@ -60,6 +60,7 @@ internal class JWTToken() {
 
     interface TokenManager{
         suspend fun getNewIfNeedToken(
+            client: HttpClient,
             oldToken: String?
         ): String?
 

@@ -5,11 +5,11 @@ import io.my.core.IntentFlag
 import io.my.core.createIntentWithoutParams
 import kotlinx.coroutines.CoroutineScope
 
-class ProfileIntent(coroutineScope: CoroutineScope) : IntentFlag(coroutineScope) {
+internal class ProfileIntent(coroutineScope: CoroutineScope) : IntentFlag(coroutineScope) {
     val checkValid = createIntentWithoutParams("check-valid", coroutineScope)
 }
 
-sealed interface ProfileEffect{
+internal sealed interface ProfileEffect{
     data class Navigate(val route: Route): ProfileEffect
     data class Message(val message: String): ProfileEffect
 }

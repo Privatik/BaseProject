@@ -29,13 +29,17 @@ internal class AuthInteractorImpl @Inject constructor(
     override val singInFlow: Flow<StateModel<String>> =
         merge(
             state.map { it.singIn },
-            repository.singInFlow.map { result -> result.map { it.email }.asStateModel() }
+            repository.singInFlow
+                .map { result -> result.map { it.email }.asStateModel() }
+                .onEach { updateState { state -> state.copy(singIn = it)  } }
         ).distinctUntilChanged()
 
     override val isValidFlow: Flow<StateModel<Boolean>> =
         merge(
             state.map { it.isValid },
-            repository.validFlow.map { result -> result.asStateModel() }
+            repository.validFlow
+                .map { result -> result.asStateModel() }
+                .onEach { updateState { state -> state.copy(isValid = it)  } }
         ).distinctUntilChanged()
 
     override suspend fun sinIn(login: String, password: String) = withContext(Dispatchers.IO) {
@@ -43,7 +47,7 @@ internal class AuthInteractorImpl @Inject constructor(
         repository.singIn(login, password)
     }
 
-    override suspend fun checkValid() {
+    override suspend fun checkValid() = withContext(Dispatchers.IO) {
         updateState { state -> state.copy(isValid = StateModel.Loading) }
         repository.checkValid()
     }

@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
+    implementation(project(":core"))
 
     implementation(rootProject.extra.get("dagger") as String)
     kapt(rootProject.extra.get("daggerCompiler") as String)

@@ -47,6 +47,7 @@ android {
 
 dependencies {
     api(project(":core:domain"))
+    api(project(":core"))
 
     api(rootProject.extra.get("dataStore") as String)
     api(rootProject.extra.get("dataStorePreferences") as String)

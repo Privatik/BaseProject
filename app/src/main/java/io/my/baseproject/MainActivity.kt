@@ -16,7 +16,7 @@ class MainActivity : PresenterComponentActivity() {
         setContentPerJetpack(
             startPath = Path.FIRST_SCREEN,
             builder = {
-                addAll(getScreens())
+                screens(getScreens())
             }
         )
     }

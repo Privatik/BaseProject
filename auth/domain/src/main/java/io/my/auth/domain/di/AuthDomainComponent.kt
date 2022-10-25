@@ -11,14 +11,14 @@ interface AuthDataDependencies {
 }
 
 
-interface AuthDomainDependencies {
+interface AuthDomainDependencies{
     fun interactor(): AuthInteractor
 }
 
 @Component(
     modules = [
         InteractorModule::class,
-        GetDataFromDependenciesModule::class
+        GetDependenciesModule::class
     ]
 )
 interface AuthDomainComponent: AuthDomainDependencies {

@@ -5,11 +5,10 @@ import dagger.Provides
 import io.my.auth.domain.repository.AuthRepository
 
 @Module
-internal class GetDataFromDependenciesModule {
+internal class GetDependenciesModule {
 
     @Provides
-    fun provideRepository(dependencies: AuthDataDependencies): AuthRepository {
+    fun provideRepository(dependencies: AuthDataDependencies): AuthRepository{
         return dependencies.repository()
     }
-
 }
