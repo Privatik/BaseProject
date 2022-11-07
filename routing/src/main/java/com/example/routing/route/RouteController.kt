@@ -3,18 +3,19 @@ package com.example.routing.route
 import androidx.navigation.NavHostController
 import com.example.routing.Argument
 import com.example.routing.Path
+import com.example.routing.ScreenData
 
 internal class RouteController(
     private val controller: NavHostController,
-    private val routeMaker: RouteMaker,
+    private val screenData: ScreenData,
     private val argument: Argument<String>
 ){
 
     fun navigate(path: Path, value: Any? = null){
-        val info = routeMaker.getInfo(path)!!
-        if (value != null) { argument.set(info.route, value) }
+        val info = screenData.getInfo(path)!!
+        if (value != null) { argument.set(info.routeForNavigation, value) }
 
-        controller.navigate(info.route)
+        controller.navigate(info.routeForNavigation)
     }
 
     fun pop(
@@ -24,8 +25,8 @@ internal class RouteController(
     ){
         if (path == null) controller.popBackStack()
         else {
-            val info = routeMaker.getInfo(path)!!
-            controller.popBackStack(info.route, inclusive, saveState)
+            val info = screenData.getInfo(path)!!
+            controller.popBackStack(info.routeForNavigation, inclusive, saveState)
         }
     }
 

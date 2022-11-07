@@ -44,6 +44,9 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core"))
+    implementation(project(":auth:domain"))
+    implementation(project(":auth:data"))
+    implementation(project(":core:data"))
 
     implementation(rootProject.extra.get("jetpackNavigation") as String)
 

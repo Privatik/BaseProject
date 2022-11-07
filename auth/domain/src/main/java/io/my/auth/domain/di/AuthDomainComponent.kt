@@ -4,6 +4,7 @@ import dagger.BindsInstance
 import dagger.Component
 import io.my.auth.domain.AuthInteractor
 import io.my.auth.domain.repository.AuthRepository
+import io.my.core.DomainDependencies
 
 
 interface AuthDataDependencies {
@@ -11,7 +12,7 @@ interface AuthDataDependencies {
 }
 
 
-interface AuthDomainDependencies{
+interface AuthDomainDependencies: DomainDependencies{
     fun interactor(): AuthInteractor
 }
 

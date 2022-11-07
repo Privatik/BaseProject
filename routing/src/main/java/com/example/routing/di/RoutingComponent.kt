@@ -1,7 +1,7 @@
 package com.example.routing.di
 
 import androidx.navigation.NavHostController
-import com.example.routing.route.RouteMaker
+import com.example.routing.ScreenData
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -19,7 +19,7 @@ internal interface RoutingComponent: RouteDependencies {
         fun navController(navHostController: NavHostController): Builder
 
         @BindsInstance
-        fun routeMaker(routeMaker: RouteMaker): Builder
+        fun routeMaker(screenData: ScreenData): Builder
 
         fun build(): RoutingComponent
     }

@@ -19,7 +19,8 @@ interface AuthDataComponent: AuthDataDependencies {
     @Component.Builder
     interface Builder {
 
-        fun core(dependencies: CoreDataDependencies)
+        @BindsInstance
+        fun core(dependencies: CoreDataDependencies): Builder
 
         fun build(): AuthDataComponent
     }

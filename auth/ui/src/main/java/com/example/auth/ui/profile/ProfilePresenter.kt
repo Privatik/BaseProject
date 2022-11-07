@@ -12,7 +12,7 @@ internal class ProfilePresenter @Inject constructor(
     private val interactor: AuthInteractor
 ): Presenter<Any, ProfileIntent, ProfileEffect>(Any()) {
 
-    override fun buildIntent(coroutineScope: CoroutineScope): ProfileIntent = ProfileIntent(coroutineScope)
+    override fun CoroutineScope.buildIntent(): ProfileIntent = ProfileIntent(this)
 
     override fun ReducerDSL<Any, ProfileEffect>.reducer() {
         onEach(

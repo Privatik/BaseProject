@@ -10,22 +10,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.auth.ui.AuthPresenterScope
+import com.example.routing.Path
 import com.example.routing.RoutingAction
 import com.example.routing.Screen
+import com.example.routing.ScreenInfo
+import com.example.routing.route.Route
 import com.io.navigation.presenter
 import com.io.navigation.sharedPresenter
-import io.my.core.DependenciesPresenterFactory
-import io.my.core.GlobalDependencies
+import com.io.navigation_common.UIPresenter
+import io.my.auth.domain.di.AuthDomainDependencies
+import io.my.core.DomainDependencies
 import io.my.ui.ProjectTheme
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 class ProfileScreen private constructor(
-    routingAction: RoutingAction,
     private val email: String,
-    scopeFactory: DependenciesPresenterFactory
-): Screen(routingAction, scopeFactory) {
+): Screen() {
 
     @Composable
     override fun Content() {
@@ -33,15 +35,6 @@ class ProfileScreen private constructor(
         val presenter: ProfilePresenter = presenter(scope.factory)
         LaunchedEffect(Unit){
             presenter.state.launchIn(this)
-
-            presenter.singleEffect
-                .onEach { effect ->
-                    when(effect){
-                        is ProfileEffect.Message -> { }
-                        is ProfileEffect.Navigate -> routingAction.navigate(effect.route)
-                    }
-                }
-                .launchIn(this)
         }
         Content(intent = presenter.intent)
     }
@@ -68,18 +61,27 @@ class ProfileScreen private constructor(
     }
 
     class ProfileFactory @Inject constructor(): Factory{
-        override val route: String = "profile"
 
-        override fun <A : Any> create(
-            routingAction: RoutingAction,
-            dependencies: GlobalDependencies,
-            arg: A
-        ): Screen {
+        override fun <A : Any> create(arg: A): Screen {
             return ProfileScreen(
-                routingAction = routingAction,
                 email = arg as String,
-                scopeFactory = DependenciesPresenterFactory { AuthPresenterScope(dependencies) }
             )
         }
+    }
+}
+
+class ProfileScreenInfo @Inject constructor(): ScreenInfo{
+    override val path: Path = Path.SECOND_SCREEN
+    override val routeForNavigation: String = "profile"
+    override val scopeKClazz: KClass<out UIPresenter> = ProfilePresenter::class
+
+    override val screenFactory: () -> Screen.Factory = {
+        ProfileScreen.ProfileFactory()
+    }
+    override val scopeInPresenter: (
+        routeingAction: RoutingAction,
+        domainDependencies: DomainDependencies
+    ) -> UIPresenter = { routingAction, domainDependencies ->
+        AuthPresenterScope(routingAction, domainDependencies as AuthDomainDependencies)
     }
 }

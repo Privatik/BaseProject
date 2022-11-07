@@ -17,7 +17,8 @@ class MainActivity : PresenterComponentActivity() {
             startPath = Path.FIRST_SCREEN,
             builder = {
                 screens(getScreens())
-            }
+            },
+            globalDependencies = getGlobalDependencies()
         )
     }
 

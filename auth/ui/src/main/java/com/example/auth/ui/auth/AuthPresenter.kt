@@ -1,5 +1,6 @@
 package com.example.auth.ui.auth
 
+import com.example.auth.ui.profile.ProfileIntent
 import com.example.machine.ReducerDSL
 import com.example.routing.route.Route
 import io.my.auth.domain.AuthInteractor
@@ -14,7 +15,7 @@ internal class AuthPresenter @Inject constructor(
     initialState = AuthState()
 ) {
 
-    override fun buildIntent(coroutineScope: CoroutineScope): AuthIntent = AuthIntent(coroutineScope)
+    override fun CoroutineScope.buildIntent(): AuthIntent = AuthIntent(this)
 
     override fun ReducerDSL<AuthState, AuthEffect>.reducer() {
         onEach(

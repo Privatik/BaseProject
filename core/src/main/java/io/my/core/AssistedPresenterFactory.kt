@@ -3,10 +3,7 @@ package io.my.core
 import com.io.navigation_common.PresenterFactory
 import com.io.navigation_common.UIPresenter
 
-interface GlobalDependencies
-interface DomainDependencies
-
-class DependenciesPresenterFactory(
+class AssistedPresenterFactory (
     private val presenter: () -> UIPresenter
 ): PresenterFactory {
 

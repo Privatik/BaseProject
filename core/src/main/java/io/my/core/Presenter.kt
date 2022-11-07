@@ -3,6 +3,7 @@ package io.my.core
 import com.example.machine.ReducerDSL
 import com.example.machine.reducer
 import com.io.navigation.AndroidPresenter
+import com.io.navigation.presenter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,9 +17,9 @@ abstract class Presenter<S: Any, I: IntentFlag, E: Any>(
 
     private val presenterScope: CoroutineScope = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 
-    protected abstract fun buildIntent(coroutineScope: CoroutineScope): I
+    protected abstract fun CoroutineScope.buildIntent(): I
 
-    val intent: I by lazy(LazyThreadSafetyMode.NONE) { buildIntent(presenterScope) }
+    val intent: I by lazy(LazyThreadSafetyMode.NONE) { presenterScope.buildIntent() }
 
     private val _state = MutableStateFlow<S>(initialState)
     val state: StateFlow<S> by lazy(LazyThreadSafetyMode.NONE) {
