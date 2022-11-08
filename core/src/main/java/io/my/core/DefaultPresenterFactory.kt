@@ -1,5 +1,6 @@
 package io.my.core
 
+import android.util.Log
 import com.io.navigation_common.PresenterFactory
 import com.io.navigation_common.UIPresenter
 import dagger.MapKey
@@ -18,7 +19,7 @@ class DefaultPresenterFactory @Inject constructor(
 
     override fun <P : UIPresenter> create(model: Class<out UIPresenter>): P {
         @Suppress("UNCHECKED_CAST")
-        return presenterFactories.getValue(model as Class<out Presenter<*, *, *>>) as P
+        return presenterFactories.getValue(model as Class<out Presenter<*, *, *>>).get() as P
     }
 
 }

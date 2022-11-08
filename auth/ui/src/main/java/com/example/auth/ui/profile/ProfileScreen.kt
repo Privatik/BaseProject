@@ -10,11 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.auth.ui.AuthPresenterScope
-import com.example.routing.Path
-import com.example.routing.RoutingAction
+import com.example.routing.route.Path
+import com.example.routing.route.RouteAction
 import com.example.routing.Screen
 import com.example.routing.ScreenInfo
-import com.example.routing.route.Route
 import com.io.navigation.presenter
 import com.io.navigation.sharedPresenter
 import com.io.navigation_common.UIPresenter
@@ -79,7 +78,7 @@ class ProfileScreenInfo @Inject constructor(): ScreenInfo{
         ProfileScreen.ProfileFactory()
     }
     override val scopeInPresenter: (
-        routeingAction: RoutingAction,
+        routeingAction: RouteAction,
         domainDependencies: DomainDependencies
     ) -> UIPresenter = { routingAction, domainDependencies ->
         AuthPresenterScope(routingAction, domainDependencies as AuthDomainDependencies)

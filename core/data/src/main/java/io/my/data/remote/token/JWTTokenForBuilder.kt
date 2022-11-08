@@ -1,12 +1,10 @@
-package io.my.data.remote.network
+package io.my.data.remote.token
 
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.util.*
-import io.my.data.remote.JWTAuthorization
-import io.my.data.remote.jwtAuthorizationAttribute
 
 internal class JWTToken() {
     var tokenManagerMap: Map<String, TokenManager> = emptyMap()

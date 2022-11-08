@@ -5,7 +5,7 @@ import dagger.Provides
 import io.ktor.client.*
 import io.my.data.di.CoreDataDependencies
 import io.my.data.local.DataStoreManager
-import io.my.data.remote.TokenManagerProxy
+import io.my.data.remote.token.TokenManagerProxy
 
 @Module
 internal class GetDependenciesModule {
@@ -16,7 +16,7 @@ internal class GetDependenciesModule {
     }
 
     @Provides
-    fun provideTokeProxy(dependencies: CoreDataDependencies): TokenManagerProxy{
+    fun provideTokeProxy(dependencies: CoreDataDependencies): TokenManagerProxy {
         return dependencies.tokenProxy()
     }
 

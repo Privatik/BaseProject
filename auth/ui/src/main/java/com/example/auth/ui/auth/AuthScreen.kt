@@ -13,11 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.auth.ui.AuthPresenterScope
-import com.example.routing.Path
-import com.example.routing.RoutingAction
+import com.example.routing.route.Path
+import com.example.routing.route.RouteAction
 import com.example.routing.Screen
 import com.example.routing.ScreenInfo
-import com.example.routing.route.Route
 import com.io.navigation.presenter
 import com.io.navigation.sharedPresenter
 import com.io.navigation_common.UIPresenter
@@ -33,16 +32,6 @@ class AuthScreen private constructor(): Screen() {
     override fun Content() {
         val scope: AuthPresenterScope = sharedPresenter()
         val presenter: AuthPresenter = presenter(scope.factory)
-//        LaunchedEffect(Unit){
-//            presenter.singleEffect
-//                .onEach { effect ->
-//                    when(effect){
-//                        is AuthEffect.Message -> {}
-//                        is AuthEffect.Navigate -> routingAction.navigate(effect.route)
-//                    }
-//                }
-//                .launchIn(this)
-//        }
 
         Content(
             wrap = presenter.state.collectAsState(),
@@ -64,12 +53,12 @@ class AuthScreen private constructor(): Screen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextField(value = state.login, onValueChange = { intent.changeLogin(it) })
+            TextField(value = state.login, onValueChange = intent.changeLogin::invoke )
             Spacer(modifier = Modifier.height(10.dp))
-            TextField(value = state.password, onValueChange = { intent.changePassword(it) })
+            TextField(value = state.password, onValueChange = intent.changePassword::invoke )
             Spacer(modifier = Modifier.height(10.dp))
             Button(
-                onClick = { intent.doLogin() }
+                onClick = intent.doLogin::invoke
             ) {
                 Text(
                     text = "Sing in",
@@ -81,11 +70,7 @@ class AuthScreen private constructor(): Screen() {
 
     class AuthScreenFactory: Factory{
 
-        override fun <A : Any> create(
-            arg: A
-        ): Screen {
-            return AuthScreen()
-        }
+        override fun <A : Any> create(arg: A): Screen = AuthScreen()
     }
 }
 
@@ -98,7 +83,7 @@ class AuthScreenInfo @Inject constructor(): ScreenInfo {
         AuthScreen.AuthScreenFactory()
     }
     override val scopeInPresenter: (
-        route: RoutingAction,
+        route: RouteAction,
         domainDependencies: DomainDependencies
     ) -> UIPresenter = { routingAction, domain ->
         AuthPresenterScope(routingAction, domain as AuthDomainDependencies)

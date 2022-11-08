@@ -6,7 +6,7 @@ import dagger.Component
 import io.ktor.client.*
 import io.my.core.GlobalDependencies
 import io.my.data.local.DataStoreManager
-import io.my.data.remote.TokenManagerProxy
+import io.my.data.remote.token.TokenManagerProxy
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 

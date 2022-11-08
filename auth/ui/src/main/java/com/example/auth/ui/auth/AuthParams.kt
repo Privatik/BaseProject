@@ -10,8 +10,8 @@ import kotlinx.coroutines.CoroutineScope
 
 @Immutable
 internal data class AuthState(
-    val login: String = "",
-    val password: String = ""
+    val login: String = "kurak",
+    val password: String = "123456"
 )
 
 internal class AuthIntent(coroutineScope: CoroutineScope) : IntentFlag(coroutineScope){

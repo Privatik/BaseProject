@@ -1,9 +1,10 @@
 package io.my.auth.data
 
+import android.util.Log
 import io.my.auth.data.remote.LoginAndCheckValidApi
 import io.my.auth.domain.dto.AuthModelDTO
 import io.my.auth.domain.repository.AuthRepository
-import io.my.data.remote.TokenManagerProxy
+import io.my.data.remote.token.TokenManagerProxy
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -21,13 +22,13 @@ class AuthRepositoryImpl @Inject constructor(
         _singInFlow.emit(
             api.singIn(login, password)
                 .onSuccess {
-                    val tokens = it.tokenResponse
+                    val tokens = it.message.tokenResponse
                     tokenManager.updateTokens(
                         accessToken = tokens.accessToken,
                         refreshToken = tokens.refreshToken
                     )
                 }
-                .map { AuthModelDTO(it.user.email) }
+                .map { AuthModelDTO(it.message.user.email) }
         )
     }
 

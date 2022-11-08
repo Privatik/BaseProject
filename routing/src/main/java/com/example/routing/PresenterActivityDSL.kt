@@ -7,25 +7,27 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.routing.di.DaggerRoutingComponent
 import com.example.routing.di.RouteDependencies
+import com.example.routing.managers.DomainDependencyManagerImpl
+import com.example.routing.managers.rememberArgument
+import com.example.routing.route.Path
 import com.io.navigation.PresenterComponentActivity
 import com.io.navigation.PresenterCompositionLocalProvider
 import com.io.navigation.presenter
 import com.io.navigation_common.UIPresenter
 import io.my.core.AssistedPresenterFactory
-import io.my.core.DomainDependencies
 import io.my.core.GlobalDependencies
 import io.my.ui.ProjectTheme
 
 fun PresenterComponentActivity.setContentPerJetpack(
     startPath: Path,
-    builder: ScreenData.Builder.() -> Unit,
+    builder: ScreenConfig.Builder.() -> Unit,
     globalDependencies: GlobalDependencies
 ){
     setContent {
         val controller = rememberNavController()
 
-        val screenData = remember {
-            ScreenData.Builder()
+        val screenConfig = remember {
+            ScreenConfig.Builder()
                 .apply(builder)
                 .build()
         }
@@ -34,7 +36,7 @@ fun PresenterComponentActivity.setContentPerJetpack(
             DaggerRoutingComponent
                 .builder()
                 .navController(controller)
-                .routeMaker(screenData)
+                .screenConfig(screenConfig)
                 .build()
         }
 
@@ -44,8 +46,8 @@ fun PresenterComponentActivity.setContentPerJetpack(
             GooglePresenterController(presenterStoreOwner, controller)
         }
 
-        val domainDependency = remember {
-            DomainDependency(globalDependencies)
+        val domainDependencyManager = remember {
+            DomainDependencyManagerImpl(globalDependencies)
         }
 
         ProjectTheme {
@@ -57,9 +59,9 @@ fun PresenterComponentActivity.setContentPerJetpack(
             ) {
                 NavHost(
                     navController = controller,
-                    startDestination = screenData.getInfo(startPath)!!.routeForNavigation
+                    startDestination = screenConfig.getInfo(startPath)!!.routeForNavigation
                 ) {
-                    screenData.getScreens().forEach { screen ->
+                    screenConfig.getScreens().forEach { screen ->
                         composable(screen.routeForNavigation) {
                             val arg = rememberArgument(
                                 key = screen.routeForNavigation,
@@ -70,7 +72,7 @@ fun PresenterComponentActivity.setContentPerJetpack(
                                 factory = AssistedPresenterFactory {
                                     screen.scopeInPresenter(
                                         routeScope.action(),
-                                        domainDependency.getByPath(screen.path)
+                                        domainDependencyManager.getByPath(screen.path)
                                     )
                                 },
                                 clazz = screen.scopeKClazz.java,

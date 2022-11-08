@@ -1,6 +1,5 @@
-package io.my.data.remote
+package io.my.data.remote.token
 
-import io.my.data.remote.network.JWTToken
 import javax.inject.Inject
 
 interface TokenManagerProxy{

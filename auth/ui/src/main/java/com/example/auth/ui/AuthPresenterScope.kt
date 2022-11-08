@@ -2,20 +2,13 @@ package com.example.auth.ui
 
 import com.example.auth.ui.di.AuthComponent
 import com.example.auth.ui.di.DaggerAuthComponent
-import com.example.routing.RoutingAction
-import com.example.routing.route.Route
+import com.example.routing.route.RouteAction
 import com.io.navigation_common.PresenterFactory
 import com.io.navigation_common.UIPresenter
 import io.my.auth.domain.di.AuthDomainDependencies
-import io.my.auth.domain.di.DaggerAuthDomainComponent
-import io.my.core.DomainDependencies
-import io.my.core.GlobalDependencies
-import io.my.core.Presenter
-import javax.inject.Inject
-import javax.inject.Provider
 
 internal class AuthPresenterScope(
-    routingAction: RoutingAction,
+    routeAction: RouteAction,
     domainDependencies: AuthDomainDependencies
 ): UIPresenter {
     @Volatile
@@ -26,6 +19,7 @@ internal class AuthPresenterScope(
 
         _component = DaggerAuthComponent.builder()
             .domain(domainDependencies)
+            .routeAction(routeAction)
             .build()
     }
 

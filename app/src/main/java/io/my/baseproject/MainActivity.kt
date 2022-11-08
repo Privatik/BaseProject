@@ -2,7 +2,7 @@ package io.my.baseproject
 
 import android.os.Bundle
 import androidx.core.view.WindowCompat
-import com.example.routing.Path
+import com.example.routing.route.Path
 import com.example.routing.setContentPerJetpack
 import com.io.navigation.PresenterComponentActivity
 

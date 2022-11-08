@@ -1,14 +1,29 @@
 package io.my.auth.data.remote.model
 
 import io.my.data.remote.model.TokenResponse
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@kotlinx.serialization.Serializable
-data class LoginModelRemote(
+@Serializable
+data class LoginModelRequest(
+    val email: String,
+    val password: String
+)
+
+@Serializable
+data class Wrap<T>(
+    val isSuccessful: Boolean,
+    val message: T
+)
+
+@Serializable
+data class LoginModelResponse(
+    @SerialName("tokens")
     val tokenResponse: TokenResponse,
     val user: UserResponse
 )
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class UserResponse(
     val email: String
 )

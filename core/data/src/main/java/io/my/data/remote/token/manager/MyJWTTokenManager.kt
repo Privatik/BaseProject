@@ -1,7 +1,7 @@
 package io.my.data.remote.token.manager
 
 import io.ktor.client.*
-import io.my.data.remote.network.JWTToken
+import io.my.data.remote.token.JWTToken
 import io.my.data.remote.token.provider.TokenProvider
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope

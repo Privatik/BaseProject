@@ -1,4 +1,4 @@
-package com.example.routing
+package com.example.routing.managers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.Saver
@@ -7,12 +7,12 @@ import androidx.core.os.bundleOf
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 
-internal interface Argument<T> {
+internal interface ArgumentsManager<T> {
     fun set(key: T, arg: Any)
     fun get(key: T): Any?
 }
 
-internal class GoogleArgumentImpl @Inject constructor(): Argument<String> {
+internal class GoogleArgumentsManagerImpl @Inject constructor(): ArgumentsManager<String> {
     private val map = ConcurrentHashMap<String, Any>()
 
     override fun set(key: String, arg: Any) {

@@ -1,6 +1,8 @@
 package com.example.routing
 
 import androidx.compose.runtime.Composable
+import com.example.routing.route.Path
+import com.example.routing.route.RouteAction
 import com.io.navigation_common.UIPresenter
 import io.my.core.DomainDependencies
 import kotlin.reflect.KClass
@@ -26,5 +28,5 @@ interface ScreenInfo{
 
     val screenFactory: () -> Screen.Factory
     val scopeInPresenter:
-                (routingAction: RoutingAction, domainDependencies: DomainDependencies) -> UIPresenter
+                (routeAction: RouteAction, domainDependencies: DomainDependencies) -> UIPresenter
 }

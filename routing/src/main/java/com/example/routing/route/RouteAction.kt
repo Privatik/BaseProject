@@ -1,10 +1,8 @@
-package com.example.routing
+package com.example.routing.route
 
 import android.util.Log
-import com.example.routing.route.Route
-import com.example.routing.route.RouteController
 
-interface RoutingAction {
+interface RouteAction {
 
     fun navigate(route: Route)
 
@@ -15,9 +13,9 @@ enum class Path{
     SECOND_SCREEN
 }
 
-internal class RoutingActionImpl(
+internal class RouteActionImpl(
     private val manager: RouteController
-): RoutingAction {
+): RouteAction {
 
     override fun navigate(route: Route) {
         Log.d("Navigate","Open by $route")

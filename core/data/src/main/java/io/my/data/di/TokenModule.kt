@@ -6,11 +6,8 @@ import io.my.data.BuildConfig
 import io.my.data.local.DataStoreManager
 import io.my.data.local.GlobalKeysForDataStore
 import io.my.data.remote.RefreshApi
-import io.my.data.remote.TokenManagerProxy
-import io.my.data.remote.TokenManagerProxyImpl
-import io.my.data.remote.network.JWTToken
+import io.my.data.remote.token.JWTToken
 import io.my.data.remote.token.manager.MyJWTTokenManager
-import io.my.data.remote.token.manager.PublicTokenManager
 import io.my.data.remote.token.provider.AccessTokenProvider
 import io.my.data.remote.token.provider.RefreshTokenProvider
 import io.my.data.remote.token.provider.TokenProvider

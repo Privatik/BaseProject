@@ -6,8 +6,7 @@ import io.ktor.client.*
 import io.my.data.local.DataStoreManager
 import io.my.data.remote.BaseApiProperty
 import io.my.data.remote.getKtorClient
-import io.my.data.remote.network.JWTToken
-import io.my.data.remote.token.manager.PublicTokenManager
+import io.my.data.remote.token.JWTToken
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
@@ -16,14 +15,11 @@ internal class RemoteModule {
 
     @Provides
     @Singleton
-    fun provideBaseApi(dataStoreManager: DataStoreManager): BaseApiProperty{
-        return BaseApiProperty(dataStoreManager)
-    }
-
-    @Provides
-    @Singleton
-    fun provideClient(token: JWTToken.TokenManager, json: Json): HttpClient{
-        val tokens = mapOf("https://127.0.0.1/" to token)
+    fun provideClient(
+        token: JWTToken.TokenManager,
+        json: Json
+    ): HttpClient{
+        val tokens = mapOf("http://10.0.2.2:9000" to token)
         return getKtorClient(tokens, json)
     }
 }

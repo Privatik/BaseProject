@@ -2,9 +2,8 @@ package io.my.baseproject
 
 import android.app.Application
 import android.content.Context
-import com.example.routing.Path
-import com.example.routing.Screen
 import com.example.routing.ScreenInfo
+import com.example.routing.di.DaggerRoutingComponent
 import io.my.baseproject.di.AppComponent
 import io.my.baseproject.di.DaggerAppComponent
 import io.my.core.GlobalDependencies
@@ -12,7 +11,6 @@ import io.my.data.di.CoreDataDependencies
 import io.my.data.di.DaggerCoreDataComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.SupervisorJob
 
 class MainApplication: Application() {

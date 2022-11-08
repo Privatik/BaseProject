@@ -45,9 +45,12 @@ class IntentWithParams<P: Any>(
 
     override fun asFlow(): Flow<P> = _data.asSharedFlow()
 
-    operator fun invoke(params: P) = coroutineScope.launch{
-        Log.d("DoIntent","intent $tag")
-        _data.emit(params)
+    operator fun invoke(params: P) {
+//        Log.d("DoIntent","try intent $tag")
+        coroutineScope.launch{
+            Log.d("DoIntent","intent $tag")
+            _data.emit(params)
+        }
     }
 }
 

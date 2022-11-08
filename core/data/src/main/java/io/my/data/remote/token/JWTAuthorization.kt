@@ -1,4 +1,4 @@
-package io.my.data.remote
+package io.my.data.remote.token
 
 import io.ktor.util.*
 

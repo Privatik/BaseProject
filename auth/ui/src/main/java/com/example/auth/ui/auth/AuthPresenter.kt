@@ -1,15 +1,19 @@
 package com.example.auth.ui.auth
 
+import android.util.Log
 import com.example.auth.ui.profile.ProfileIntent
 import com.example.machine.ReducerDSL
 import com.example.routing.route.Route
+import com.example.routing.route.RouteAction
 import io.my.auth.domain.AuthInteractor
 import io.my.core.Presenter
 import io.my.core.domain.StateModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 internal class AuthPresenter @Inject constructor(
+    private val routeAction: RouteAction,
     private val interactor: AuthInteractor
 ): Presenter<AuthState, AuthIntent, AuthEffect>(
     initialState = AuthState()
@@ -34,22 +38,23 @@ internal class AuthPresenter @Inject constructor(
 
         onEach(
             intent.doLogin.asFlow(),
-            effect = { _, newState , _ ->
-                AuthEffect.Navigate(Route.OpenNextScreen(newState.login))
+            action = { _, newState , _ ->
+                interactor.sinIn(newState.login, newState.password)
             }
         )
 
         onEach(
             interactor.singInFlow,
-            effect = { _, _, payload ->
+            action = { _, _, payload ->
+                Log.d("singInFlow","result auth $payload")
                 when (payload){
                     is StateModel.Content<String> -> {
-                        AuthEffect.Navigate(Route.OpenNextScreen(payload.data))
+                        routeAction.navigate(Route.OpenNextScreen(payload.data))
                     }
                     is StateModel.Error -> {
-                        AuthEffect.Message(payload.throwable.toString())
+
                     }
-                    else -> null
+                    else -> { }
                 }
             }
         )

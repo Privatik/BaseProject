@@ -1,11 +1,7 @@
 package com.example.auth.ui.di
 
 import com.example.auth.ui.auth.AuthPresenter
-import com.example.auth.ui.auth.AuthScreen
 import com.example.auth.ui.profile.ProfilePresenter
-import com.example.auth.ui.profile.ProfileScreen
-import com.example.routing.Path
-import com.example.routing.Screen
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

@@ -1,5 +1,6 @@
 package com.example.auth.ui.di
 
+import com.example.routing.route.RouteAction
 import com.io.navigation_common.PresenterFactory
 import dagger.BindsInstance
 import dagger.Component
@@ -25,6 +26,9 @@ interface AuthComponent {
 
         @BindsInstance
         fun domain(dependencies: AuthDomainDependencies): Builder
+
+        @BindsInstance
+        fun routeAction(routeAction: RouteAction): Builder
 
         fun build(): AuthComponent
     }

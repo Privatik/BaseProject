@@ -7,18 +7,15 @@ import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
-import io.ktor.client.features.websocket.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
-import io.my.data.remote.network.JWTToken
-import io.my.data.remote.token.manager.MyJWTTokenManager
-import kotlinx.coroutines.CoroutineScope
+import io.my.data.remote.token.JWTToken
 import kotlinx.serialization.json.Json
 
 internal fun getKtorClient(
     jwtTokenManagerMap: Map<String, JWTToken.TokenManager>,
-    json: Json
+    json: Json,
 ): HttpClient{
     return HttpClient(CIO) {
         expectSuccess = true

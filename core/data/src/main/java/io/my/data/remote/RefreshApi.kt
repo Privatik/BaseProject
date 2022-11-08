@@ -2,6 +2,8 @@ package io.my.data.remote
 
 import io.ktor.client.*
 import io.my.data.remote.model.TokenResponse
+import io.my.data.remote.token.JWTAuthorization
+import io.my.data.remote.token.jwtAuthorizationAttribute
 import javax.inject.Inject
 
 internal class RefreshApi @Inject constructor(
