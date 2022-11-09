@@ -6,7 +6,7 @@ import com.example.routing.route.Path
 import com.example.routing.setContentPerJetpack
 import com.io.navigation.PresenterComponentActivity
 
-class MainActivity : PresenterComponentActivity() {
+class MainActivity: PresenterComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

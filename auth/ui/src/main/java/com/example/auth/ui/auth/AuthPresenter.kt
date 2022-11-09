@@ -46,7 +46,6 @@ internal class AuthPresenter @Inject constructor(
         onEach(
             interactor.singInFlow,
             action = { _, _, payload ->
-                Log.d("singInFlow","result auth $payload")
                 when (payload){
                     is StateModel.Content<String> -> {
                         routeAction.navigate(Route.OpenNextScreen(payload.data))

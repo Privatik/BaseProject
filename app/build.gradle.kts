@@ -55,10 +55,12 @@ dependencies {
     implementation(project(":auth:ui"))
     implementation(project(":routing"))
     implementation(project(":core"))
+    implementation(project(":core:ui"))
     implementation(project(":core:data"))
 
     implementation(rootProject.extra.get("presenterAndroid") as String)
-    implementation(rootProject.extra.get("jetpackNavigation") as String)
+    implementation(rootProject.extra.get("coreKtx") as String)
+    implementation(rootProject.extra.get("activityCompose") as String)
 
     implementation(rootProject.extra.get("dagger") as String)
     kapt(rootProject.extra.get("daggerCompiler") as String)

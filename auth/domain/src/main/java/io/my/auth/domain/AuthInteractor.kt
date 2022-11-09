@@ -28,20 +28,18 @@ internal class AuthInteractorImpl @Inject constructor(
     private val repository: AuthRepository
 ): BaseInteractor<State>(State()), AuthInteractor{
 
-    override suspend fun handleDataFromOutSide(){
-        Log.d("singInFlow","handleDataFromOutSide")
-        repository.singInFlow.updateState { state, payload ->
-            Log.d("singInFlow","emit to state")
-            state.copy(singIn = payload.map { it.email }.asStateModel())
-        }
-        Log.d("singInFlow","was init singInFlow")
-        repository.validFlow.updateState { state, payload ->
-            state.copy(isValid = payload.asStateModel())
-        }
-        Log.d("singInFlow","was init validFlow")
+    override suspend fun handleDataFromOutSide(): Flow<State>{
+        return merge(
+            repository.singInFlow.updateState { state, payload ->
+                state.copy(singIn = payload.map { it.email }.asStateModel())
+            },
+            repository.validFlow.updateState { state, payload ->
+                state.copy(isValid = payload.asStateModel())
+            }
+        )
     }
 
-    override val singInFlow: Flow<StateModel<String>> = state.onEach { Log.d("singInFlow","result interact") }.map { it.singIn }.distinctUntilChanged()
+    override val singInFlow: Flow<StateModel<String>> = state.map { it.singIn }.distinctUntilChanged()
     override val isValidFlow: Flow<StateModel<Boolean>> = state.map { it.isValid }.distinctUntilChanged()
 
     override suspend fun sinIn(login: String, password: String) = withContext(Dispatchers.IO) {

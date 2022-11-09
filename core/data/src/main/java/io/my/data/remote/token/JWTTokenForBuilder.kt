@@ -1,25 +1,29 @@
 package io.my.data.remote.token
 
+import android.util.Log
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.util.*
 
-internal class JWTToken() {
-    var tokenManagerMap: Map<String, TokenManager> = emptyMap()
+internal class JWTTokenBuilder{
+    var tokenManager: JWTToken.TokenManager? = null
+}
 
-    companion object Feature : HttpClientFeature<JWTToken, JWTToken> {
+internal class JWTToken(val tokenManager: TokenManager) {
+
+    companion object Feature : HttpClientFeature<JWTTokenBuilder, JWTToken> {
         override val key: AttributeKey<JWTToken> = AttributeKey("JWTToken")
 
-        override fun prepare(block: JWTToken.() -> Unit): JWTToken =
-            JWTToken().apply(block)
+        override fun prepare(block: JWTTokenBuilder.() -> Unit): JWTToken =
+            JWTToken(JWTTokenBuilder().apply(block).tokenManager!!)
 
         override fun install(feature: JWTToken, scope: HttpClient) {
             scope.requestPipeline.intercept(HttpRequestPipeline.Before) {
-                val tokenManager = feature.tokenManagerMap[context.url.host] ?: return@intercept
+                val tokenManager = feature.tokenManager
 
-                when (context.attributes[jwtAuthorizationAttribute]){
+                when (context.attributes.getOrNull(jwtAuthorizationAttribute)){
                     JWTAuthorization.NONE -> { }
                     JWTAuthorization.REFRESH -> {
                         context.updateJWTToken(tokenManager.getRefreshToken() ?: "")
@@ -34,9 +38,7 @@ internal class JWTToken() {
             }
 
             scope.feature(HttpSend)!!.intercept { call, builder ->
-                val tokenManager = feature.tokenManagerMap[call.request.url.host]
-
-                tokenManager?.let { manager ->
+                feature.tokenManager.let { manager ->
                     if (call.response.status.value == 401) {
                         val accessToken = manager
                             .getNewIfNeedToken(scope, builder.headers[HttpHeaders.Authorization])
@@ -46,7 +48,7 @@ internal class JWTToken() {
                         return@intercept execute(builder)
                     }
                     call
-                } ?: call
+                }
             }
         }
 
@@ -59,9 +61,8 @@ internal class JWTToken() {
     interface TokenManager{
         suspend fun getNewIfNeedToken(
             client: HttpClient,
-            oldToken: String?
+            oldToken: String? = null
         ): String?
-
         suspend fun updateTokens(accessToken: String?, refreshToken: String?)
         suspend fun getAccessToken(): String?
         suspend fun getRefreshToken(): String?

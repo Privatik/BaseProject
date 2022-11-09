@@ -5,8 +5,9 @@ import io.my.data.local.GlobalKeysForDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class BaseApiProperty @Inject constructor (
+class BaseApiProperty (
     private val dataStoreManager: DataStoreManager
 ) {
 

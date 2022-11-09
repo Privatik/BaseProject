@@ -1,5 +1,6 @@
 package com.example.auth.ui.profile
 
+import android.util.Log
 import com.example.machine.ReducerDSL
 import com.example.routing.route.Route
 import com.example.routing.route.RouteAction
@@ -32,6 +33,7 @@ internal class ProfilePresenter @Inject constructor(
 
                     }
                     is StateModel.Error -> {
+                        Log.d("isValid","${payload.throwable}")
                         routeAction.navigate(Route.Back)
                     }
                     else -> { }

@@ -11,12 +11,6 @@ data class LoginModelRequest(
 )
 
 @Serializable
-data class Wrap<T>(
-    val isSuccessful: Boolean,
-    val message: T
-)
-
-@Serializable
 data class LoginModelResponse(
     @SerialName("tokens")
     val tokenResponse: TokenResponse,
@@ -25,5 +19,7 @@ data class LoginModelResponse(
 
 @Serializable
 data class UserResponse(
-    val email: String
+    val email: String,
+    @SerialName("id")
+    val userId: String
 )

@@ -4,13 +4,16 @@ import android.util.Log
 import io.my.auth.data.remote.LoginAndCheckValidApi
 import io.my.auth.domain.dto.AuthModelDTO
 import io.my.auth.domain.repository.AuthRepository
+import io.my.data.local.DataStoreManager
+import io.my.data.local.GlobalKeysForDataStore
 import io.my.data.remote.token.TokenManagerProxy
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val api: LoginAndCheckValidApi,
-    private val tokenManager: TokenManagerProxy
+    private val tokenManager: TokenManagerProxy,
+    private val dataStoreManager: DataStoreManager
 ): AuthRepository {
     private val _validFlow = MutableSharedFlow<Result<Boolean>>()
     override val validFlow: Flow<Result<Boolean>> = _validFlow.asSharedFlow()
@@ -27,6 +30,9 @@ class AuthRepositoryImpl @Inject constructor(
                         accessToken = tokens.accessToken,
                         refreshToken = tokens.refreshToken
                     )
+                    dataStoreManager.edit { pref ->
+                        pref[GlobalKeysForDataStore.userId] = it.message.user.userId
+                    }
                 }
                 .map { AuthModelDTO(it.message.user.email) }
         )

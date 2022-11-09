@@ -16,6 +16,7 @@ val daggerVersion by extra { "2.44" }
 val privatikLibraryVersion by extra { "1.0.1-beta" }
 val jetpackNavigationComposeVersion by extra { "2.5.2" }
 val kotlinxCoroutinesCoreJvmVersion by extra { "1.6.4" }
+val appyxVersion by extra { "1.0.0" }
 
 //dependencies
 
@@ -78,6 +79,7 @@ val preferenceKtx by extra { "androidx.preference:preference-ktx:$preferenceKtxV
 
 //Navigation
 val jetpackNavigation by extra { "androidx.navigation:navigation-compose:$jetpackNavigationComposeVersion" }
+val appyx by extra { "com.bumble.appyx:core:$appyxVersion" }
 
 //Dagger
 val dagger by extra {"com.google.dagger:dagger:$daggerVersion" }

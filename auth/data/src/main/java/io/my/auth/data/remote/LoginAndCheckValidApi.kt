@@ -4,8 +4,8 @@ import io.ktor.client.*
 import io.ktor.client.statement.*
 import io.my.auth.data.remote.model.LoginModelRequest
 import io.my.auth.data.remote.model.LoginModelResponse
-import io.my.auth.data.remote.model.Wrap
 import io.my.data.remote.*
+import io.my.data.remote.model.Wrap
 import io.my.data.remote.token.JWTAuthorization
 import io.my.data.remote.token.jwtAuthorizationAttribute
 import kotlinx.coroutines.launch

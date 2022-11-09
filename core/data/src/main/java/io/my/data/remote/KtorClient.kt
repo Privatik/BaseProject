@@ -14,7 +14,7 @@ import io.my.data.remote.token.JWTToken
 import kotlinx.serialization.json.Json
 
 internal fun getKtorClient(
-    jwtTokenManagerMap: Map<String, JWTToken.TokenManager>,
+    myTokenManager: JWTToken.TokenManager,
     json: Json,
 ): HttpClient{
     return HttpClient(CIO) {
@@ -25,7 +25,7 @@ internal fun getKtorClient(
         }
 
         install(JWTToken){
-            tokenManagerMap = jwtTokenManagerMap
+            tokenManager = myTokenManager
         }
 
         install(Logging) {

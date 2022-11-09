@@ -15,6 +15,7 @@ import javax.inject.Inject
 object GlobalKeysForDataStore{
     val baseApi = stringPreferencesKey("base-api")
     val refreshToken = stringPreferencesKey("refresh-token")
+    val userId = stringPreferencesKey("user-id")
 }
 
 interface DataStoreManager{

@@ -41,6 +41,7 @@ internal class TokenModule {
             refreshTokenProvider = refreshTokenProvider
         ) { client ->
             refreshApi.refresh(client)
+                .map { it.message }
                 .map { it.accessToken to it.refreshToken }
                 .getOrElse { Pair(null, null) }
         }
