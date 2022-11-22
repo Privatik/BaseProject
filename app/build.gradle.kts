@@ -58,7 +58,6 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
 
-    implementation(rootProject.extra.get("presenterAndroid") as String)
     implementation(rootProject.extra.get("coreKtx") as String)
     implementation(rootProject.extra.get("activityCompose") as String)
 

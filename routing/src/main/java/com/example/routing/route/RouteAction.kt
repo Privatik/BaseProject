@@ -8,11 +8,6 @@ interface RouteAction {
 
 }
 
-enum class Path{
-    FIRST_SCREEN,
-    SECOND_SCREEN
-}
-
 internal class RouteActionImpl(
     private val manager: RouteController
 ): RouteAction {

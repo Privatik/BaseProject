@@ -48,7 +48,7 @@ dependencies {
     implementation(project(":auth:data"))
     implementation(project(":core:data"))
 
-    implementation(rootProject.extra.get("jetpackNavigation") as String)
+    api(rootProject.extra.get("appyx") as String)
 
     implementation(rootProject.extra.get("presenterCommon") as String)
     implementation(rootProject.extra.get("presenterAndroid") as String)

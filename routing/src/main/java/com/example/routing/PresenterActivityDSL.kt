@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.bumble.appyx.core.integrationpoint.NodeActivity
 import com.example.routing.di.DaggerRoutingComponent
 import com.example.routing.di.RouteDependencies
 import com.example.routing.managers.DomainDependencyManagerImpl
@@ -18,7 +19,7 @@ import io.my.core.AssistedPresenterFactory
 import io.my.core.GlobalDependencies
 import io.my.ui.ProjectTheme
 
-fun PresenterComponentActivity.setContentPerJetpack(
+fun NodeActivity.setContentPerJetpack(
     startPath: Path,
     builder: ScreenConfig.Builder.() -> Unit,
     globalDependencies: GlobalDependencies

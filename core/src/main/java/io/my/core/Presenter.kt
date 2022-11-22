@@ -23,7 +23,7 @@ abstract class Presenter<S: Any, I: IntentFlag, E: Any>(
 
     private val _state = MutableStateFlow<S>(initialState)
     val state: StateFlow<S> by lazy(LazyThreadSafetyMode.NONE) {
-        buildReducer(initialState, initialAction)
+        buildReducer(_state.value, initialAction)
         _state.asStateFlow()
     }
 

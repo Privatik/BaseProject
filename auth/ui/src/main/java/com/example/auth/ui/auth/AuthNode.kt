@@ -12,8 +12,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.bumble.appyx.core.modality.BuildContext
+import com.bumble.appyx.core.node.Node
 import com.example.auth.ui.AuthPresenterScope
-import com.example.routing.route.Path
+import com.example.routing.BuildConfig
+import com.example.routing.NodeFactory
+
 import com.example.routing.route.RouteAction
 import com.example.routing.Screen
 import com.example.routing.ScreenInfo
@@ -26,10 +30,12 @@ import io.my.ui.ProjectTheme
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-class AuthScreen private constructor(): Screen() {
+class AuthNode private constructor(
+    buildContext: BuildContext,
+): Node(buildContext) {
 
     @Composable
-    override fun Content() {
+    override fun View(modifier: Modifier) {
         val scope: AuthPresenterScope = sharedPresenter()
         val presenter: AuthPresenter = presenter(scope.factory)
 
@@ -68,9 +74,10 @@ class AuthScreen private constructor(): Screen() {
         }
     }
 
-    class AuthScreenFactory: Factory{
-
-        override fun <A : Any> create(arg: A): Screen = AuthScreen()
+    class AuthScreenFactory(): NodeFactory{
+        override fun create(buildConfig: BuildConfig): Node = AuthNode(
+            buildContext = buildConfig
+        )
     }
 }
 
@@ -80,7 +87,7 @@ class AuthScreenInfo @Inject constructor(): ScreenInfo {
     override val scopeKClazz: KClass<out UIPresenter> = AuthPresenterScope::class
 
     override val screenFactory: () -> Screen.Factory = {
-        AuthScreen.AuthScreenFactory()
+        AuthNode.AuthScreenFactory()
     }
     override val scopeInPresenter: (
         route: RouteAction,
