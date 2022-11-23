@@ -3,10 +3,11 @@ package io.my.baseproject
 import android.os.Bundle
 import androidx.core.view.WindowCompat
 import com.bumble.appyx.core.integrationpoint.NodeActivity
-import com.example.routing.route.Path
+import com.example.routing.Path
+import com.example.routing.ScreenInfo
 import com.example.routing.setContentPerJetpack
-import com.io.navigation.PresenterComponentActivity
 
+@Suppress("UNCHECKED_CAST")
 class MainActivity: NodeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,11 +16,11 @@ class MainActivity: NodeActivity() {
         configureEdgeToEdge()
 
         setContentPerJetpack(
-            startPath = Path.FIRST_SCREEN,
+            startPath = Path.FirstScreen,
             builder = {
-                screens(getScreens())
+                screens(getScreens().map { it as ScreenInfo<Path> }.toSet())
             },
-            globalDependencies = getGlobalDependencies()
+            coreDataDependencies = getCoreDataDependencies()
         )
     }
 

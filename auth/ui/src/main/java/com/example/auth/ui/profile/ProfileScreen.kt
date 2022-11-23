@@ -9,11 +9,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.bumble.appyx.core.modality.BuildContext
 import com.example.auth.ui.AuthPresenterScope
-import com.example.routing.route.Path
-import com.example.routing.route.RouteAction
+import com.example.routing.Path
 import com.example.routing.Screen
 import com.example.routing.ScreenInfo
+import com.example.routing.route.RouteAction
 import com.io.navigation.presenter
 import com.io.navigation.sharedPresenter
 import com.io.navigation_common.UIPresenter
@@ -25,11 +26,12 @@ import javax.inject.Inject
 import kotlin.reflect.KClass
 
 class ProfileScreen private constructor(
+    buildContext: BuildContext,
     private val email: String,
-): Screen() {
+): Screen(buildContext) {
 
     @Composable
-    override fun Content() {
+    override fun Content(modifier: Modifier) {
         val scope: AuthPresenterScope = sharedPresenter()
         val presenter: ProfilePresenter = presenter(scope.factory)
         LaunchedEffect(Unit){
@@ -59,27 +61,26 @@ class ProfileScreen private constructor(
         }
     }
 
-    class ProfileFactory @Inject constructor(): Factory{
+    class ProfileFactory(
+        private val email: String
+    ): Factory{
 
-        override fun <A : Any> create(arg: A): Screen {
-            return ProfileScreen(
-                email = arg as String,
-            )
-        }
+        override fun create(buildContext: BuildContext): Screen = ProfileScreen(
+            buildContext = buildContext,
+            email = email
+        )
     }
 }
 
-class ProfileScreenInfo @Inject constructor(): ScreenInfo{
-    override val path: Path = Path.SECOND_SCREEN
-    override val routeForNavigation: String = "profile"
-    override val scopeKClazz: KClass<out UIPresenter> = ProfilePresenter::class
+class ProfileScreenInfo @Inject constructor(): ScreenInfo<Path.SecondScreen>{
+    override val path: KClass<Path.SecondScreen> = Path.SecondScreen::class
 
-    override val screenFactory: () -> Screen.Factory = {
-        ProfileScreen.ProfileFactory()
+    override val screenFactory: (Path.SecondScreen) -> Screen.Factory = {
+        ProfileScreen.ProfileFactory(it.email)
     }
-    override val scopeInPresenter: (
-        routeingAction: RouteAction,
-        domainDependencies: DomainDependencies
+
+    override val scope: (
+        RouteAction, DomainDependencies
     ) -> UIPresenter = { routingAction, domainDependencies ->
         AuthPresenterScope(routingAction, domainDependencies as AuthDomainDependencies)
     }

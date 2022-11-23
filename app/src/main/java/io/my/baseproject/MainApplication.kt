@@ -2,11 +2,10 @@ package io.my.baseproject
 
 import android.app.Application
 import android.content.Context
+import com.example.routing.Path
 import com.example.routing.ScreenInfo
-import com.example.routing.di.DaggerRoutingComponent
 import io.my.baseproject.di.AppComponent
 import io.my.baseproject.di.DaggerAppComponent
-import io.my.core.GlobalDependencies
 import io.my.data.di.CoreDataDependencies
 import io.my.data.di.DaggerCoreDataComponent
 import kotlinx.coroutines.CoroutineScope
@@ -26,8 +25,8 @@ class MainApplication: Application() {
             .build()
     }
 
-    fun getScreens(): Set<ScreenInfo> = _component!!.screens()
-    fun getGlobalDependencies(): GlobalDependencies {
+    fun getScreens(): Set<ScreenInfo<out Path>> = _component!!.screens()
+    fun getCoreDataDependencies(): CoreDataDependencies {
         if (_coreDataComponent == null){
             _coreDataComponent = DaggerCoreDataComponent
                 .builder()
@@ -40,7 +39,7 @@ class MainApplication: Application() {
 
 }
 
-fun Context.getScreens(): Set<ScreenInfo>{
+fun Context.getScreens(): Set<ScreenInfo<out Path>> {
     return if (this is MainApplication){
         getScreens()
     } else {
@@ -48,11 +47,11 @@ fun Context.getScreens(): Set<ScreenInfo>{
     }
 }
 
-fun Context.getGlobalDependencies(): GlobalDependencies{
+fun Context.getCoreDataDependencies(): CoreDataDependencies {
     return if (this is MainApplication){
-        getGlobalDependencies()
+        getCoreDataDependencies()
     } else {
-        (applicationContext as MainApplication).getGlobalDependencies()
+        (applicationContext as MainApplication).getCoreDataDependencies()
     }
 }
 

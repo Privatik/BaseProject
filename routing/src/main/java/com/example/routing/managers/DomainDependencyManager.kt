@@ -1,10 +1,9 @@
 package com.example.routing.managers
 
-import com.example.routing.route.Path
+import com.example.routing.Path
 import io.my.auth.data.di.DaggerAuthDataComponent
 import io.my.auth.domain.di.DaggerAuthDomainComponent
 import io.my.core.DomainDependencies
-import io.my.core.GlobalDependencies
 import io.my.data.di.CoreDataDependencies
 
 internal interface DomainDependencyManager{
@@ -12,19 +11,19 @@ internal interface DomainDependencyManager{
 }
 
 internal class DomainDependencyManagerImpl(
-    private val globalDependencies: GlobalDependencies
+    private val coreDependencies: CoreDataDependencies
 ): DomainDependencyManager {
 
      override fun getByPath(path: Path): DomainDependencies{
         return when(path){
-            Path.FIRST_SCREEN,
-            Path.SECOND_SCREEN -> {
+            Path.FirstScreen,
+            is Path.SecondScreen -> {
                 DaggerAuthDomainComponent
                     .builder()
                     .dto(
                         DaggerAuthDataComponent
                             .builder()
-                            .core(globalDependencies as CoreDataDependencies)
+                            .core(coreDependencies)
                             .build()
                     )
                     .build()

@@ -24,14 +24,14 @@ internal class AuthPresenter @Inject constructor(
     override fun ReducerDSL<AuthState, AuthEffect>.reducer() {
         onEach(
             intent.changeLogin.asFlow(),
-            updateState = { oldState, payload ->
+            changeState = { oldState, payload ->
                 oldState.copy(login = payload)
             }
         )
 
         onEach(
             intent.changePassword.asFlow(),
-            updateState = { oldState, payload ->
+            changeState = { oldState, payload ->
                 oldState.copy(password = payload)
             }
         )

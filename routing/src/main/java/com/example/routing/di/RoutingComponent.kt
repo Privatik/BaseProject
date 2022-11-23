@@ -1,13 +1,13 @@
 package com.example.routing.di
 
-import androidx.navigation.NavHostController
-import com.example.routing.ScreenConfig
+import com.bumble.appyx.navmodel.backstack.BackStack
+import com.example.routing.Path
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Component(
-    modules = [ArgumentModule::class, RouteActionModule::class]
+    modules = [RouteActionModule::class]
 )
 @Singleton
 internal interface RoutingComponent: RouteDependencies {
@@ -16,10 +16,7 @@ internal interface RoutingComponent: RouteDependencies {
     interface Builder {
 
         @BindsInstance
-        fun navController(navHostController: NavHostController): Builder
-
-        @BindsInstance
-        fun screenConfig(screenConfig: ScreenConfig): Builder
+        fun bacKStack(backStack: BackStack<Path>): Builder
 
         fun build(): RoutingComponent
     }

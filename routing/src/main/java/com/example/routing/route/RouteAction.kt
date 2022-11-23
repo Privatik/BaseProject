@@ -1,6 +1,11 @@
 package com.example.routing.route
 
 import android.util.Log
+import com.bumble.appyx.core.navigation.NavKey
+import com.bumble.appyx.navmodel.backstack.BackStack
+import com.bumble.appyx.navmodel.backstack.operation.pop
+import com.bumble.appyx.navmodel.backstack.operation.push
+import com.example.routing.Path
 
 interface RouteAction {
 
@@ -9,15 +14,14 @@ interface RouteAction {
 }
 
 internal class RouteActionImpl(
-    private val manager: RouteController
+    private val backStack: BackStack<Path>
 ): RouteAction {
 
     override fun navigate(route: Route) {
-        Log.d("Navigate","Open by $route")
         when (route) {
-            Route.Back -> manager.pop()
+            Route.Back -> { backStack.pop() }
             is Route.OpenNextScreen -> {
-                manager.navigate(Path.SECOND_SCREEN, route.email)
+                backStack.push(Path.SecondScreen(route.email))
             }
         }
     }

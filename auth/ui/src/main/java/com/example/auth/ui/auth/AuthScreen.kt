@@ -16,8 +16,7 @@ import com.bumble.appyx.core.modality.BuildContext
 import com.bumble.appyx.core.node.Node
 import com.example.auth.ui.AuthPresenterScope
 import com.example.routing.BuildConfig
-import com.example.routing.NodeFactory
-
+import com.example.routing.Path
 import com.example.routing.route.RouteAction
 import com.example.routing.Screen
 import com.example.routing.ScreenInfo
@@ -30,12 +29,12 @@ import io.my.ui.ProjectTheme
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-class AuthNode private constructor(
+class AuthScreen private constructor(
     buildContext: BuildContext,
-): Node(buildContext) {
+): Screen(buildContext) {
 
     @Composable
-    override fun View(modifier: Modifier) {
+    override fun Content(modifier: Modifier) {
         val scope: AuthPresenterScope = sharedPresenter()
         val presenter: AuthPresenter = presenter(scope.factory)
 
@@ -74,26 +73,23 @@ class AuthNode private constructor(
         }
     }
 
-    class AuthScreenFactory(): NodeFactory{
-        override fun create(buildConfig: BuildConfig): Node = AuthNode(
-            buildContext = buildConfig
+    class AuthScreenFactory: Factory{
+        override fun create(buildContext: BuildContext): Screen = AuthScreen(
+            buildContext = buildContext
         )
     }
 }
 
-class AuthScreenInfo @Inject constructor(): ScreenInfo {
-    override val path: Path = Path.FIRST_SCREEN
-    override val routeForNavigation: String = "auth"
-    override val scopeKClazz: KClass<out UIPresenter> = AuthPresenterScope::class
+class AuthScreenInfo @Inject constructor(): ScreenInfo<Path.FirstScreen> {
+    override val path: KClass<Path.FirstScreen> = Path.FirstScreen::class
 
-    override val screenFactory: () -> Screen.Factory = {
-        AuthNode.AuthScreenFactory()
+    override val screenFactory: (Path.FirstScreen) -> Screen.Factory = {
+        AuthScreen.AuthScreenFactory()
     }
-    override val scopeInPresenter: (
-        route: RouteAction,
-        domainDependencies: DomainDependencies
+
+    override val scope: (
+        RouteAction, DomainDependencies
     ) -> UIPresenter = { routingAction, domain ->
-        AuthPresenterScope(routingAction, domain as AuthDomainDependencies)
-    }
-
+            AuthPresenterScope(routingAction, domain as AuthDomainDependencies)
+        }
 }

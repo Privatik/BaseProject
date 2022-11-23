@@ -11,8 +11,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 
 abstract class Presenter<S: Any, I: IntentFlag, E: Any>(
-    initialState: S,
-    initialAction: suspend () -> Unit = {}
+    initialState: S
 ): AndroidPresenter() {
 
     private val presenterScope: CoroutineScope = CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
@@ -23,7 +22,7 @@ abstract class Presenter<S: Any, I: IntentFlag, E: Any>(
 
     private val _state = MutableStateFlow<S>(initialState)
     val state: StateFlow<S> by lazy(LazyThreadSafetyMode.NONE) {
-        buildReducer(_state.value, initialAction)
+        buildReducer(_state.value)
         _state.asStateFlow()
     }
 
@@ -32,8 +31,8 @@ abstract class Presenter<S: Any, I: IntentFlag, E: Any>(
 
     protected abstract fun ReducerDSL<S, E>.reducer()
 
-    private fun buildReducer(state: S, action: suspend () -> Unit){
-        reducer<S, E>(state, action){ reducer() }.apply {
+    private fun buildReducer(state: S){
+        reducer<S, E>(state){ reducer() }.apply {
             this.state
                 .onEach {
                     _state.emit(it)

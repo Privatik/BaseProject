@@ -4,14 +4,13 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import io.ktor.client.*
-import io.my.core.GlobalDependencies
 import io.my.data.local.DataStoreManager
 import io.my.data.remote.BaseApiProperty
 import io.my.data.remote.token.TokenManagerProxy
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
-interface CoreDataDependencies: GlobalDependencies {
+interface CoreDataDependencies {
     fun tokenProxy(): TokenManagerProxy
 
     fun dataStoreManager(): DataStoreManager

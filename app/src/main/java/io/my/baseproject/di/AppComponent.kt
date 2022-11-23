@@ -1,6 +1,7 @@
 package io.my.baseproject.di
 
 import com.example.auth.ui.AuthScreenModule
+import com.example.routing.Path
 import com.example.routing.ScreenInfo
 import dagger.Component
 
@@ -11,5 +12,5 @@ import dagger.Component
 )
 interface AppComponent {
 
-    fun screens(): Set<ScreenInfo>
+    fun screens(): Set<ScreenInfo<out Path>>
 }

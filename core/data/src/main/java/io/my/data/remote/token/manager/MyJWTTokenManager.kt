@@ -9,14 +9,12 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 
-interface PublicTokenManager
-
 internal class MyJWTTokenManager(
     coroutineScope: CoroutineScope,
     private val accessTokenProvider: TokenProvider,
     private val refreshTokenProvider: TokenProvider,
     private val doRequestOnNewTokens: suspend (client: HttpClient) -> Pair<String?, String?>
-): JWTToken.TokenManager, PublicTokenManager {
+): JWTToken.TokenManager {
     private val channel: SendChannel<Action> = actionActor(coroutineScope)
 
     override suspend fun getNewIfNeedToken(

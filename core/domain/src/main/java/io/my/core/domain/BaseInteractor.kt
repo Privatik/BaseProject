@@ -8,13 +8,14 @@ import kotlinx.coroutines.launch
 
 abstract class BaseInteractor<S: Any>(state: S) {
     private val _state = MutableStateFlow(state)
-    val state = _state.asStateFlow().onStart {
-        handleDataFromOutSide()
-            .onEach { newState -> _state.emit(newState) }
-            .launchIn(CoroutineScope(currentCoroutineContext()))
-    }
+    val state = _state.asStateFlow()
 
     protected abstract suspend fun handleDataFromOutSide(): Flow<S>
+
+    init {
+        handleDataFromOutSide()
+            .onEach { newState -> _state.emit(newState) }
+    }
 
     fun <P> Flow<P>.updateState(
         block: (state: S, payload: P) -> S

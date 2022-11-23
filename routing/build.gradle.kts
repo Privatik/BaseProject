@@ -50,6 +50,7 @@ dependencies {
 
     api(rootProject.extra.get("appyx") as String)
 
+    implementation(rootProject.extra.get("activityCompose") as String)
     implementation(rootProject.extra.get("presenterCommon") as String)
     implementation(rootProject.extra.get("presenterAndroid") as String)
 

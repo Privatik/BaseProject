@@ -1,22 +1,22 @@
 package com.example.routing
 
-import com.example.routing.route.Path
+import kotlin.reflect.KClass
 
-class ScreenConfig private constructor(
-    private val screens: Map<Path, ScreenInfo>,
+class ScreenConfig<P: Path> private constructor(
+    private val screens: Map<KClass<out P>, ScreenInfo<out P>>,
 ){
 
-    internal fun getInfo(path: Path): ScreenInfo? = screens[path]
-    internal fun getScreens(): Collection<ScreenInfo> = screens.values
+    @Suppress("UNCHECKED_CAST")
+    internal fun getInfo(path: P): ScreenInfo<P>? = screens[path::class] as? ScreenInfo<P>
 
-    class Builder() {
-        private val map = hashMapOf<Path, ScreenInfo>()
+    class Builder<P: Path>() {
+        private val map = hashMapOf<KClass<out P>, ScreenInfo<out P>>()
 
-        fun screens(infoForScreen: Set<ScreenInfo>){
+        fun screens(infoForScreen: Set<ScreenInfo<P>>){
             this.map.putAll(infoForScreen.map { it.path to it })
         }
 
-        internal fun build(): ScreenConfig {
+        internal fun build(): ScreenConfig<P> {
             return ScreenConfig(map)
         }
     }
