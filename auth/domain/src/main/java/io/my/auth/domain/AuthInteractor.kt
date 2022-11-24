@@ -28,16 +28,14 @@ internal class AuthInteractorImpl @Inject constructor(
     private val repository: AuthRepository
 ): BaseInteractor<State>(State()), AuthInteractor{
 
-    override suspend fun handleDataFromOutSide(): Flow<State>{
-        return merge(
-            repository.singInFlow.updateState { state, payload ->
-                state.copy(singIn = payload.map { it.email }.asStateModel())
-            },
-            repository.validFlow.updateState { state, payload ->
-                state.copy(isValid = payload.asStateModel())
-            }
-        )
-    }
+    override val handleDataFromOutSide: Flow<State> = merge(
+        repository.singInFlow.updateState { state, payload ->
+            state.copy(singIn = payload.map { it.email }.asStateModel())
+        },
+        repository.validFlow.updateState { state, payload ->
+            state.copy(isValid = payload.asStateModel())
+        }
+    )
 
     override val singInFlow: Flow<StateModel<String>> = state.map { it.singIn }.distinctUntilChanged()
     override val isValidFlow: Flow<StateModel<Boolean>> = state.map { it.isValid }.distinctUntilChanged()
