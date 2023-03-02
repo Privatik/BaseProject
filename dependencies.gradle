@@ -1,0 +1,106 @@
+ext {
+    coreKtxVersion =  "1.9.0"
+    lifecycleRuntimeKtxVersion = "2.5.1"
+    activityComposeVersion = "1.6.0"
+    composeVersion = "1.1.1"
+    composeCompileVersion = "1.3.2"
+    accompanistVersion = "0.19.0"
+    coilVersion = "1.4.0"
+    sqlDelightVersion = "1.5.2"
+    kotlinxSerializationJsonVersion = "1.4.0"
+    ktorClientVersion = "1.6.5"
+    datastoreVersion = "1.0.0"
+    protobufJavaliteVersion = "3.18.0"
+    preferenceKtxVersion = "1.2.0"
+    daggerVersion = "2.44"
+    privatikLibraryVersion = "1.0.2-beta"
+    jetpackNavigationComposeVersion = "2.5.2"
+    kotlinxCoroutinesCoreJvmVersion = "1.6.4"
+    kotlinxCoroutinesTest = "1.6.4"
+    appyxVersion = "1.0.0"
+    turbineVersion = "0.12.1"
+    androidJunitVersion = "1.1.5"
+    localJunitVersion = "4.13.2"
+    kaspressoVersion = "1.5.1"
+    espressoCoreVersion = "3.5.1"
+    truthVersion = "1.1.3"
+    mockitoKotlinVersion = "4.1.0"
+
+    compose = [
+            "androidx.compose.ui:ui:$composeVersion",
+            "androidx.compose.material:material:$composeVersion",
+            "androidx.compose.ui:ui-tooling-preview:$composeVersion",
+            "androidx.compose.material:material-icons-extended:$composeVersion",
+    ]
+
+    androdiDebugTest = [
+            "androidx.compose.ui:ui-tooling:$composeVersion",
+            "androidx.compose.ui:ui-test-manifest:$composeVersion",
+    ]
+
+    androidTest = [
+            "app.cash.turbine:turbine:$turbineVersion",
+            "androidx.test.ext:junit:$androidJunitVersion",
+            "androidx.test.espresso:espresso-core:$espressoCoreVersion",
+            "androidx.compose.ui:ui-test-junit4:$composeVersion",
+            "com.google.truth:truth:$truthVersion",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesTest",
+            "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion",
+            "com.kaspersky.android-components:kaspresso:$kaspressoVersion",
+            "com.kaspersky.android-components:kaspresso-compose-support:$kaspressoVersion",
+    ]
+
+    localTest = [
+            "junit:junit:$localJunitVersion",
+            "app.cash.turbine:turbine:$turbineVersion",
+            "com.google.truth:truth:$truthVersion",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesTest",
+            "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion",
+    ]
+
+    sqlDelight = [
+            "com.squareup.sqldelight:android-driver:$sqlDelightVersion",
+            "com.squareup.sqldelight:coroutines-extensions:$sqlDelightVersion"
+    ]
+
+    sqldelightTest = "com.squareup.sqldelight:sqlite-driver:$sqlDelightVersion"
+
+    coil = [
+            "io.coil-kt:coil-base:$coilVersion",
+            "io.coil-kt:coil-compose:$coilVersion",
+    ]
+
+    coreKtx = "androidx.core:core-ktx:$coreKtxVersion"
+    lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtxVersion"
+    activityCompose = "androidx.activity:activity-compose:$activityComposeVersion"
+
+    kotlinxCoroutinesCoreJvm = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$kotlinxCoroutinesCoreJvmVersion"
+
+    accompanistInsets = "com.google.accompanist:accompanist-insets:$accompanistVersion"
+    accompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
+
+    ktorClientCio = "io.ktor:ktor-client-cio:$ktorClientVersion"
+    ktorClientAndroid = "io.ktor:ktor-client-android:$ktorClientVersion"
+    ktorClientAuth = "io.ktor:ktor-client-auth:$ktorClientVersion"
+    ktorClientSerialization = "io.ktor:ktor-client-serialization:$ktorClientVersion"
+    ktorClientCore = "io.ktor:ktor-client-core:$ktorClientVersion"
+    ktorClientWebsocket = "io.ktor:ktor-client-websockets:$ktorClientVersion"
+    ktorClientLoggingJvm = "io.ktor:ktor-client-logging-jvm:$ktorClientVersion"
+
+    kotlinxSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationJsonVersion"
+
+    dataStorePreferences = "androidx.datastore:datastore-preferences:$datastoreVersion"
+    dataStore = "androidx.datastore:datastore:$datastoreVersion"
+    protobufJavalite = "com.google.protobuf:protobuf-javalite:$protobufJavaliteVersion"
+    preferenceKtx = "androidx.preference:preference-ktx:$preferenceKtxVersion"
+
+    appyx = "com.bumble.appyx:core:$appyxVersion"
+
+    dagger = "com.google.dagger:dagger:$daggerVersion"
+    daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    machine = "io.github.privatik:machine:$privatikLibraryVersion"
+    presenterCommon = "io.github.privatik:presenter-common:$privatikLibraryVersion"
+    presenterAndroid = "io.github.privatik:presenter-android:$privatikLibraryVersion"
+
+}

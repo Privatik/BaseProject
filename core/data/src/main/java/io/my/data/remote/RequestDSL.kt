@@ -21,14 +21,12 @@ suspend inline fun <reified T> HttpClient.requestAsResult(
         }
         Result.success(response)
     }  catch (e: ResponseException){
-        Log.e("Ktor","$e")
         when (e.response.status.value){
             401 -> Result.failure(Fail.AuthFail)
             403 -> Result.failure(Fail.ForbiddenFail)
             else -> Result.failure(Fail.GlobalFail(e))
         }
     } catch (e: Exception){
-        Log.e("Ktor","$e")
         Result.failure(Fail.GlobalFail(e))
     }
 }
