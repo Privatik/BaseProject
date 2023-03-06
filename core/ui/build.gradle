@@ -45,10 +45,18 @@ android {
 }
 
 dependencies {
+    implementation project(":core")
+
     implementation accompanistSystemUiController
     implementation accompanistInsets
 
+    compose.each {dependency -> api dependency}
     sqlDelight.each {dependency -> api dependency}
+
+    api machine
+
+    implementation presenterCommon
+    implementation presenterAndroid
 
     implementation dagger
     kapt daggerCompiler

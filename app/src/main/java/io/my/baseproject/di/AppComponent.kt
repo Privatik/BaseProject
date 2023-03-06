@@ -12,5 +12,5 @@ import dagger.Component
 )
 interface AppComponent {
 
-    fun screens(): Set<ScreenInfo<out Path>>
+    fun screens(): Set<ScreenInfo<out Path, *>>
 }

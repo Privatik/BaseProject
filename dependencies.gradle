@@ -40,23 +40,20 @@ ext {
 
     androidTest = [
             "app.cash.turbine:turbine:$turbineVersion",
-            "androidx.test.ext:junit:$androidJunitVersion",
             "androidx.test.espresso:espresso-core:$espressoCoreVersion",
             "androidx.compose.ui:ui-test-junit4:$composeVersion",
-            "com.google.truth:truth:$truthVersion",
-            "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesTest",
-            "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion",
             "com.kaspersky.android-components:kaspresso:$kaspressoVersion",
             "com.kaspersky.android-components:kaspresso-compose-support:$kaspressoVersion",
     ]
 
     localTest = [
             "junit:junit:$localJunitVersion",
-            "app.cash.turbine:turbine:$turbineVersion",
             "com.google.truth:truth:$truthVersion",
             "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesTest",
             "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion",
     ]
+
+    turbine = "app.cash.turbine:turbine:$turbineVersion"
 
     sqlDelight = [
             "com.squareup.sqldelight:android-driver:$sqlDelightVersion",

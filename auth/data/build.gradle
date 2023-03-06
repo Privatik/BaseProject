@@ -44,4 +44,15 @@ dependencies {
 
     implementation dagger
     kapt daggerCompiler
+
+    //Testing
+    localTest.each {dependency -> testApi dependency}
+    androidTest.each {dependency -> testApi dependency}
+
+    testImplementation project(":testing")
+    androidTestImplementation project(":testing")
+
+    testImplementation dagger
+    androidTestImplementation dagger
+    kaptTest daggerCompiler
 }

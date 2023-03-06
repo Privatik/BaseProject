@@ -1,17 +1,14 @@
 package io.my.auth.data.di
 
-import android.content.Context
-import dagger.BindsInstance
 import dagger.Component
 import io.my.auth.domain.di.AuthDataDependencies
-import io.my.auth.domain.di.AuthDomainComponent
 import io.my.data.di.CoreDataDependencies
 
 @Component(
+    dependencies = [CoreDataDependencies::class],
     modules = [
         ApiModule::class,
-        RepositoryModule::class,
-        GetDependenciesModule::class
+        RepositoryModule::class
     ]
 )
 interface AuthDataComponent: AuthDataDependencies {
@@ -19,11 +16,9 @@ interface AuthDataComponent: AuthDataDependencies {
     @Component.Builder
     interface Builder {
 
-        @BindsInstance
-        fun core(dependencies: CoreDataDependencies): Builder
+        fun dataDependency(dataDependencies: CoreDataDependencies): Builder
 
         fun build(): AuthDataComponent
     }
-
 
 }

@@ -2,24 +2,22 @@ package com.example.auth.ui
 
 import com.example.auth.ui.di.AuthComponent
 import com.example.auth.ui.di.DaggerAuthComponent
-import com.example.routing.route.RouteAction
-import com.io.navigation_common.PresenterFactory
-import com.io.navigation_common.UIPresenter
+import com.example.routing.route.RouteActionHandler
 import io.my.auth.domain.di.AuthDomainDependencies
+import io.my.core.domain.DomainProvider
+import io.my.ui.presenter.MyPresenter
+import io.my.ui.presenter.MyPresenterFactory
 
-internal class AuthPresenterScope(
-    routeAction: RouteAction,
-    domainDependencies: AuthDomainDependencies
-): UIPresenter {
+internal class AuthPresenterScope constructor(
+    domainProvider: DomainProvider<AuthDomainDependencies>,
+): MyPresenter() {
     @Volatile
     private var _component: AuthComponent? = null
-    val factory: PresenterFactory get() = _component!!.factory()
+    val factory: MyPresenterFactory get() = _component!!.factory()
 
     init {
-
         _component = DaggerAuthComponent.builder()
-            .domain(domainDependencies)
-            .routeAction(routeAction)
+            .domain(domainProvider.get())
             .build()
     }
 

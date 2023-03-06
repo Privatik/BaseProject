@@ -5,28 +5,28 @@ import dagger.BindsInstance
 import dagger.Component
 import io.ktor.client.*
 import io.my.data.local.DataStoreManager
-import io.my.data.remote.BaseApiProperty
-import io.my.data.remote.token.TokenManagerProxy
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
 
+interface CoreDataDependenciesConsumer {
+    fun useProvider(provider: CoreDataDependencies){
+
+    }
+}
+
 interface CoreDataDependencies {
-    fun tokenProxy(): TokenManagerProxy
 
     fun dataStoreManager(): DataStoreManager
 
-    fun baseApi(): BaseApiProperty
-
     fun client(): HttpClient
+
 }
 
 @Component(
     modules = [
         SerializeModule::class,
         RemoteModule::class,
-        LocalModule::class,
-        TokenModule::class,
-        TokenProxyModule::class
+        CacheModule::class,
     ]
 )
 @Singleton
@@ -36,10 +36,10 @@ interface CoreDataComponent: CoreDataDependencies {
     interface Builder {
 
         @BindsInstance
-        fun context(context: Context): Builder
+        fun applicationContext(context: Context): Builder
 
         @BindsInstance
-        fun globalCoroutineScope(scope: CoroutineScope): Builder
+        fun backgroundCoroutineScope(scope: CoroutineScope): Builder
 
         fun build(): CoreDataComponent
     }

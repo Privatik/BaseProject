@@ -8,6 +8,9 @@ sealed class StateModel<out B: Any> {
 }
 
 fun <B: Any> Result<B>.asStateModel(): StateModel<B>{
-    return  if (isSuccess) StateModel.Content(getOrNull()!!)
-            else StateModel.Error(exceptionOrNull()!!)
+    val content = getOrNull()
+    if (content != null){
+        return StateModel.Content(content)
+    }
+    return StateModel.Error(exceptionOrNull() ?: Throwable("Error cannot be determined"))
 }

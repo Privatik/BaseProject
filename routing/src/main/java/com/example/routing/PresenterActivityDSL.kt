@@ -7,16 +7,14 @@ import com.bumble.appyx.core.integrationpoint.NodeActivity
 import com.bumble.appyx.navmodel.backstack.BackStack
 import com.example.routing.di.DaggerRoutingComponent
 import com.example.routing.di.RouteDependencies
-import com.example.routing.managers.DomainDependencyManagerImpl
 import com.example.routing.presenter.BasePresenterAdapter
 import com.example.routing.presenter.BasePresenterStoreOwner
-import com.io.navigation.PresenterCompositionLocalProvider
-import com.io.navigation.presenter
-import com.io.navigation.sharedPresenter
 import com.io.navigation_common.UIPresenter
-import io.my.core.AssistedPresenterFactory
+import io.my.core.domain.DomainProvider
 import io.my.data.di.CoreDataDependencies
-import io.my.ui.ProjectTheme
+import io.my.ui.presenter.AssistedPresenterFactory
+import io.my.ui.presenter.MyPresenter
+import io.my.ui.theme.ProjectTheme
 
 fun NodeActivity.setContentPerJetpack(
     startPath: Path,
@@ -24,7 +22,6 @@ fun NodeActivity.setContentPerJetpack(
     coreDataDependencies: CoreDataDependencies
 ){
     setContent {
-
         val screenConfig = remember {
             ScreenConfig.Builder<Path>()
                 .apply(builder)
@@ -42,23 +39,26 @@ fun NodeActivity.setContentPerJetpack(
                     BasePresenterAdapter(backStack)
                 )
 
-                val domainDependencyManager = DomainDependencyManagerImpl(coreDataDependencies)
-
-                val routeDependencies = DaggerRoutingComponent
+                val routeDependencies: RouteDependencies = DaggerRoutingComponent
                     .builder()
+                    .coreDataDependencies(coreDataDependencies)
                     .bacKStack(backStack)
                     .build()
 
                 BaseHost(
                     buildContext = buildContext,
+                    routeActionHandler = routeDependencies.action(),
                     backStack = backStack,
                     presenterOwner = owner,
                     getFactoryForScreenAndCreateScopeByPath = { path ->
                         screenConfig.getInfo(path)!!.let { info ->
-                            info.scope?.run {
-                                val presenter = this(routeDependencies.action(), domainDependencyManager.getByPath(path))
+                            info.scope?.also { createPresenterScope ->
+                                val presenter = createPresenterScope{ providerClazz ->
+                                    @Suppress("UNCHECKED_CAST")
+                                    routeDependencies.domainDependenciesProvider[providerClazz.java]!!.get() as DomainProvider<Any>
+                                }
 
-                                owner.cleanGarbageIntoStoreAndCreatePresenter<UIPresenter>(
+                                owner.cleanGarbageIntoStoreAndCreatePresenter<MyPresenter>(
                                     clazz = presenter::class.java,
                                     factory = AssistedPresenterFactory{ presenter },
                                     isShared = true

@@ -13,21 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bumble.appyx.core.modality.BuildContext
-import com.bumble.appyx.core.node.Node
 import com.example.auth.ui.AuthPresenterScope
-import com.example.routing.BuildConfig
-import com.example.routing.Path
-import com.example.routing.route.RouteAction
 import com.example.routing.Screen
-import com.example.routing.ScreenInfo
-import com.io.navigation.presenter
-import com.io.navigation.sharedPresenter
-import com.io.navigation_common.UIPresenter
-import io.my.auth.domain.di.AuthDomainDependencies
-import io.my.core.DomainDependencies
-import io.my.ui.ProjectTheme
-import javax.inject.Inject
-import kotlin.reflect.KClass
+import io.my.ui.effect.handleEffects
+import io.my.ui.presenter.myPresenter
+import io.my.ui.presenter.mySharedPresenter
+import io.my.ui.theme.ProjectTheme
 
 class AuthScreen private constructor(
     buildContext: BuildContext,
@@ -35,17 +26,20 @@ class AuthScreen private constructor(
 
     @Composable
     override fun Content(modifier: Modifier) {
-        val scope: AuthPresenterScope = sharedPresenter()
-        val presenter: AuthPresenter = presenter(scope.factory)
+        val scope: AuthPresenterScope = mySharedPresenter()
+        val presenter: AuthPresenter = myPresenter(scope.factory)
+        presenter.handleEffects()
 
         Content(
+            modifier = modifier,
             wrap = presenter.state.collectAsState(),
             intent = presenter.intent
         )
     }
 
     @Composable
-    private fun Content(
+    internal fun Content(
+        modifier: Modifier = Modifier,
         wrap: State<AuthState>,
         intent: AuthIntent
     ) {
@@ -58,9 +52,17 @@ class AuthScreen private constructor(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextField(value = state.login, onValueChange = intent.changeLogin::invoke )
+            TextField(
+                value = state.login,
+                onValueChange = intent.changeLogin::invoke
+            )
             Spacer(modifier = Modifier.height(10.dp))
-            TextField(value = state.password, onValueChange = intent.changePassword::invoke )
+            TextField(
+                value = state.password.joinToString(),
+                onValueChange = { password ->
+                    intent.changePassword(password.toList())
+                }
+            )
             Spacer(modifier = Modifier.height(10.dp))
             Button(
                 onClick = intent.doLogin::invoke
@@ -78,18 +80,4 @@ class AuthScreen private constructor(
             buildContext = buildContext
         )
     }
-}
-
-class AuthScreenInfo @Inject constructor(): ScreenInfo<Path.FirstScreen> {
-    override val path: KClass<Path.FirstScreen> = Path.FirstScreen::class
-
-    override val screenFactory: (Path.FirstScreen) -> Screen.Factory = {
-        AuthScreen.AuthScreenFactory()
-    }
-
-    override val scope: (
-        RouteAction, DomainDependencies
-    ) -> UIPresenter = { routingAction, domain ->
-            AuthPresenterScope(routingAction, domain as AuthDomainDependencies)
-        }
 }

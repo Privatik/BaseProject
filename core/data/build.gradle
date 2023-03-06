@@ -48,6 +48,7 @@ dependencies {
 
     api ktorClientLoggingJvm
     api ktorClientCore
+    api ktorClientAuth
     api ktorClientSerialization
     api ktorClientCio
 

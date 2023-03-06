@@ -1,8 +1,7 @@
 package io.my.ui.palettes
 
-import io.my.ui.AppColors
-import io.my.ui.Purple200
-import io.my.ui.Teal200
+import io.my.ui.theme.AppColors
+import io.my.ui.theme.Teal200
 
 internal val DarkColorPalette = AppColors(
     backgroundPrimary = Teal200,

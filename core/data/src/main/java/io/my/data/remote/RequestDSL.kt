@@ -1,6 +1,5 @@
 package io.my.data.remote
 
-import android.util.Log
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
@@ -8,13 +7,13 @@ import io.ktor.http.*
 import io.my.core.domain.trowable.Fail
 import java.lang.Exception
 
-suspend inline fun <reified T> HttpClient.requestAsResult(
+suspend inline fun <reified T> HttpClient.request(
     urlString: String,
     method: HttpMethod,
     block: HttpRequestBuilder.() -> Unit = {}
 ): Result<T> {
     return try {
-        val response = request<T> {
+        val response = this@request.request<T> {
             url.takeFrom(urlString)
             this.method = method
             block()
@@ -31,19 +30,19 @@ suspend inline fun <reified T> HttpClient.requestAsResult(
     }
 }
 
-suspend inline fun <reified T> HttpClient.getAsResult(
+suspend inline fun <reified T> HttpClient.get(
     urlString: String,
     block: HttpRequestBuilder.() -> Unit
-): Result<T> = requestAsResult(
+): Result<T> = request(
     urlString = urlString,
     method = HttpMethod.Get,
     block = block
 )
 
-suspend inline fun <reified T> HttpClient.postAsResult(
+suspend inline fun <reified T> HttpClient.post(
     urlString: String,
     block: HttpRequestBuilder.() -> Unit
-): Result<T> = requestAsResult(
+): Result<T> = request(
     urlString = urlString,
     method = HttpMethod.Post,
     block = block

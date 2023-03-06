@@ -18,7 +18,7 @@ class MainActivity: NodeActivity() {
         setContentPerJetpack(
             startPath = Path.FirstScreen,
             builder = {
-                screens(getScreens().map { it as ScreenInfo<Path> }.toSet())
+                screens(getScreens().map { it as ScreenInfo<Path, Any> }.toSet())
             },
             coreDataDependencies = getCoreDataDependencies()
         )

@@ -8,5 +8,4 @@ interface AuthRepository {
     val singInFlow: Flow<Result<AuthModelDTO>>
 
     suspend fun singIn(login: String, password: String)
-    suspend fun checkValid()
 }

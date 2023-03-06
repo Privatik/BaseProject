@@ -10,11 +10,9 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
 import io.ktor.http.*
-import io.my.data.remote.token.JWTToken
 import kotlinx.serialization.json.Json
 
 internal fun getKtorClient(
-    myTokenManager: JWTToken.TokenManager,
     json: Json,
 ): HttpClient{
     return HttpClient(CIO) {
@@ -22,10 +20,6 @@ internal fun getKtorClient(
 
         install(JsonFeature) {
             serializer = KotlinxSerializer(json)
-        }
-
-        install(JWTToken){
-            tokenManager = myTokenManager
         }
 
         install(Logging) {

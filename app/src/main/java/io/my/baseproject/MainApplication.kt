@@ -25,13 +25,13 @@ class MainApplication: Application() {
             .build()
     }
 
-    fun getScreens(): Set<ScreenInfo<out Path>> = _component!!.screens()
+    fun getScreens(): Set<ScreenInfo<out Path, *>> = _component!!.screens()
     fun getCoreDataDependencies(): CoreDataDependencies {
         if (_coreDataComponent == null){
             _coreDataComponent = DaggerCoreDataComponent
                 .builder()
-                .context(this)
-                .globalCoroutineScope(CoroutineScope(Dispatchers.IO + SupervisorJob()))
+                .applicationContext(this)
+                .backgroundCoroutineScope(CoroutineScope(Dispatchers.IO + SupervisorJob()))
                 .build()
         }
         return _coreDataComponent!!
@@ -39,11 +39,11 @@ class MainApplication: Application() {
 
 }
 
-fun Context.getScreens(): Set<ScreenInfo<out Path>> {
+fun Context.getScreens(): Set<ScreenInfo<out Path , *>> {
     return if (this is MainApplication){
         getScreens()
     } else {
-        (applicationContext as MainApplication).getScreens()
+        applicationContext.getScreens()
     }
 }
 
@@ -51,7 +51,7 @@ fun Context.getCoreDataDependencies(): CoreDataDependencies {
     return if (this is MainApplication){
         getCoreDataDependencies()
     } else {
-        (applicationContext as MainApplication).getCoreDataDependencies()
+        applicationContext.getCoreDataDependencies()
     }
 }
 

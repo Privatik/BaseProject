@@ -38,10 +38,4 @@ android {
 dependencies {
     implementation coreKtx
     implementation lifecycleRuntimeKtx
-
-    api machine
-
-    implementation presenterCommon
-    implementation presenterAndroid
-    implementation dagger
 }

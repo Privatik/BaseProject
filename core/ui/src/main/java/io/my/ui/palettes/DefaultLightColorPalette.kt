@@ -1,10 +1,11 @@
 package io.my.ui.palettes
 
-import io.my.ui.AppColors
-import io.my.ui.Purple200
+import androidx.compose.ui.graphics.Color
+import io.my.ui.theme.AppColors
+import io.my.ui.theme.Purple200
 
 internal val LightColorPalette = AppColors(
-    backgroundPrimary = Purple200,
+    backgroundPrimary = Color.White,
     backgroundSecondary = Purple200,
     contendPrimary = Purple200,
     contendSecondary = Purple200,
@@ -12,7 +13,7 @@ internal val LightColorPalette = AppColors(
     contendAccentPrimary = Purple200,
     contendAccentSecondary = Purple200,
     contendAccentTertiary = Purple200,
-    textPrimary = Purple200,
+    textPrimary = Color.Black,
     textSecondary = Purple200,
     textTertiary = Purple200,
     indicatorContendError = Purple200,

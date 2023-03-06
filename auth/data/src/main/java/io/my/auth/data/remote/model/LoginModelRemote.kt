@@ -1,6 +1,5 @@
 package io.my.auth.data.remote.model
 
-import io.my.data.remote.model.TokenResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,7 +12,6 @@ data class LoginModelRequest(
 @Serializable
 data class LoginModelResponse(
     @SerialName("tokens")
-    val tokenResponse: TokenResponse,
     val user: UserResponse
 )
 

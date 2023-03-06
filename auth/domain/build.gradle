@@ -42,4 +42,12 @@ dependencies {
 
     implementation dagger
     kapt daggerCompiler
+
+    //Testing
+    localTest.each {dependency -> testApi dependency}
+
+    testImplementation project(":testing")
+
+    testImplementation dagger
+    kaptTest daggerCompiler
 }
