@@ -11,9 +11,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import com.bumble.appyx.core.modality.BuildContext
 import com.example.auth.ui.AuthPresenterScope
+import com.example.auth.ui.AuthTestTags
 import com.example.routing.Screen
 import io.my.ui.effect.handleEffects
 import io.my.ui.presenter.myPresenter
@@ -48,16 +51,21 @@ class AuthScreen private constructor(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(ProjectTheme.colors.backgroundPrimary),
+                .background(ProjectTheme.colors.backgroundPrimary)
+                .semantics { testTag = AuthTestTags.authContent },
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TextField(
+                modifier = Modifier
+                    .semantics { testTag = AuthTestTags.loginField },
                 value = state.login,
                 onValueChange = intent.changeLogin::invoke
             )
             Spacer(modifier = Modifier.height(10.dp))
             TextField(
+                modifier = Modifier
+                    .semantics { testTag = AuthTestTags.passwordField },
                 value = state.password.joinToString(),
                 onValueChange = { password ->
                     intent.changePassword(password.toList())

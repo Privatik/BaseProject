@@ -10,7 +10,10 @@
       <module name="BaseProject.core.data" target="11" />
       <module name="BaseProject.core.ui" target="11" />
       <module name="BaseProject.routing" target="11" />
+      <module name="BaseProject.testing" target="1.8" />
       <module name="BaseProject.testing.android" target="11" />
+      <module name="BaseProject.testing.main" target="1.8" />
+      <module name="BaseProject.testing.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

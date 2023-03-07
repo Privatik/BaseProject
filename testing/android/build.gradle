@@ -1,10 +1,10 @@
 plugins {
-    id "com.android.library"
-    id "org.jetbrains.kotlin.android"
-    id "kotlin-kapt"
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
+    namespace 'io.my.testing.android'
     compileSdk 33
 
     defaultConfig {
@@ -21,17 +21,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs += [
-                "-Xjvm-default=all",
-        ]
     }
 
     buildFeatures {
@@ -52,27 +47,10 @@ android {
     }
 }
 
-
 dependencies {
+    androidTest.each {dependency -> api dependency}
+    api project(":testing")
+
     implementation project(":core:ui")
-    implementation project(":core:domain")
-    implementation project(":auth:domain")
-    implementation project(":core")
-    implementation project(":routing")
-
-    implementation coreKtx
-    implementation lifecycleRuntimeKtx
-
-    implementation presenterCommon
-    implementation presenterAndroid
-
-    implementation dagger
-    kapt daggerCompiler
-
-    //Testing
-    androdiDebugTest.each {dependency -> debugImplementation dependency}
-    testImplementation project(":testing")
-    androidTestImplementation project(":testing:android")
-
-    kaptTest daggerCompiler
+    implementation appyx
 }

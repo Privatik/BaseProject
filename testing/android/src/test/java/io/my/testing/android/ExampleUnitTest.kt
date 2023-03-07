@@ -1,4 +1,4 @@
-package io.my.auth.domain
+package io.my.testing.android
 
 import org.junit.Test
 

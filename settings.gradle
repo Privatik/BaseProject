@@ -23,3 +23,4 @@ include ":auth:domain"
 include ":auth:data"
 include ":core:domain"
 include ':testing'
+include ':testing:android'
