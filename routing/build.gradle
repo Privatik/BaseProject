@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace "com.example.routing"
     compileSdk 33
 
     defaultConfig {
@@ -50,7 +51,7 @@ dependencies {
     implementation project(":auth:data")
     implementation project(":core:data")
 
-    api appyx
+    implementation  appyx
 
     implementation activityCompose
     implementation presenterCommon

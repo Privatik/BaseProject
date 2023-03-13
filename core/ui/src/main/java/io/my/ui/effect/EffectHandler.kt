@@ -11,11 +11,12 @@ interface EffectHandler {
     suspend fun emit(effect: Effect)
 }
 
+@Suppress("NOTHING_TO_INLINE")
 @Composable
-inline fun Presenter<*, *, Effect>.handleEffects(){
+inline fun Presenter<*, *, Effect>.HandleEffects(){
     val effectHandler = LocalEffectHandler.current
     LaunchedEffect(Unit){
-        this@handleEffects.singleEffect.collect{
+        this@HandleEffects.singleEffect.collect{
             effectHandler.emit(it)
         }
     }

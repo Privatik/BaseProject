@@ -12,5 +12,8 @@ dependencies {
     implementation turbine
     localTest.each {dependency -> api dependency}
 
+    api ktorClientSerialization
+    api ktorClientLoggingJvm
+
     api dagger
 }

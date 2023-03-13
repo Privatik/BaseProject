@@ -24,21 +24,21 @@ internal class LoginAndCheckValidApiImpl @Inject constructor(
     override suspend fun singIn(
         login: String,
         password: String
-    ): Result<LoginModelResponse> = client.post(
-        urlString = "127.0.0.1$singEndPath"
+    ): Result<LoginModelResponse> = client.post<LoginModelResponse>(
+        urlString = "http://127.0.0.1$singEndPath"
     ){
         body = LoginModelRequest(login, password)
     }
 
     override suspend fun valid(): Result<HttpResponse> = client.get(
-        urlString = "127.0.0.1$validEndPath"
+        urlString = "http://127.0.0.1$validEndPath"
     ){
 
     }
 
     companion object{
-        private const val singEndPath = "/api/login"
-        private const val validEndPath = "/api/valid"
+        internal const val singEndPath = "/api/login"
+        internal const val validEndPath = "/api/valid"
     }
 
 }

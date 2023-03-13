@@ -13,14 +13,14 @@ class AuthRepositoryImpl @Inject constructor(
     private val api: LoginAndCheckValidApi,
     private val dataStoreManager: DataStoreManager
 ): AuthRepository {
-    private val _validFlow = MutableSharedFlow<Result<Boolean>>()
+    private val _validFlow = MutableSharedFlow<Result<Boolean>>(replay = 1)
     override val validFlow: Flow<Result<Boolean>> = _validFlow.asSharedFlow()
 
-    private val _singInFlow = MutableSharedFlow<Result<AuthModelDTO>>()
+    private val _singInFlow = MutableSharedFlow<Result<AuthModelDTO>>(replay = 1)
     override val singInFlow: Flow<Result<AuthModelDTO>> = _singInFlow.asSharedFlow()
 
     override suspend fun singIn(login: String, password: String) {
-        _singInFlow.emit(Result.failure(Exception("")))
+        api.singIn(login, password).map { AuthModelDTO(login) }.also { _singInFlow.emit(it) }
     }
 
 }

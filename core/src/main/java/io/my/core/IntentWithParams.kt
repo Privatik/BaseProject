@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-abstract class IntentFlag(coroutineScope: CoroutineScope) {
+abstract class IntentFlag(private val coroutineScope: CoroutineScope) {
 
-    protected fun <P: Any> createIntent(tag: String, coroutineScope: CoroutineScope): IntentWithParams<P> {
+    protected fun <P: Any> createIntent(tag: String): IntentWithParams<P> {
         return IntentWithParams<P>(tag, coroutineScope)
     }
 
-    protected fun createIntentWithoutParams(tag: String, coroutineScope: CoroutineScope): IntentWithOutParams {
+    protected fun createIntentWithoutParams(tag: String): IntentWithOutParams {
         return IntentWithOutParams(tag, coroutineScope)
     }
 }

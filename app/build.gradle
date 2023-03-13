@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
+    namespace "io.my.baseproject"
     compileSdk 33
 
     defaultConfig {
-        applicationId "io.my.baseproject"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -57,6 +57,7 @@ dependencies {
     implementation project(":core:data")
 
     implementation coreKtx
+    implementation appyx
     implementation activityCompose
 
     implementation dagger

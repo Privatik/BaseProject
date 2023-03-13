@@ -13,7 +13,7 @@ internal data class AuthState(
 )
 
 internal class AuthIntent(coroutineScope: CoroutineScope) : IntentFlag(coroutineScope){
-    val changeLogin = createIntent<String>("change-logic", coroutineScope)
-    val changePassword = createIntent<List<Char>>("change-password", coroutineScope)
-    val doLogin = createIntentWithoutParams("do-login", coroutineScope)
+    val changeLogin = createIntent<String>("change-logic")
+    val changePassword = createIntent<List<Char>>("change-password")
+    val doLogin = createIntentWithoutParams("do-login")
 }

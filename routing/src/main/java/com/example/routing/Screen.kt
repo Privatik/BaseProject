@@ -10,19 +10,28 @@ import io.my.core.domain.DomainProvider
 import io.my.ui.presenter.MyPresenter
 import kotlin.reflect.KClass
 
-abstract class Screen(
+internal class SimpleScreen(
     buildContext: BuildContext,
+    private val factory: Screen.Factory
 ): Node(buildContext){
+
+    private val screen: Screen by lazy(LazyThreadSafetyMode.NONE) {
+        factory.create()
+    }
 
     @CallSuper
     @Composable
-    override fun View(modifier: Modifier) = Content(modifier = modifier)
+    override fun View(modifier: Modifier) = screen.Content(modifier = modifier)
+
+}
+
+abstract class Screen {
 
     @Composable
     abstract fun Content(modifier: Modifier)
 
     interface Factory{
-         fun create(buildContext: BuildContext): Screen
+         fun create(): Screen
     }
 
 }

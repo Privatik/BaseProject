@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace "com.example.auth.ui"
     compileSdk 33
 
     defaultConfig {

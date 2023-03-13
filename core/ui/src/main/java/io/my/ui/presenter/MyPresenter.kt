@@ -6,6 +6,9 @@ import com.io.navigation.presenter
 import com.io.navigation_common.PresenterFactory
 import com.io.navigation_common.UIPresenter
 import com.io.navigation_common.emptyPresenter
+import io.my.core.IntentFlag
+import io.my.ui.effect.Effect
+import io.my.ui.effect.HandleEffects
 
 abstract class MyPresenter: AndroidPresenter()
 
@@ -20,14 +23,23 @@ abstract class MyPresenterFactory: PresenterFactory {
 }
 
 @Composable
-public inline fun <reified P: UIPresenter> myPresenter(
+public inline fun <reified P: Presenter<*,*,Effect>> myPresenterAndHandleEffects(
+    factory: MyPresenterFactory? = null,
+): P {
+    val presenter: P = myPresenter(factory)
+    presenter.HandleEffects()
+    return presenter
+}
+
+@Composable
+public inline fun <reified P: MyPresenter> myPresenter(
     factory: MyPresenterFactory? = null,
 ): P {
     return presenter(factory ?: emptyPresenter(), P::class.java)
 }
 
 @Composable
-public inline fun <reified P: UIPresenter> mySharedPresenter(
+public inline fun <reified P: MyPresenter> mySharedPresenter(
     factory: MyPresenterFactory? = null
 ): P {
     return presenter(factory ?: emptyPresenter(), P::class.java, true)

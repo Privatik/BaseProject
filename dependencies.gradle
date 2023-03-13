@@ -51,6 +51,7 @@ ext {
             "com.google.truth:truth:$truthVersion",
             "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesTest",
             "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion",
+            "io.ktor:ktor-client-mock:$ktorClientVersion"
     ]
 
     turbine = "app.cash.turbine:turbine:$turbineVersion"

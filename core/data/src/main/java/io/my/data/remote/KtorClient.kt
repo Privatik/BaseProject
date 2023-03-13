@@ -2,6 +2,7 @@ package io.my.data.remote
 
 import android.util.Log
 import io.ktor.client.*
+import io.ktor.client.engine.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
@@ -14,8 +15,9 @@ import kotlinx.serialization.json.Json
 
 internal fun getKtorClient(
     json: Json,
+    engine: HttpClientEngineFactory<*>,
 ): HttpClient{
-    return HttpClient(CIO) {
+    return HttpClient(engine) {
         expectSuccess = true
 
         install(JsonFeature) {

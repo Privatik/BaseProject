@@ -41,7 +41,10 @@ internal class BaseHost (
 ) {
 
     override fun resolve(navTarget: Path, buildContext: BuildContext): Node {
-        return getFactoryForScreenAndCreateScopeByPath(navTarget).create(buildContext)
+        return SimpleScreen(
+            buildContext = buildContext,
+            factory = getFactoryForScreenAndCreateScopeByPath(navTarget),
+        )
     }
 
     @Composable

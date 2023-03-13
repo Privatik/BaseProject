@@ -15,9 +15,7 @@ import kotlin.reflect.KClass
 class AuthScreenInfo @Inject constructor(): ScreenInfo<Path.FirstScreen, AuthDomainDependencies> {
     override val path: KClass<Path.FirstScreen> = Path.FirstScreen::class
 
-    override val screenFactory: (Path.FirstScreen) -> Screen.Factory = {
-        AuthScreen.AuthScreenFactory()
-    }
+    override val screenFactory: (Path.FirstScreen) -> Screen.Factory = { AuthScreenFactory() }
 
     override val scope: ( GetDomainProvider<AuthDomainDependencies>
     ) -> MyPresenter = { provider ->

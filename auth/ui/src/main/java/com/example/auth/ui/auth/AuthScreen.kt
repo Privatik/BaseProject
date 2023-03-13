@@ -14,24 +14,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
-import com.bumble.appyx.core.modality.BuildContext
 import com.example.auth.ui.AuthPresenterScope
 import com.example.auth.ui.AuthTestTags
 import com.example.routing.Screen
-import io.my.ui.effect.handleEffects
-import io.my.ui.presenter.myPresenter
+import io.my.ui.presenter.myPresenterAndHandleEffects
 import io.my.ui.presenter.mySharedPresenter
 import io.my.ui.theme.ProjectTheme
 
-class AuthScreen private constructor(
-    buildContext: BuildContext,
-): Screen(buildContext) {
+private class AuthScreen: Screen() {
 
     @Composable
     override fun Content(modifier: Modifier) {
         val scope: AuthPresenterScope = mySharedPresenter()
-        val presenter: AuthPresenter = myPresenter(scope.factory)
-        presenter.handleEffects()
+        val presenter: AuthPresenter = myPresenterAndHandleEffects(scope.factory)
 
         Content(
             modifier = modifier,
@@ -82,10 +77,8 @@ class AuthScreen private constructor(
             }
         }
     }
+}
 
-    class AuthScreenFactory: Factory{
-        override fun create(buildContext: BuildContext): Screen = AuthScreen(
-            buildContext = buildContext
-        )
-    }
+class AuthScreenFactory: Screen.Factory {
+    override fun create(): Screen = AuthScreen()
 }
