@@ -4,7 +4,7 @@ import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import dagger.Module
 import dagger.Provides
-import io.my.data.local.DataStoreManager
+import io.my.data.cache.DataStoreManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Singleton

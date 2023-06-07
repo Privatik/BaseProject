@@ -41,5 +41,5 @@ typealias GetDomainProvider<D> = (KClass<out DomainProvider<D>>) -> DomainProvid
 interface ScreenInfo<P: Path, DomainDependency: Any>{
     val path: KClass<P>
     val screenFactory: (P) -> Screen.Factory
-    val scope: ((GetDomainProvider<DomainDependency>) -> MyPresenter)?
+    val scope: ((P, GetDomainProvider<DomainDependency>) -> MyPresenter)?
 }

@@ -1,4 +1,4 @@
-package io.my.data.local
+package io.my.data.cache
 
 import android.content.Context
 import com.squareup.sqldelight.android.AndroidSqliteDriver

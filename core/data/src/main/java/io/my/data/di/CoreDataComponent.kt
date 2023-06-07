@@ -4,15 +4,9 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import io.ktor.client.*
-import io.my.data.local.DataStoreManager
+import io.my.data.cache.DataStoreManager
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Singleton
-
-interface CoreDataDependenciesConsumer {
-    fun useProvider(provider: CoreDataDependencies){
-
-    }
-}
 
 interface CoreDataDependencies {
 
@@ -37,9 +31,6 @@ interface CoreDataComponent: CoreDataDependencies {
 
         @BindsInstance
         fun applicationContext(context: Context): Builder
-
-        @BindsInstance
-        fun backgroundCoroutineScope(scope: CoroutineScope): Builder
 
         fun build(): CoreDataComponent
     }

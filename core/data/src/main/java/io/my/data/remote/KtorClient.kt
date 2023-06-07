@@ -3,25 +3,24 @@ package io.my.data.remote
 import android.util.Log
 import io.ktor.client.*
 import io.ktor.client.engine.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 internal fun getKtorClient(
     json: Json,
     engine: HttpClientEngineFactory<*>,
-): HttpClient{
-    return HttpClient(engine) {
+): HttpClient {
+    val client = HttpClient(engine) {
         expectSuccess = true
 
-        install(JsonFeature) {
-            serializer = KotlinxSerializer(json)
+        install(ContentNegotiation) {
+            json(
+                json = json,
+                contentType = ContentType.Application.Json
+            )
         }
 
         install(Logging) {
@@ -29,15 +28,9 @@ internal fun getKtorClient(
                 override fun log(message: String) {
                     Log.d("Logger Ktor =>", message)
                 }
-
             }
             level = LogLevel.ALL
         }
-
-        install(DefaultRequest) {
-            if (!(body is FormDataContent || body is MultiPartFormDataContent)) {
-                header(HttpHeaders.ContentType, ContentType.Application.Json)
-            }
-        }
     }
+    return client
 }

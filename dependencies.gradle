@@ -5,10 +5,10 @@ ext {
     composeVersion = "1.1.1"
     composeCompileVersion = "1.3.2"
     accompanistVersion = "0.19.0"
-    coilVersion = "1.4.0"
-    sqlDelightVersion = "1.5.2"
-    kotlinxSerializationJsonVersion = "1.4.0"
-    ktorClientVersion = "1.6.5"
+    coilVersion = "2.3.0"
+    sqlDelightVersion = "1.5.4"
+    kotlinxSerializationJsonVersion = "1.5.1"
+    ktorClientVersion = "2.2.2"
     datastoreVersion = "1.0.0"
     protobufJavaliteVersion = "3.18.0"
     preferenceKtxVersion = "1.2.0"
@@ -17,7 +17,7 @@ ext {
     jetpackNavigationComposeVersion = "2.5.2"
     kotlinxCoroutinesCoreJvmVersion = "1.6.4"
     kotlinxCoroutinesTest = "1.6.4"
-    appyxVersion = "1.0.0"
+    appyxVersion = "1.2.0"
     turbineVersion = "0.12.1"
     androidJunitVersion = "1.1.5"
     localJunitVersion = "4.13.2"
@@ -25,6 +25,11 @@ ext {
     espressoCoreVersion = "3.5.1"
     truthVersion = "1.1.3"
     mockitoKotlinVersion = "4.1.0"
+    composeViewModelVersion = "2.6.1"
+    composeRuntineVersion = "2.6.0"
+    okhttp3Version = "4.11.0"
+    accompanistPermissionVersion = "0.31.2-alpha"
+    workManagerVersion = "2.8.1"
 
     compose = [
             "androidx.compose.ui:ui:$composeVersion",
@@ -32,6 +37,8 @@ ext {
             "androidx.compose.ui:ui-tooling-preview:$composeVersion",
             "androidx.compose.material:material-icons-extended:$composeVersion",
     ]
+
+    composeViewModel =  "androidx.lifecycle:lifecycle-viewmodel-compose:$composeViewModelVersion"
 
     androdiDebugTest = [
             "androidx.compose.ui:ui-tooling:$composeVersion",
@@ -56,6 +63,8 @@ ext {
 
     turbine = "app.cash.turbine:turbine:$turbineVersion"
 
+    workManager = "androidx.work:work-runtime-ktx:$workManagerVersion"
+
     sqlDelight = [
             "com.squareup.sqldelight:android-driver:$sqlDelightVersion",
             "com.squareup.sqldelight:coroutines-extensions:$sqlDelightVersion"
@@ -63,27 +72,32 @@ ext {
 
     sqldelightTest = "com.squareup.sqldelight:sqlite-driver:$sqlDelightVersion"
 
+    coilBase = "io.coil-kt:coil-base:$coilVersion"
     coil = [
-            "io.coil-kt:coil-base:$coilVersion",
+            coilBase,
             "io.coil-kt:coil-compose:$coilVersion",
     ]
 
     coreKtx = "androidx.core:core-ktx:$coreKtxVersion"
     lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtxVersion"
     activityCompose = "androidx.activity:activity-compose:$activityComposeVersion"
+    composeRuntime = "androidx.lifecycle:lifecycle-runtime-compose:$composeRuntineVersion"
 
     kotlinxCoroutinesCoreJvm = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$kotlinxCoroutinesCoreJvmVersion"
 
     accompanistInsets = "com.google.accompanist:accompanist-insets:$accompanistVersion"
     accompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
+    accompanistPermissions = "com.google.accompanist:accompanist-permissions:$accompanistPermissionVersion"
 
     ktorClientCio = "io.ktor:ktor-client-cio:$ktorClientVersion"
     ktorClientAndroid = "io.ktor:ktor-client-android:$ktorClientVersion"
     ktorClientAuth = "io.ktor:ktor-client-auth:$ktorClientVersion"
-    ktorClientSerialization = "io.ktor:ktor-client-serialization:$ktorClientVersion"
+    ktorClientSerialization = "io.ktor:ktor-serialization-kotlinx-json:$ktorClientVersion"
     ktorClientCore = "io.ktor:ktor-client-core:$ktorClientVersion"
+    ktorClientContentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktorClientVersion"
     ktorClientWebsocket = "io.ktor:ktor-client-websockets:$ktorClientVersion"
     ktorClientLoggingJvm = "io.ktor:ktor-client-logging-jvm:$ktorClientVersion"
+    okhttp3 = "com.squareup.okhttp3:okhttp:$okhttp3Version"
 
     kotlinxSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationJsonVersion"
 

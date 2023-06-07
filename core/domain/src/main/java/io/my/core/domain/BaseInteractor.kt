@@ -1,42 +1,64 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package io.my.core.domain
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
-abstract class BaseInteractor<S: Any>(state: S) {
+abstract class BaseInteractor<S: Any>(
+    state: S,
+    protected val dispatchers: CoroutineDispatchersContext = getCoroutineDispatchersContext()
+) {
 
     protected abstract val handleDataFromOutSide: Flow<S>
     private val _state = MutableStateFlow(state)
-    protected val state: Flow<S> by lazy {
+    protected val currentState: S get() = _state.value
+    private val mutex = Mutex()
+    @Volatile private var wasSettingFirstFlow = false
+
+    private val state: Flow<S> by lazy {
         merge(
-            _state.asStateFlow().mapLatest { state -> WrapState(TagState.STATE, state) },
-            handleDataFromOutSide.map { state -> WrapState(TagState.DATA, state) }
-        ).map { wrapState ->
-            if (wrapState.tag == TagState.DATA){ _state.emit(wrapState.body) }
-            wrapState.body
-        }.distinctUntilChanged()
+            _state.asStateFlow(),
+            handleDataFromOutSide.flowOn(dispatchers.IO),
+        )
     }
 
-    fun <P> Flow<P>.updateState(
+    protected fun <B: Any> state(
+        transform: (S) -> B = {
+            @Suppress("UNCHECKED_CAST")
+            it as B
+        }
+    ): Flow<B> {
+        if (!wasSettingFirstFlow){
+            var flow: Flow<S>?
+            synchronized(this) {
+                flow = if (!wasSettingFirstFlow){
+                    wasSettingFirstFlow = true
+                    state.map { _state.value }
+                } else {
+                    _state.asStateFlow()
+                }
+            }
+            return flow!!.map(transform)
+        }
+        return _state.asStateFlow().map(transform)
+    }
+
+    protected fun <P> Flow<P>.updateState(
         block: (state: S, payload: P) -> S
-    ): Flow<S> = map{ payload -> block(_state.value, payload) }
+    ): Flow<S> = map { payload ->
+        mutex.withLock {
+            block(_state.value, payload).also { newState -> _state.emit(newState) }
+        }
+    }
 
 
-    suspend fun updateState(
+    protected suspend fun updateState(
         block: (state: S) -> S
     ) {
-        _state.emit(block(_state.value))
+        mutex.withLock {
+            _state.emit(block(_state.value))
+        }
     }
-}
 
-private enum class TagState{
-    DATA,
-    STATE
 }
-
-private data class WrapState<S: Any>(
-    val tag: TagState,
-    val body: S
-)

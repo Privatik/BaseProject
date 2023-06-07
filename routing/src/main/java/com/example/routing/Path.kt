@@ -1,6 +1,11 @@
 package com.example.routing
 
-sealed class Path{
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+sealed class Path: Parcelable {
+    @Parcelize
     object FirstScreen: Path()
+    @Parcelize
     data class SecondScreen(val email: String): Path()
 }

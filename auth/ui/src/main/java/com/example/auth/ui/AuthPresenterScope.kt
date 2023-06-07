@@ -1,28 +1,29 @@
 package com.example.auth.ui
 
+import androidx.annotation.MainThread
 import com.example.auth.ui.di.AuthComponent
 import com.example.auth.ui.di.DaggerAuthComponent
-import com.example.routing.route.RouteActionHandler
 import io.my.auth.domain.di.AuthDomainDependencies
 import io.my.core.domain.DomainProvider
 import io.my.ui.presenter.MyPresenter
 import io.my.ui.presenter.MyPresenterFactory
 
 internal class AuthPresenterScope constructor(
-    domainProvider: DomainProvider<AuthDomainDependencies>,
+    private val domainProvider: DomainProvider<AuthDomainDependencies>,
 ): MyPresenter() {
-    @Volatile
+
     private var _component: AuthComponent? = null
-    val factory: MyPresenterFactory get() = _component!!.factory()
+        get() {
+            if (field == null){
+                field = DaggerAuthComponent.builder()
+                    .domain(domainProvider.get())
+                    .build()
+            }
+            return field
+        }
 
-    init {
-        _component = DaggerAuthComponent.builder()
-            .domain(domainProvider.get())
-            .build()
-    }
+    val factory: MyPresenterFactory
+    @MainThread get() = _component!!.factory()
 
-    override fun clear() {
-        _component = null
-    }
 
 }

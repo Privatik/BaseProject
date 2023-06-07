@@ -7,6 +7,7 @@ import io.my.auth.domain.AuthInteractor
 import io.my.core.domain.StateModel
 import io.my.ui.effect.Effect
 import io.my.ui.presenter.Presenter
+import io.my.ui.util.StringUI
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
@@ -48,7 +49,7 @@ internal class AuthPresenter @Inject constructor(
                         DefaultEffectHandler.DefaultEffect.Navigate(Route.OpenNextScreen(payload.data))
                     }
                     is StateModel.Error -> {
-                        DefaultEffectHandler.DefaultEffect.SnackBar(payload.throwable.toString())
+                        DefaultEffectHandler.DefaultEffect.SnackBar(StringUI.Message("error"), DefaultEffectHandler.DefaultEffect.SnackBar.Type.Error)
                     }
                     StateModel.Loading,
                     StateModel.None -> { null }

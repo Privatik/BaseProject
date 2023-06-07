@@ -51,6 +51,7 @@ dependencies {
     api ktorClientAuth
     api ktorClientSerialization
     api ktorClientCio
+    api ktorClientContentNegotiation
 
     sqlDelight.each {dependency -> api dependency}
 

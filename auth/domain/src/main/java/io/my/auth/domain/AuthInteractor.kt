@@ -32,12 +32,15 @@ internal class AuthInteractorImpl @Inject constructor(
         },
     )
 
-    override val singInFlow: Flow<StateModel<String>> = state.map { it.singIn }.distinctUntilChanged()
-
     override suspend fun sinIn(login: String, password: String) = withContext(Dispatchers.IO) {
         updateState { state -> state.copy(singIn = StateModel.Loading) }
         repository.singIn(login, password)
     }
+
+    override val singInFlow: Flow<StateModel<String>> by lazy {
+        state { it.singIn }.distinctUntilChanged()
+    }
+
 
 }
 

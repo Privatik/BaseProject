@@ -17,8 +17,8 @@ class AuthScreenInfo @Inject constructor(): ScreenInfo<Path.FirstScreen, AuthDom
 
     override val screenFactory: (Path.FirstScreen) -> Screen.Factory = { AuthScreenFactory() }
 
-    override val scope: ( GetDomainProvider<AuthDomainDependencies>
-    ) -> MyPresenter = { provider ->
-        AuthPresenterScope(provider(AuthDomainProvider::class))
-    }
+    override val scope: (Path.FirstScreen, GetDomainProvider<AuthDomainDependencies>) -> MyPresenter =
+        { _, provider ->
+            AuthPresenterScope(provider(AuthDomainProvider::class))
+        }
 }

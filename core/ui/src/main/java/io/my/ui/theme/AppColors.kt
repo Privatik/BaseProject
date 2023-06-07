@@ -1,33 +1,35 @@
 package io.my.ui.theme
 
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 
+@Stable
 class AppColors(
-    backgroundPrimary: Color,
-    backgroundSecondary: Color,
-    contendPrimary: Color,
-    contendSecondary: Color,
-    contendTertiary: Color,
-    contendAccentPrimary: Color,
-    contendAccentSecondary: Color,
-    contendAccentTertiary: Color,
-    textPrimary: Color,
-    textSecondary: Color,
-    textTertiary: Color,
-    indicatorContendError: Color,
-    indicatorContendDone: Color,
-    indicatorContendSuccess: Color,
-    primaryButton: Color,
-    bottomMenuBackground: Color,
-    scrimer: Color,
-    calendarPeriod: Color,
-    buttonSecondary: Color,
-    textButton: Color,
-    black: Color,
-    isDark: Boolean,
+    backgroundPrimary: Color = DefaultColor,
+    backgroundSecondary: Color = DefaultColor,
+    contendPrimary: Color = DefaultColor,
+    contendSecondary: Color = DefaultColor,
+    contendTertiary: Color = DefaultColor,
+    contendAccentPrimary: Color = DefaultColor,
+    contendAccentSecondary: Color = DefaultColor,
+    contendAccentTertiary: Color = DefaultColor,
+    textPrimary: Color = DefaultColor,
+    textSecondary: Color = DefaultColor,
+    textTertiary: Color = DefaultColor,
+    indicatorContendError: Color = DefaultColor,
+    indicatorContendDone: Color = DefaultColor,
+    indicatorContendSuccess: Color = DefaultColor,
+    primaryButton: Color = DefaultColor,
+    bottomMenuBackground: Color = DefaultColor,
+    scrimer: Color = DefaultColor,
+    calendarPeriod: Color = DefaultColor,
+    buttonSecondary: Color = DefaultColor,
+    black: Color = DefaultColor,
+    textButton: Color = DefaultColor,
+    isDark: Boolean = false,
 ) {
     var backgroundPrimary by mutableStateOf(backgroundPrimary)
         private set

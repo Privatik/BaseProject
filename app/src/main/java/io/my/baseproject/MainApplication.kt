@@ -14,28 +14,20 @@ import kotlinx.coroutines.SupervisorJob
 
 class MainApplication: Application() {
 
-    private var _component: AppComponent? = null
-    private var _coreDataComponent: CoreDataDependencies? = null
-
-    override fun onCreate() {
-        super.onCreate()
-
-        _component = DaggerAppComponent
+    private val _component: AppComponent by lazy(LazyThreadSafetyMode.NONE) {
+        DaggerAppComponent
             .builder()
             .build()
     }
-
-    fun getScreens(): Set<ScreenInfo<out Path, *>> = _component!!.screens()
-    fun getCoreDataDependencies(): CoreDataDependencies {
-        if (_coreDataComponent == null){
-            _coreDataComponent = DaggerCoreDataComponent
-                .builder()
-                .applicationContext(this)
-                .backgroundCoroutineScope(CoroutineScope(Dispatchers.IO + SupervisorJob()))
-                .build()
-        }
-        return _coreDataComponent!!
+    private val _coreDataComponent: CoreDataDependencies by lazy(LazyThreadSafetyMode.NONE) {
+        DaggerCoreDataComponent
+            .builder()
+            .applicationContext(this)
+            .build()
     }
+
+    fun getScreens(): Set<ScreenInfo<out Path, *>> = _component.screens()
+    fun getCoreDataDependencies(): CoreDataDependencies = _coreDataComponent
 
 }
 
@@ -54,4 +46,5 @@ fun Context.getCoreDataDependencies(): CoreDataDependencies {
         applicationContext.getCoreDataDependencies()
     }
 }
+
 

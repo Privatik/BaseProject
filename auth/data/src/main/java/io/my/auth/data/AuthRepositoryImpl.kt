@@ -3,7 +3,7 @@ package io.my.auth.data
 import io.my.auth.data.remote.LoginAndCheckValidApi
 import io.my.auth.domain.dto.AuthModelDTO
 import io.my.auth.domain.repository.AuthRepository
-import io.my.data.local.DataStoreManager
+import io.my.data.cache.DataStoreManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

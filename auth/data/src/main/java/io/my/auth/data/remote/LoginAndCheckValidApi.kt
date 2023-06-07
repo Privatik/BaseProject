@@ -1,10 +1,12 @@
 package io.my.auth.data.remote
 
 import io.ktor.client.*
+import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.my.auth.data.remote.model.LoginModelRequest
 import io.my.auth.data.remote.model.LoginModelResponse
 import io.my.data.remote.*
+import io.my.data.remote.get
 import javax.inject.Inject
 
 interface LoginAndCheckValidApi{
@@ -27,7 +29,7 @@ internal class LoginAndCheckValidApiImpl @Inject constructor(
     ): Result<LoginModelResponse> = client.post<LoginModelResponse>(
         urlString = "http://127.0.0.1$singEndPath"
     ){
-        body = LoginModelRequest(login, password)
+        setBody(LoginModelRequest(login, password))
     }
 
     override suspend fun valid(): Result<HttpResponse> = client.get(
