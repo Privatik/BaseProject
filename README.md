@@ -27,8 +27,8 @@ The project is built on the principle of MVI architecture
 The "auth" module is an example for other feature-modules
 
 In the project use some of [my personal util libraries](https://github.com/Privatik/MyUtilsProject/tree/master/util)
-
 For the state machine in the presenter use my personal library from [maven](https://central.sonatype.com/artifact/io.github.privatik/machine/1.0.2-beta) 
+This library was inspired by the existing [library](https://github.com/dimsuz/unicorn/tree/master), but something has changed.
 ```
 internal class AuthPresenter @Inject constructor(
     private val interactor: AuthInteractor
@@ -79,12 +79,7 @@ internal class AuthPresenter @Inject constructor(
 }
 ```
 
-This library was inspired by the existing [library](https://github.com/dimsuz/unicorn/tree/master), but something has changed.
-
-For the presenter used also my library from [maven](https://central.sonatype.com/artifact/io.github.privatik/presenter-android/1.0.2-beta) (the library is not tested enough, use the owl solution)
-
 For business logic use a base interactor for single state beetwen ui-data layers
-
 ```
 internal class AuthInteractorImpl @Inject constructor(
     private val repository: AuthRepository
@@ -112,5 +107,7 @@ internal data class State(
     val singIn: StateModel<String> = StateModel.None,
 )
 ```
+
+For the presenterStore used also my library from [maven](https://central.sonatype.com/artifact/io.github.privatik/presenter-android/1.0.2-beta) (the library is not tested enough, use the owl solution)
 
 
