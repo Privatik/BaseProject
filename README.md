@@ -6,7 +6,7 @@ In the project is using
 - Navigation: Appyx
 - Cache: SQLDelight, DataStore
 - Network: Ktor
-- Serialize: Kotlin.Serialize
+- Serialization: Kotlin.Serialization
 - UI: Jetpack Compose
 - DI: Dagger2
 
