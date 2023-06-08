@@ -3,12 +3,12 @@
 It is used to quick start a new projects
 
 In the project is using
-Navigation: Appyx
-Cache: SQLDelight, DataStore
-Network: Ktor
-Serialize: Kotlin.Serialize
-UI: Jetpack Compose
-DI: Dagger2
+- Navigation: Appyx
+- Cache: SQLDelight, DataStore
+- Network: Ktor
+- Serialize: Kotlin.Serialize
+- UI: Jetpack Compose
+- DI: Dagger2
 
 The project has the structure:
 - app
