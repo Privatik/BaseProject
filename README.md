@@ -1,6 +1,6 @@
 # BaseProject
 
-It is used to quick start a new projects
+It is used to quick start new projects
 
 In the project is using
 - Navigation: Appyx
